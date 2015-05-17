@@ -4,7 +4,7 @@
 
 ## To do
   - Envoyer un mail à la chargée de TD
-  - Création des classes
+  - Création des classes : DONE
   - Comportement de l'application
   - Interface
  
