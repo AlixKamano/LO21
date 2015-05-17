@@ -1,3 +1,4 @@
+#include "timing.h"
 class Tache {
 	private :
 		string titre;
