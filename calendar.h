@@ -16,49 +16,41 @@ private:
 };
 
 class Activite {
-private :
+private:
     string titre;
     Duree duree;
-public :
+public:
+    Activite(const string&  s, const Duree d): titre(s), duree(d){};
 	string getTitre()const{return titre;};
 	Duree getDuree()const {return duree;};
 };
 
 class EvtTache {
-private :
+private:
     Duree duree;
     Tache* tache;
-public :
+public:
+    EvtTache(const Duree d, const Tache* t) : duree(d), tache(t){};
     Duree getDuree()const{return duree;};
     Tache* getTache()const{return tache;};
 };
 
 class EvtActivite {
-private :
+private:
     Activite* activite;
-public :
+public:
+    EvtActivite(const Activite* a) : activite(a){};
     Activite* getActivite()const{return activite;};
 };
 
-class Programmation {
-private :
+class Prog {
+private:
     Date date;
     Horaire horaire;
-public :
+public:
+    Prog(const Date d, const Horaire h) : date(d), horaire(h){};
     Date getDate()const{return date;};
     Horaire getHoraire()const{return horaire;};
 };
-
-class ProgrammationManager {
-	//Singleton
-private :
-    Programmation** prog;
-    int nb;
-    int nbMax;
-public :
-    Programmation** getProg()const{return prog;};
-};
-
-
 
 #endif

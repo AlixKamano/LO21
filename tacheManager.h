@@ -5,7 +5,7 @@
 
 class TacheManager {
 	//Singleton
-private :
+private:
     Tache** tab;
     int nb;
     int nbMax;
@@ -17,18 +17,20 @@ private :
         delete[] tab;
     };
     TacheManager& operator=(const TacheManager& tm);
+
     struct Handler{
         TacheManager *instance;
         Handler():instance(0){};
         ~Handler(){if(instance) delete instance;};
     };
     static Handler handler;
+
     class IteratorSTL{
     private:
         friend class TacheManager;
         Tache** currentTache;
         IteratorSTL(Tache** u): currentTache(u){};
-    public :
+    public:
         IteratorSTL operator++(){
             ++currentTache;
             return *this;
@@ -41,7 +43,7 @@ private :
         const Tache& operator*() const {return **currentTache;}
     };
     
-public :
+public:
     void ajouterTache(const string& id, const string& t, const Date& dispo, const Date& deadline);
     Tache& getTache(const string& id);
     const Tache& getTache(const string& id) const;

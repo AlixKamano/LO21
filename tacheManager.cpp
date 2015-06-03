@@ -1,4 +1,3 @@
-
 #include "tacheManager.h"
 
 //methodes de tache manager

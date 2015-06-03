@@ -5,30 +5,33 @@
 #include "projet.h"
 class ProjetManager {
 	//Singleton
-private :
+private:
     Projet** projets;
     int nb;
     int nbMax;
     void addItem(Projet* p);
     ProjetManager(): nb(0), nbMax(0), projets(0){};
-    ProjetManager(const ProjetManager& tm);
+    ProjetManager(const ProjetManager& pm);
     ~ProjetManager(){
         for (int i=0;i<nb;i++) delete projets[i];
         delete[] projets;
     };
-    ProjetManager& operator=(const ProjetManager& tm);
+    ProjetManager& operator=(const ProjetManager& pm);
     struct Handler{
         ProjetManager *instance;
         Handler():instance(0){};
         ~Handler(){if(instance) delete instance;};
     };
+    //Constructeur de recopie
+    ProjetManager& (const ProjetManager& pm);
     static Handler handler;
+
     class IteratorSTL{
     private:
         friend class ProjetManager;
         Projet** currentProjet;
         IteratorSTL(Projet** p): currentProjet(p){};
-    public :
+    public:
         IteratorSTL operator++(){
             ++currentProjet;
             return *this;
@@ -41,7 +44,7 @@ private :
         const Projet& operator*() const {return **currentProjet;}
     };
     
-public :
+public:
     void ajouterProjet(const string& id, const string& t, const Date& dispo, const Date& deadline, int max);
     Projet& getProjet(const string& id);
     const Projet& getProjet(const string& id) const;
