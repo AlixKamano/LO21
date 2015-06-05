@@ -14,7 +14,7 @@ private:
     ProgManager(const ProgManager& pm);
     ~ProgManager(){
     	for(int i = 0; i<nb;i++) delete prog[i];
-    	delete prog[];
+    	delete[] prog;
     };
     ProgManager& operator=(const ProgManager& pm);
 
@@ -43,14 +43,15 @@ private:
     		const Prog& operator*() const{return **currentProg};
     };
 public:
-    void ajouterProg(const Date& d, const Horaire& h);		//A def
+    void ajouterProg(const Date& d, const Horaire& h);  //Poblème
+
     Prog** getProg()const{return prog;};
     const Prog* getProg()const{return prog;};
-    Prog* trouverProg();	//En a-t-on besoin ? 
-    static ProgManager& getInstance();		//A def
-    static void freeInstance();				//A def
-    IteratorSTL begin()const;					//A def
-    IteratorSTL end()const;						//A def
+   // Prog* trouverProg();	En a-t-on besoin ? 
+    static ProgManager& getInstance();
+    static void freeInstance();	
+    IteratorSTL begin()const;
+    IteratorSTL end()const;	
 };
 
 #endif

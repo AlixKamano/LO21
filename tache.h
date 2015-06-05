@@ -29,11 +29,13 @@ class Tache {
         Tache& operator=(const Tache& t);
         friend class TacheManager;
     public:
+        int getStatut() const{return statut;};
         string getId() const {return identificateur;};
         string getTitre() const {return titre;};
         Tache** getPrecedence() const{return precedence;};
         Date getDispo()const{return dispo;};
         Date getEcheance()const{return echeance;};
+        void setStatut(int s){statut=s;};
 };
 
 
