@@ -1,7 +1,7 @@
 #include "tacheManager.h"
 
 //methodes de tache manager
-void TacheManager::ajouterTache(const string& id, const string& t, const Date& dispo, const Date& deadline){
+void TacheManager::ajouterTache(const QString& id, const QString& t, const Date& dispo, const Date& deadline){
     if(trouverTache(id)){
         throw TacheException("Error : L'identificateur existe deja");
     }
@@ -9,7 +9,7 @@ void TacheManager::ajouterTache(const string& id, const string& t, const Date& d
     addItem(new_tache);
 }
 
-Tache* TacheManager::trouverTache(const string& id) const{
+Tache* TacheManager::trouverTache(const QString& id) const{
     for(unsigned int i=0; i<nb;i++){
         if(id==tab[i]->getId()){
             return tab[i];
@@ -33,13 +33,13 @@ void TacheManager::addItem(Tache *t){
     nb++;
 }
 
-Tache& TacheManager::getTache(const string& id){
+Tache& TacheManager::getTache( const QString& id){
     Tache *t=trouverTache(id);
     if(t) throw TacheException("error : La tache n'existe pas");
     return *t;
 }
 
-const Tache& TacheManager::getTache(const string& id) const{
+const Tache& TacheManager::getTache(const QString& id) const{
     return const_cast<TacheManager*>(this)->getTache(id);
 }
 

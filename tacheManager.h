@@ -1,7 +1,9 @@
 #ifndef __LO21_projet__tacheManager__
 #define __LO21_projet__tacheManager__
 #include <iostream>
+#include <QString>
 #include "tache.h"
+#include "calendar.h"
 
 class TacheManager {
 	//Singleton
@@ -44,10 +46,10 @@ private:
     };
     
 public:
-    void ajouterTache(const string& id, const string& t, const Date& dispo, const Date& deadline);
-    Tache& getTache(const string& id);
-    const Tache& getTache(const string& id) const;
-    Tache *trouverTache(const string& id) const;
+    void ajouterTache(const QString& id, const QString& t, const Date& dispo, const Date& deadline);
+    Tache& getTache(const QString& id);
+    const Tache& getTache(const QString& id) const;
+    Tache *trouverTache(const QString& id) const;
     static TacheManager& getInstance();
     static void freeInstance();
     IteratorSTL begin();

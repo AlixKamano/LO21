@@ -3,62 +3,72 @@
 
 #include "timing.h"
 #include "projet.h"
-#include <iostream>
 using namespace std;
 using namespace TIME;
 
 class CalendarException{
 public:
-    CalendarException(const string& message):info(message){}
-    string getInfo() const { return info; }
+    CalendarException(const QString& message):info(message){}
+    QString getInfo() const { return info; }
 private:
-    string info;
+    QString info;
 };
 
 class Activite {        //Ajout de statut aux activités ?
 private:
-    string titre;
+    QString titre;
     Duree duree;
 public:
-    Activite(const string&  s, const Duree d): titre(s), duree(d){};
-	string getTitre()const{return titre;};
+    Activite(const QString&  s, const Duree d): titre(s), duree(d){};
+    QString getTitre()const{return titre;};
 	Duree getDuree()const {return duree;};
 };
 
-class Prog {    //Virtuelle pure
+class Evt {    //Virtuelle pure
 private:
     Date date;
     Horaire horaire;
+    Duree duree;
 public:
-    Prog(const Date& d, const Horaire& h) : date(d), horaire(h){};
+    Evt(const Date& d=Date(0,0,0), const Horaire& h=Horaire(0,0), const Duree& du=Duree(0,0)) : date(d), horaire(h),duree(du){};
+    virtual ~Evt(){};
     Date getDate()const{return date;};
     Horaire getHoraire()const{return horaire;};
+    Duree getDuree()const{return duree;};
     void setDate(Date& d){date = d;};
     void setHoraire(Horaire& h){horaire = h;};
-    virtual Prog* reprogrammer()=0;         // Attributs? La fct doit updater date & horaire
+    void setDuree(Duree& d){duree = d;};
+    //virtual Evt* reprogrammer()=0;         // Attributs? La fct doit updater date & horaire
 };
 
-//Soit prog pointe vers un evt (evtTache & evtActivité héritent de evt) 
-//Ou evt* héritent de prog -> problème dans progManager, comment on ajoute une programmation ?
-
-class EvtTache : public Prog{
+class EvtTache : public Evt{
 private:
-    Duree duree;
     Tache* tache;
 public:
-    EvtTache(const Date& da, const Horaire& h,const Duree& d, const Tache* t) : Prog(da,h),duree(d), tache(t){};
-    Duree getDuree()const{return duree;};
+    EvtTache(const Date& da = Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), Tache* t=0) : Evt(da,h,d), tache(t){};
     Tache* getTache()const{return tache;};
     EvtTache* reprogrammer(const Date& da, const Horaire& h, const Duree& d);
 };
 
-class EvtActivite :public Prog{
+class EvtActivite :public Evt{
 private:
     Activite* activite;
 public:
-    EvtActivite(const Date& d, const Horaire& hconst Activite* a) : Prog(d,h), activite(a){};
+    EvtActivite(const Date& da = Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), Activite* a=0) : Evt(da,h,d), activite(a){};
     Activite* getActivite()const{return activite;};
-    EvtActivite* reprogrammer(const Date& da, const Horaire& h);
+    EvtActivite* reprogrammer(const Date& da, const Horaire& h, const Duree& d);
+};
+
+class EvtFactory{
+    //Design Pattern Abstract Factory
+    //Il faut définir un constructeur par défaut pour EvtTache & EvtActivité !
+    static Evt* NewEvt(const QString& description){
+        if(description=="tache")
+            return new EvtTache;
+        if(description=="activite")
+            return new EvtActivite;
+        return NULL;
+    };
 };
 
 #endif

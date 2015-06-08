@@ -22,8 +22,6 @@ private:
         Handler():instance(0){};
         ~Handler(){if(instance) delete instance;};
     };
-    //Constructeur de recopie
-    ProjetManager& (const ProjetManager& pm);
     static Handler handler;
 
     class IteratorSTL{
@@ -45,10 +43,10 @@ private:
     };
     
 public:
-    void ajouterProjet(const string& id, const string& t, const Date& dispo, const Date& deadline, int max);
-    Projet& getProjet(const string& id);
-    const Projet& getProjet(const string& id) const;
-    Projet *trouverProjet(const string& id) const;
+    void ajouterProjet(const QString& id, const QString& t, const Date& dispo, const Date& deadline, int max);
+    Projet& getProjet(const QString& id);
+    const Projet& getProjet(const QString& id) const;
+    Projet *trouverProjet(const QString& id) const;
     static ProjetManager& getInstance();
     static void freeInstance();
     IteratorSTL begin();

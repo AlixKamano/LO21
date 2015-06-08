@@ -1,8 +1,11 @@
 #if !defined(CTIME)
 #define CTIME
 
+#include<QString>
 #include<iostream>
 #include<iomanip>
+
+using namespace std;
 
 namespace TIME {
 	/*! \class TimeException
@@ -11,43 +14,37 @@ namespace TIME {
 	class TimeException{
 	public:
 		//! Constructeur à partir d'une string
-		TimeException(const std::string& m):info(m){}
-		const std::string& GetInfo() const { return info; } //<! Retourne l'information stockée dans la classe
+        TimeException(const QString& m):info(m){}
+        const QString& GetInfo() const { return info; } //<! Retourne l'information stockée dans la classe
 	private:
-		std::string info;
+        QString info;
 	};
-
-	/*! \class Date
-			\brief Classe permettant de manipuler des dates standards 		
-			L'utilisation de cette classe nécessite des dates valides au sens commun du terme. 
-			Déclenchement d'exception dans le cas contraire
-	*/	
-	class Date {
-	public:
-		//! Constructeur à partir d'un jour, mois, année
-		/*! \param j jour avec 1<=j<=31
-			\param m mois avec 1<=m<=12
-			\param a année avec a>=0
-			*/
-		Date(unsigned int short j=1, unsigned int short m=1, unsigned int a=0):jour(1),mois(1),annee(0){ setDate(j,m,a); }
-		// méthodes
-		unsigned short int  getJour() const { return jour; } //<! Retourne le jour de la date
-		unsigned short int  getMois() const { return mois; } //<! Retourne le mois de la date
-		unsigned int getAnnee() const { return annee; } //<! Retourne l'année de la date
-		void setDate(unsigned short int j, unsigned short int m, unsigned int a); //!< initialisation de la date
-		void setDateAujourdhui(); //!< initialisation de la date avec la date d'aujourd'hui
-		void afficher(std::ostream& f=std::cout) const; //!< affiche le date sous le format JJ/MM/AAAA
-		bool operator==(const Date& d) const; //<! d1==d2 retourne vrai si les deux dates sont égales
-		bool operator<(const Date& d) const; //<! Compare deux dates dans le temps : d1<d2 retourne true si d1 est avant d2
-		int operator-(const Date& d) const; //<! Retourne le nombre de jours séparant les deux dates
-		Date demain() const; //<! Retourne la date du lendemain
-		Date operator+(unsigned int nb) const; //<!Retourne la date de dans nb jours
-	private:
-		// attributs
-		unsigned short int jour; // jour entre 1 et 31
-		unsigned short int mois; // mois entre 1 et 12
-		unsigned int annee; 
-	};
+    class Date {
+        public:
+            //! Constructeur à partir d'un jour, mois, année
+            /*! \param j jour avec 1<=j<=31
+                \param m mois avec 1<=m<=12
+                \param a année avec a>=0
+                */
+            Date(unsigned int short j=1, unsigned int short m=1, unsigned int a=0):jour(1),mois(1),annee(0){ setDate(j,m,a); }
+            // méthodes
+            unsigned short int  getJour() const { return jour; } //<! Retourne le jour de la date
+            unsigned short int  getMois() const { return mois; } //<! Retourne le mois de la date
+            unsigned int getAnnee() const { return annee; } //<! Retourne l'année de la date
+            void setDate(unsigned short int j, unsigned short int m, unsigned int a); //!< initialisation de la date
+            void setDateAujourdhui(); //!< initialisation de la date avec la date d'aujourd'hui
+            void afficher(std::ostream& f=std::cout) const; //!< affiche le date sous le format JJ/MM/AAAA
+            bool operator==(const Date& d) const; //<! d1==d2 retourne vrai si les deux dates sont égales
+            bool operator<(const Date& d) const; //<! Compare deux dates dans le temps : d1<d2 retourne true si d1 est avant d2
+            int operator-(const Date& d) const; //<! Retourne le nombre de jours séparant les deux dates
+            Date demain() const; //<! Retourne la date du lendemain
+            Date operator+(unsigned int nb) const; //<!Retourne la date de dans nb jours
+        private:
+            // attributs
+            unsigned short int jour; // jour entre 1 et 31
+            unsigned short int mois; // mois entre 1 et 12
+            unsigned int annee;
+        };
 
 	/*! \class Duree
 			\brief Classe permettant de manipuler des durees	
@@ -126,28 +123,28 @@ namespace TIME {
 		/*! \param d date de début de l'intervalle
 			\param f date de fin de l'intervalle. On doit avoir d<=f
 			*/
-		Intervalle(const Date & d, const Date & f);
+        Intervalle(const Date & d, const Date & f);
 		void afficher(std::ostream& f=std::cout) const; //<! Affiche l'intervalle de dates
-		Date getDebut() const { return debut; } //<! Retourne la date de début de l'intervalle
-		Date getFin() const { return fin; } //<! Retourne la date de fin de l'intervalle
-		int getDuree() const { return fin-debut; } //<! Retourne le nombre de jours s'écoulant entre le début et la fin de l'intervalle
+        Date getDebut() const { return debut; } //<! Retourne la date de début de l'intervalle
+        Date getFin() const { return fin; } //<! Retourne la date de fin de l'intervalle
+//		int getDuree() const { return fin-debut; } //<! Retourne le nombre de jours s'écoulant entre le début et la fin de l'intervalle
 		bool operator&&(const Intervalle & v) const; //<! I1&&I2 Retourne vrai si il y a intersection entre I1 et I2
 		Intervalle operator + (const Intervalle & i) const; //<! I1+I2 Retourne un intervalle union des 2 intervalles I1 et I2 qui se touchent, ie I2.debut est le jour du lendemain de I1.fin
 	private:
-		Date debut;
-		Date fin;
+        Date debut;
+        Date fin;
 	};
 
 }
 
-std::ostream& operator<<(std::ostream&, const TIME::Date&);
-std::ostream& operator<<(std::ostream& f, const TIME::Duree & d);
-std::ostream& operator<<(std::ostream& f, const TIME::Horaire & h);
-std::ostream& operator<<(std::ostream& f, const TIME::Periode & p);
-std::ostream& operator<<(std::ostream& f, const TIME::Intervalle & p);
+ostream& operator<<(ostream&, const TIME::Date& d);
+ostream& operator<<(ostream& f, const TIME::Duree & d);
+ostream& operator<<(ostream& f, const TIME::Horaire & h);
+ostream& operator<<(ostream& f, const TIME::Periode & p);
+ostream& operator<<(ostream& f, const TIME::Intervalle & p);
 
-std::istream& operator>>(std::istream&, TIME::Date&); // lecture format JJ/MM/AAAA
-std::istream& operator>>(std::istream&, TIME::Duree&); //lecture format hhHmm
+istream& operator>>(istream&, TIME::Date&); // lecture format JJ/MM/AAAA
+istream& operator>>(istream&, TIME::Duree&); //lecture format hhHmm
 
 #endif
 

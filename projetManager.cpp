@@ -1,7 +1,7 @@
 #include "projetManager.h"
 
 //methodes de projet manager
-void ProjetManager::ajouterProjet(const string& id, const string& t, const Date& dispo, const Date& deadline, int max){
+void ProjetManager::ajouterProjet(const QString& id, const QString& t, const Date& dispo, const Date& deadline, int max){
     if(trouverProjet(id)){
         throw ProjetException("Error : L'identificateur existe deja");
     }
@@ -9,7 +9,7 @@ void ProjetManager::ajouterProjet(const string& id, const string& t, const Date&
     addItem(new_projet);
 }
 
-Projet* ProjetManager::trouverProjet(const string& id) const{
+Projet* ProjetManager::trouverProjet(const QString& id) const{
     for(unsigned int i=0; i<nb;i++){
         if(id==projets[i]->getId()){
             return projets[i];
@@ -33,13 +33,13 @@ void ProjetManager::addItem(Projet *p){
     nb++;
 }
 
-Projet& ProjetManager::getProjet(const string& id){
+Projet& ProjetManager::getProjet(const QString& id){
     Projet *p=trouverProjet(id);
     if(p) throw ProjetException("error : La tache n'existe pas");
     return *p;
 }
 
-const Projet& ProjetManager::getProjet(const string& id) const{
+const Projet& ProjetManager::getProjet(const QString& id) const{
     return const_cast<ProjetManager*>(this)->getProjet(id);
 }
 
