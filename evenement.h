@@ -1,8 +1,10 @@
-#ifndef LO21_projet_calendar_h
-#define LO21_projet_calendar_h
+#ifndef EVENEMENT_H
+#define EVENEMENT_H
 
+#include<iostream>
 #include "timing.h"
-#include "projet.h"
+#include "tache.h"
+
 using namespace std;
 using namespace TIME;
 
@@ -21,7 +23,7 @@ private:
 public:
     Activite(const QString&  s, const Duree d): titre(s), duree(d){};
     QString getTitre()const{return titre;};
-	Duree getDuree()const {return duree;};
+    Duree getDuree()const {return duree;};
 };
 
 class Evt {    //Virtuelle pure
@@ -35,10 +37,10 @@ public:
     Date getDate()const{return date;};
     Horaire getHoraire()const{return horaire;};
     Duree getDuree()const{return duree;};
-    void setDate(Date& d){date = d;};
-    void setHoraire(Horaire& h){horaire = h;};
-    void setDuree(Duree& d){duree = d;};
-    //virtual Evt* reprogrammer()=0;         // Attributs? La fct doit updater date & horaire
+    void setDate(Date d){date = d;};
+    void setHoraire(Horaire h){horaire = h;};
+    void setDuree(Duree d){duree = d;};
+    virtual Evt* programmer(const Date& d, const Horaire&h, const Duree& du)=0;         // Comment récupérer le pointeur vers Tache/Evt ?
 };
 
 class EvtTache : public Evt{
@@ -46,29 +48,32 @@ private:
     Tache* tache;
 public:
     EvtTache(const Date& da = Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), Tache* t=0) : Evt(da,h,d), tache(t){};
+    EvtTache(Tache* t):Evt(),tache(t){};
     Tache* getTache()const{return tache;};
-    EvtTache* reprogrammer(const Date& da, const Horaire& h, const Duree& d);
+    EvtTache* programmer(const Date& da, const Horaire& h, const Duree& d);
 };
 
 class EvtActivite :public Evt{
 private:
     Activite* activite;
 public:
-    EvtActivite(const Date& da = Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), Activite* a=0) : Evt(da,h,d), activite(a){};
+    EvtActivite(const Date& da=Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), Activite* a=0) : Evt(da,h,d), activite(a){}
+    EvtActivite(Activite* a):Evt(),activite(a){};
     Activite* getActivite()const{return activite;};
-    EvtActivite* reprogrammer(const Date& da, const Horaire& h, const Duree& d);
+    EvtActivite* programmer(const Date& da, const Horaire& h, const Duree& d);
 };
 
 class EvtFactory{
     //Design Pattern Abstract Factory
-    //Il faut définir un constructeur par défaut pour EvtTache & EvtActivité !
-    static Evt* NewEvt(const QString& description){
+    //On appelle newEvt avec un pointeur tache ou activité. Selon le QString passé en paramètre, on effectue un cast sur le pointeur
+    static Evt* NewEvt(const QString& description, void* ptr){     //void* ptr ?
         if(description=="tache")
-            return new EvtTache;
+            return new EvtTache((Tache*)ptr);
         if(description=="activite")
-            return new EvtActivite;
+            return new EvtActivite((Activite*)ptr);
         return NULL;
     };
 };
 
-#endif
+#endif // EVENEMENT_H
+

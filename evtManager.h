@@ -1,11 +1,10 @@
-#ifndef LO21_projet_evtManager_h
-#define LO21_projet_evtManager_h
+#ifndef EVTMANAGER_H
+#define EVTMANAGER_H
 
-
-#include "calendar.h"
+#include "evenement.h"
 
 class EvtManager {
-	//Singleton
+    //Singleton
 private:
     Evt** evt;
     int nb;
@@ -13,45 +12,49 @@ private:
     EvtManager():nb(0), nbMax(0),evt(0){};
     EvtManager(const EvtManager& pm);
     ~EvtManager(){
-    	for(int i = 0; i<nb;i++) delete evt[i];
-    	delete[] evt;
+        for(int i = 0; i<nb;i++) delete evt[i];
+        delete[] evt;
     };
     EvtManager& operator=(const EvtManager& pm);
 
     struct Handler{
-    	EvtManager* instance;
-    	Handler():instance(0){};
-    	~Handler(){if(instance) delete instance;};
+        EvtManager* instance;
+        Handler():instance(0){};
+        ~Handler(){if(instance) delete instance;};
     };
     static Handler handler;
 public:
     class IteratorSTL{
-    	private:
-    		friend class EvtManager;
-    		Evt** currentEvt;
-    		IteratorSTL(Evt** p):currentEvt(p){};
-    	public:
-    		IteratorSTL operator++(){
-    			++currentEvt;
-    			return *this;
-    		};
-    		IteratorSTL operator--(){
-    			--currentEvt;
-    			return *this;
-    		};
+        private:
+            friend class EvtManager;
+            Evt** currentEvt;
+            IteratorSTL(Evt** p):currentEvt(p){};
+        public:
+            IteratorSTL operator++(){
+                ++currentEvt;
+                return *this;
+            };
+            IteratorSTL operator--(){
+                --currentEvt;
+                return *this;
+            };
             bool operator!=(const IteratorSTL& it) const {return currentEvt!=it.currentEvt;};
             const Evt& operator*() const{return **currentEvt;};
     };
 
-    void ajouterEvt(const Date& d, const Horaire& h);  //Problème -> Méthode virtuelle ? Appeler constructeur de Evt ? Utiliser Strategy ?
+    void ajouterEvt(const Date& d, const Horaire& h);
+        //On appelle d'abord EvtFactory avec un signal permettant de choisir Tache/Activité
+        //Appel fct virtuelle pure "programmer" de Evt qui appelle "prgrammer" de EvtA ou EvtT
+        //On fait ici les vérif d'evt qui ne se chevauchent pas.
 
     Evt** getEvt(){return evt;};
     //const Evt** getEvt()const{return evt;};
-   // Evt* trouverEvt();	En a-t-on besoin ? 
+    //Evt* trouverEvt();	En a-t-on besoin ?
     static EvtManager& getInstance();
-    static void freeInstance();	
+    static void freeInstance();
     IteratorSTL begin()const;
-    IteratorSTL end()const;	
+    IteratorSTL end()const;
 };
 
-#endif
+#endif // EVTMANAGER_H
+

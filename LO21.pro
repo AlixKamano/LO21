@@ -1,19 +1,16 @@
-SOURCES += \
-    main.cpp \
-    calendar.cpp \
-    evtManager.cpp \
-    projet.cpp \
-    projetManager.cpp \
-    tache.cpp \
-    tacheManager.cpp \
-    timing.cpp \
-    interface.cpp
-
 HEADERS += \
-    calendar.h \
-    evtManager.h \
-    projet.h \
-    projetManager.h \
+    timing.h \
+    evenement.h \
+    evtmanager.h \
     tache.h \
-    tacheManager.h \
-    timing.h
+    projetmanager.h \
+    projet.h
+
+SOURCES += \
+    timing.cpp \
+    evenement.cpp \
+    evtmanager.cpp \
+    tache.cpp \
+    projetmanager.cpp \
+    projet.cpp \
+    main.cpp

@@ -1,9 +1,10 @@
-#ifndef __LO21_projet__tache__
-#define __LO21_projet__tache__
+#ifndef TACHE_H
+#define TACHE_H
 
 #include <iostream>
 #include <QString>
 #include "timing.h"
+
 using namespace std;
 using namespace TIME;
 
@@ -17,35 +18,43 @@ private:
 
 
 //Statut = 0 => Tache non programmée, à venir. Date d'échéance non dépassée
+//Statut = -1 => Tache non programmée, date d'échéance dépassée
+//Statut = 1 => Tache programmée/réalisée
 class Tache {
+    //abstraite
     private:
         int statut;
         QString identificateur;
         QString titre;
         Tache** precedence;
+        int nbPrec;
+        int nbPrecMax;
         Date dispo;
         Date echeance;
-        Tache(const QString& id, const QString& t, const Date& disponible, const Date& ech) : statut(0),identificateur(id), titre(t),dispo(disponible), echeance(ech), precedence(0){};
-        Tache(const Tache& t);
+        //Tache(const QString& id, const QString& t, const Date& disponible, const Date& ech) : statut(0),identificateur(id), titre(t),dispo(disponible), echeance(ech), precedence(0){};
+        //Tache(const Tache& t);
         Tache& operator=(const Tache& t);
-        friend class TacheManager;
     public:
+        Tache(const QString& id=0, const QString& t=0, const Date& disponible=Date(0,0,0), const Date& ech=Date(0,0,0)) : statut(0),identificateur(id), titre(t),dispo(disponible), echeance(ech), precedence(0){};
+        Tache(const Tache& t);
         int getStatut() const{return statut;};
         QString getId() const {return identificateur;};
         QString getTitre() const {return titre;};
         Tache** getPrecedence() const{return precedence;};
+        int getStatutPrecedence()const;
         Date getDispo()const{return dispo;};
         Date getEcheance()const{return echeance;};
         void setStatut(int s){statut=s;};
+        void addPrecedence();       //A def
 };
-
-
 
 class TUnitaire : public Tache{
     private:
         bool preemptive;
         Duree duree;
     public:
+        TUnitaire(const QString& id, const QString& t, const Date& disponible, const Date& ech, bool premp, const Duree& dur) : Tache(id,t,disponible,ech),preemptive(premp),duree(dur){};
+        TUnitaire():Tache(),preemptive(0),duree(0){};
         bool getPremptive()const{return preemptive;};
         Duree getDuree()const{return duree;};
 };
@@ -55,8 +64,21 @@ class TComposite : public Tache{
         Tache** sousTaches;
         int nb;
         int nbMax;
-        public :
+    public :
+        TComposite(const QString& id, const QString& t, const Date& disponible, const Date& ech) : Tache(id,t,disponible,ech),sousTaches(0),nb(0),nbMax(0){};
+        TComposite():Tache(),sousTaches(0),nb(0),nbMax(0){};
         Tache** getSousTaches()const {return sousTaches;};
 };
 
-#endif 
+class TacheFatory {
+    static Tache* NewTache(const QString& description){
+        if(description=="unitaire")
+            return new TUnitaire();
+        if(description=="composite")
+            return new TComposite();
+        return NULL;
+};
+};
+
+#endif // TACHE_H
+

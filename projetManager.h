@@ -1,10 +1,11 @@
-#ifndef __LO21_projet__projetManager__
-#define __LO21_projet__projetManager__
+#ifndef PROJETMANAGER_H
+#define PROJETMANAGER_H
 
 #include <iostream>
 #include "projet.h"
+
 class ProjetManager {
-	//Singleton
+    //Singleton
 private:
     Projet** projets;
     int nb;
@@ -41,7 +42,7 @@ private:
         bool operator!=(const IteratorSTL& it) const {return currentProjet!= it.currentProjet;}
         const Projet& operator*() const {return **currentProjet;}
     };
-    
+
 public:
     void ajouterProjet(const QString& id, const QString& t, const Date& dispo, const Date& deadline, int max);
     Projet& getProjet(const QString& id);
@@ -53,4 +54,5 @@ public:
     IteratorSTL end();
 };
 
-#endif
+#endif // PROJETMANAGER_H
+
