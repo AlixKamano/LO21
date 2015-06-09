@@ -1,4 +1,5 @@
 #include "projet.h"
+#include "tache.h"
 
 void Projet::addItem(Tache* t){
     if(nb==nbMax){
@@ -25,13 +26,13 @@ Tache* Projet::getTache(const QString &id) const{
 }
 
 
-void Projet::ajouterTache(const QString& id, const QString& t, const Date& dispo, const Date& deadline){
+void Projet::ajouterTache(const QString& desc, const QString& id, const QString& t, const Date& dispo, const Date& deadline){
     if(getTache(id)){
         throw ProjetException("Error : L'identificateur existe deja");
     }
     //Appel à TacheFactory
-    Tache *new_tache = new Tache(id,t,dispo,deadline);
-    addItem(new_tache);
+    Tache* new_tache= TacheFactory::NewTache(desc,id,t,dispo,deadline);
+    Projet::addItem(new_tache);
 }
 
 

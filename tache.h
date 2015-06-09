@@ -21,7 +21,7 @@ private:
 //Statut = -1 => Tache non programmée, date d'échéance dépassée
 //Statut = 1 => Tache programmée/réalisée
 class Tache {
-    //abstraite
+    friend class TUnitaire;
     private:
         int statut;
         QString identificateur;
@@ -56,8 +56,9 @@ class TUnitaire : public Tache{
     public:
         TUnitaire(const QString& id, const QString& t, const Date& disponible, const Date& ech, bool premp, const Duree& dur) : Tache(id,t,disponible,ech),preemptive(premp),duree(dur){};
         TUnitaire():Tache(),preemptive(0),duree(0){};
-        bool getPremptive()const{return preemptive;};
+        bool getPreemptive()const{return preemptive;};
         Duree getDuree()const{return duree;};
+        void setDuree(const Duree& d){duree=d;}
 };
 
 class TComposite : public Tache{
@@ -69,14 +70,16 @@ class TComposite : public Tache{
         TComposite(const QString& id, const QString& t, const Date& disponible, const Date& ech) : Tache(id,t,disponible,ech),sousTaches(0),nb(0),nbMax(0){};
         TComposite():Tache(),sousTaches(0),nb(0),nbMax(0){};
         Tache** getSousTaches()const {return sousTaches;};
+        void addSousTache(Tache* t);
 };
 
-class TacheFatory {
-    static Tache* NewTache(const QString& description){
+class TacheFactory {
+public:
+    static Tache* NewTache(const QString& description ,const QString& id=0,const QString& t=0, const Date& disponible=Date(0,0,0), const Date& ech=Date(0,0,0),bool preemp=0,const Duree& duree=0){
         if(description=="unitaire")
-            return new TUnitaire();
+            return new TUnitaire(id,t,disponible,ech,preemp,duree);
         if(description=="composite")
-            return new TComposite();
+            return new TComposite(id,t,disponible,ech);
         return NULL;
 };
 };

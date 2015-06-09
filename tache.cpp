@@ -3,7 +3,7 @@
 //Uniquemet pour avoir accès à CalendarException
 
 int Tache::getStatutPrecedence()const{
-    int statut;
+    int statut=1;
     for(int i =0;i<nbPrec;i++)
         statut*=precedence[i]->getStatut();
     return statut;
@@ -34,4 +34,22 @@ void Tache::rmPrecedence(Tache* t){
         i++;
     for(int j=i;j<nbPrec;j++)
         precedence[j]=precedence[j+1];
+}
+
+void TComposite::addSousTache(Tache* t){
+    for(int i=0;i<nb;i++)
+        if(sousTaches[i]==t)
+            throw CalendarException("Cette tâche est déjà une sous-tache");
+    if(nb==nbMax){
+        Tache** new_tab = new Tache*[nbMax+10];
+        for(int i=0;i<nb;i++)
+            new_tab[i]=sousTaches[i];
+        nbMax+=10;
+        Tache** old_tab=sousTaches;
+        sousTaches=new_tab;
+        delete[] old_tab;
+    }
+    sousTaches[nb]=t;
+    nb++;
+
 }

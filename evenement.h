@@ -2,6 +2,7 @@
 #define EVENEMENT_H
 
 #include<iostream>
+#include<typeinfo>
 #include "timing.h"
 #include "tache.h"
 
@@ -47,7 +48,12 @@ class EvtTache : public Evt{
 private:
     Tache* tache;
 public:
-    EvtTache(const Date& da = Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), Tache* t=0) : Evt(da,h,d), tache(t){};
+    //A CORRIGER
+    EvtTache(const Date& da = Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), Tache* t=0) : Evt(da,h,d), tache(t){
+       /* if(typeid(t).name()=="TUnitaire")
+            if(t->getPreemptive()!=0)
+                t->setDuree(getDuree()-d);*/
+    };
     EvtTache(Tache* t):Evt(),tache(t){};
     Tache* getTache()const{return tache;};
     EvtTache* programmer(const Date& da, const Horaire& h, const Duree& d);
@@ -64,13 +70,14 @@ public:
 };
 
 class EvtFactory{
+public:
     //Design Pattern Abstract Factory
     //On appelle newEvt avec un pointeur tache ou activité. Selon le QString passé en paramètre, on effectue un cast sur le pointeur
-    static Evt* NewEvt(const QString& description, void* ptr){     //void* ptr ?
+    static Evt* NewEvt(const QString& description, void* ptr,const Date& da, const Horaire& h,const Duree& d){     //void* ptr ?
         if(description=="tache")
-            return new EvtTache((Tache*)ptr);
+            return new EvtTache(da,h,d,(Tache*)ptr);
         if(description=="activite")
-            return new EvtActivite((Activite*)ptr);
+            return new EvtActivite(da,h,d,(Activite*)ptr);
         return NULL;
     };
 };
