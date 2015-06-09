@@ -45,7 +45,8 @@ class Tache {
         Date getDispo()const{return dispo;};
         Date getEcheance()const{return echeance;};
         void setStatut(int s){statut=s;};
-        void addPrecedence();       //A def
+        void addPrecedence(Tache* t);
+        void rmPrecedence(Tache* t);
 };
 
 class TUnitaire : public Tache{

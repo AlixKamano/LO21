@@ -2,6 +2,7 @@
 #define EVTMANAGER_H
 
 #include "evenement.h"
+using namespace std;
 
 class EvtManager {
     //Singleton
