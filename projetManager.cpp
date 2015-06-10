@@ -1,7 +1,7 @@
 #include "projetManager.h"
 
 //methodes de projet manager
-void ProjetManager::ajouterProjet(const QString& id, const QString& t, const Date& dispo, const Date& deadline, int max){
+void ProjetManager::ajouterProjet(const QString& id, const QString& t, const QDate &dispo, const QDate &deadline, int max){
     if(trouverProjet(id)){
         throw ProjetException("Error : L'identificateur existe deja");
     }

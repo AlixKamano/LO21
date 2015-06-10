@@ -1,8 +1,11 @@
 #ifndef PROJET_H
 #define PROJET_H
 
+#include<QtWidgets>
 #include <iostream>
 #include<QString>
+#include<QDate>
+#include<QTextStream>
 #include "timing.h"
 #include "tache.h"
 
@@ -24,11 +27,12 @@ class Projet {
         int statut;
         QString identificateur;
         QString titre;
-        Date dispo;
-        Date echeance;
+        QDate dispo;
+        QDate echeance;
         Tache** taches;
         int nb;
         int nbMax;
+        QString file;
 
         Projet(const Projet& t);
         Projet& operator=(const Projet& t);
@@ -52,19 +56,21 @@ class Projet {
             };
 
     public:
-        Projet(const QString& id, const QString& t, const Date& disponible, const Date& ech, int max=10) : statut(0),identificateur(id), titre(t), dispo(disponible), echeance(ech), nbMax(max), nb(0), taches(new Tache*[max]){};
+        Projet(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, int max=10) : statut(0),identificateur(id), titre(t), dispo(disponible), echeance(ech), nbMax(max), nb(0), taches(new Tache*[max]){};
         ~Projet(){
             for(int i=0;i<nb;i++) delete taches[i];
             delete[] taches;}
         QString getId() const {return identificateur;};
         QString getTitre() const {return titre;};
-        Date getDispo()const{return dispo;};
-        Date getEcheance()const{return echeance;};
+        QDate getDispo()const{return dispo;};
+        QDate getEcheance()const{return echeance;};
         //A def
         Tache* getTache(const QString& id)const;
-        void ajouterTache(const QString& desc, const QString& id, const QString& t, const Date& dispo, const Date& deadline );
+        void ajouterTache(const QString& desc, const QString& id, const QString& t,const Duree& du, const QDate& dispo, const QDate& deadline,bool preempt );
         IteratorSTL begin();
         IteratorSTL end();
+        void load(const QString& f);
+        void save(const QString& f);
 };
 
 #endif // PROJET_H

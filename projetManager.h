@@ -44,7 +44,7 @@ private:
     };
 
 public:
-    void ajouterProjet(const QString& id, const QString& t, const Date& dispo, const Date& deadline, int max);
+    void ajouterProjet(const QString& id, const QString& t, const QDate& dispo, const QDate& deadline, int max);
     Projet& getProjet(const QString& id);
     const Projet& getProjet(const QString& id) const;
     Projet *trouverProjet(const QString& id) const;

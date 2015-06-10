@@ -1,3 +1,6 @@
+QT += xml
+QT += widgets
+
 HEADERS += \
     timing.h \
     evenement.h \

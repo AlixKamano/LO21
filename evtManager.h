@@ -43,7 +43,7 @@ public:
             const Evt& operator*() const{return **currentEvt;};
     };
 
-    void ajouterEvt(const QString& desc, void* ptr, const Date& da, const Horaire& h, const Duree& d);
+    void ajouterEvt(const QString& desc, void* ptr, const QDate& da, const Horaire& h, const Duree& d);
         //On appelle d'abord EvtFactory avec un signal permettant de choisir Tache/Activité
         //Appel fct virtuelle pure "programmer" de Evt qui appelle "prgrammer" de EvtA ou EvtT
         //On fait ici les vérif d'evt qui ne se chevauchent pas.
