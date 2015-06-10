@@ -46,16 +46,16 @@ public:
 
 class EvtTache : public Evt{
 private:
-    Tache* tache;
+    TUnitaire* tache;
 public:
-    //A CORRIGER
-    EvtTache(const Date& da = Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), Tache* t=0) : Evt(da,h,d), tache(t){
-       /* if(typeid(t).name()=="TUnitaire")
+    EvtTache(const Date& da = Date(0,0,0), const Horaire& h=Horaire(0,0),const Duree& d=Duree(0), TUnitaire* t=0) : Evt(da,h,d), tache(t){
+        Duree du;
+        if(typeid(t).name()=="TUnitaire")
             if(t->getPreemptive()!=0)
-                t->setDuree(getDuree()-d);*/
+               t->setDuree(Duree(t->getDuree().getDureeEnMinutes()-d.getDureeEnMinutes()));
     };
-    EvtTache(Tache* t):Evt(),tache(t){};
-    Tache* getTache()const{return tache;};
+    EvtTache(TUnitaire* t):Evt(),tache(t){};
+    TUnitaire* getTache()const{return tache;};
     EvtTache* programmer(const Date& da, const Horaire& h, const Duree& d);
 };
 
@@ -75,7 +75,7 @@ public:
     //On appelle newEvt avec un pointeur tache ou activité. Selon le QString passé en paramètre, on effectue un cast sur le pointeur
     static Evt* NewEvt(const QString& description, void* ptr,const Date& da, const Horaire& h,const Duree& d){     //void* ptr ?
         if(description=="tache")
-            return new EvtTache(da,h,d,(Tache*)ptr);
+            return new EvtTache(da,h,d,(TUnitaire*)ptr);
         if(description=="activite")
             return new EvtActivite(da,h,d,(Activite*)ptr);
         return NULL;

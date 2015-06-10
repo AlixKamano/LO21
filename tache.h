@@ -47,6 +47,7 @@ class Tache {
         void setStatut(int s){statut=s;};
         void addPrecedence(Tache* t);
         void rmPrecedence(Tache* t);
+        virtual void afficher()=0;
 };
 
 class TUnitaire : public Tache{
@@ -59,6 +60,7 @@ class TUnitaire : public Tache{
         bool getPreemptive()const{return preemptive;};
         Duree getDuree()const{return duree;};
         void setDuree(const Duree& d){duree=d;}
+        void afficher(){cout<<1;}
 };
 
 class TComposite : public Tache{
@@ -71,6 +73,7 @@ class TComposite : public Tache{
         TComposite():Tache(),sousTaches(0),nb(0),nbMax(0){};
         Tache** getSousTaches()const {return sousTaches;};
         void addSousTache(Tache* t);
+        void afficher(){cout<<2;}
 };
 
 class TacheFactory {
