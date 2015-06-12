@@ -2,7 +2,7 @@
 #define TREEVIEW_H
 #include<QtWidgets>
 #include"projetmanager.h"
-
+//
 class treeView: public QDialog
 {
     Q_OBJECT

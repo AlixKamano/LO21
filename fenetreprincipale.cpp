@@ -14,7 +14,7 @@ FenetrePrincipale::FenetrePrincipale() : QWidget(){
     pm.ajouterProjet("P3","Creme au chocolat",Date(),Date());
     (*(pm.begin())).ajouterTache("unitaire","T1","Fondre Choco",Date(),Date());
     QTreeWidget *treeWidget = new QTreeWidget();
-
+//
 
     AjouterArbre(treeWidget);
 

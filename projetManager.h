@@ -6,6 +6,7 @@
 
 class ProjetManager {
     //Singleton
+    //
 private:
     Projet** projets;
     int nb;

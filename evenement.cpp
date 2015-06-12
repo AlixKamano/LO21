@@ -1,5 +1,5 @@
 #include "evenement.h"
-
+//
 EvtTache* EvtTache::programmer(const QDate& da, const Horaire& h, const Duree& d){
     //Vérification du respect des contraintes : précédence  + échéance + dispo
     if(da<tache->getDispo())

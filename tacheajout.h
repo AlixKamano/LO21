@@ -2,7 +2,7 @@
 #define TACHEAJOUT_H
 #include<QtWidgets>
 #include"projetmanager.h"
-
+//
 class TacheAjout:public QDialog
 {
     Q_OBJECT

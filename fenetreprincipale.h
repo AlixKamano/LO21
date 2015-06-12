@@ -6,6 +6,8 @@
 #include"tacheajout.h"
 #include"projetajout.h"
 #include"treeview.h"
+//
+
 class FenetrePrincipale : public QWidget
 {
     Q_OBJECT

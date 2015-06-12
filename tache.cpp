@@ -8,7 +8,7 @@
 #include"tache.h"
 #include "evenement.h"
 //Uniquemet pour avoir accès à CalendarException
-
+//
 int Tache::getStatutPrecedence()const{
     int statut=1;
     for(int i =0;i<nbPrec;i++)

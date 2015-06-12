@@ -1,5 +1,4 @@
-
-#include<QApplication>
+#include <QApplication>
 #include <QFile>
 #include <QTextCodec>
 #include <QtXml>
@@ -7,7 +6,7 @@
 
 #include "projet.h"
 #include "tache.h"
-#include"evenement.h"
+#include "evenement.h"
 
 
 void Projet::addItem(Tache* t){

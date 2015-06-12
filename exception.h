@@ -39,5 +39,6 @@ private:
     QString info;
 };
 
+//Pour commit !
 #endif // EXCEPTION_H
 
