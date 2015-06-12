@@ -1,5 +1,5 @@
 #include "evtManager.h"
-
+//
 //Méthodes de evtManager
    void EvtManager::ajouterEvt(const QString& desc, void* ptr, const QDate &da, const Horaire& h, const Duree& d){		//A vérifier
         if(nb==nbMax){

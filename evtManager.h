@@ -1,9 +1,10 @@
+
 #ifndef EVTMANAGER_H
 #define EVTMANAGER_H
-
+//
 #include "evenement.h"
 using namespace std;
-
+// blabla 
 class EvtManager {
     //Singleton
 private:
@@ -58,4 +59,3 @@ public:
 };
 
 #endif // EVTMANAGER_H
-
