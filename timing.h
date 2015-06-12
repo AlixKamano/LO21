@@ -5,11 +5,22 @@
 #include<QDate>
 #include<iostream>
 #include<iomanip>
-#include "exception.h"
 
 using namespace std;
 
 namespace TIME {
+    /*! \class TimeException
+            \brief Classe permettant de gérer les exceptions des classes du namespace TIME
+    */
+    class TimeException{
+    public:
+        //! Constructeur à partir d'une string
+        TimeException(const QString& m):info(m){}
+        const QString& GetInfo() const { return info; } //<! Retourne l'information stockée dans la classe
+    private:
+        QString info;
+    };
+
     /*! \class Duree
             \brief Classe permettant de manipuler des durees
             L'utilisation de cette classe nécessite des dates valides au sens commun du terme.
@@ -87,8 +98,8 @@ namespace TIME {
         /*! \param d date de début de l'intervalle
             \param f date de fin de l'intervalle. On doit avoir d<=f
             */
-        Intervalle(const QDate & d, const QDate & f);
-        //void afficher(std::ostream& f=std::cout) const; //<! Affiche l'intervalle de dates
+        Intervalle(const QDate & d,const QDate & f);
+        void afficher(std::ostream& f=std::cout) const; //<! Affiche l'intervalle de dates
         QDate getDebut() const { return debut; } //<! Retourne la date de début de l'intervalle
         QDate getFin() const { return fin; } //<! Retourne la date de fin de l'intervalle
 //		int getDuree() const { return fin-debut; } //<! Retourne le nombre de jours s'écoulant entre le début et la fin de l'intervalle
@@ -101,7 +112,7 @@ namespace TIME {
 
 }
 
-ostream& operator<<(ostream&, const QDate& d);
+ostream& operator<<(ostream&, QDate& d);
 ostream& operator<<(ostream& f, const TIME::Duree & d);
 ostream& operator<<(ostream& f, const TIME::Horaire & h);
 ostream& operator<<(ostream& f, const TIME::Periode & p);

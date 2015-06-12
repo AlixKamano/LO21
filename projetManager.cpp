@@ -18,6 +18,7 @@ Projet* ProjetManager::trouverProjet(const QString& id) const{
     return 0;
 }
 
+
 void ProjetManager::addItem(Projet *p){
     if(nb==nbMax){
         Projet** new_tab=new Projet*[nbMax+10];
