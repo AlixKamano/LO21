@@ -29,12 +29,13 @@ class Projet {
         Projet(const Projet& t);
         Projet& operator=(const Projet& t);
         void addItem(Tache* t);
+public:
 
         class IteratorSTL{
             private:
                 Tache** currentTache;
+        public:
                 IteratorSTL(Tache** u): currentTache(u){};
-            public:
                 IteratorSTL operator++(){
                     ++currentTache;
                     return *this;
@@ -50,19 +51,19 @@ class Projet {
         private:
             Tache** currentTache;
             unsigned int nb;
+
+        public:
             AProgIterator(Tache** u,unsigned int n):currentTache(u),nb(n){
-                while(nb!=0&&(*currentTache)->getStatut!=-1){
+                while(nb!=0&& (*currentTache)->getStatut()!=-1){
                    nb--; currentTache++;
                 }
             };
-        public:
             bool isDone()const{return nb==0;}
             void next(){
                 if(isDone()) throw CalendarException("Erreur, pas de prochaine tache");
                 do{ currentTache++;nb--;}while(nb!=0&&(*currentTache)->getStatut()!=-1);}
         };
 
-    public:
         Projet(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, int max=10) : statut(0),identificateur(id), titre(t), dispo(disponible), echeance(ech), nbMax(max), nb(0), taches(new Tache*[max]){};
         ~Projet(){
             for(int i=0;i<nb;i++) delete taches[i];
