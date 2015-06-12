@@ -3,19 +3,14 @@
 
 #include <iostream>
 #include <QString>
+#include <QFile>
+#include <QtXml>
+#include<QTextStream>
 #include "timing.h"
+#include "exception.h"
 
 using namespace std;
 using namespace TIME;
-
-class TacheException{
-public:
-    TacheException(const QString& message):info(message){}
-    QString getInfo() const { return info; }
-private:
-    QString info;
-};
-
 
 //Statut = 0 => Tache non programmée, à venir. Date d'échéance non dépassée
 //Statut = -1 => Tache non programmée, date d'échéance dépassée
@@ -47,7 +42,7 @@ class Tache {
         void setStatut(int s){statut=s;};
         void addPrecedence(Tache* t);
         void rmPrecedence(Tache* t);
-        virtual void afficher()=0;
+        virtual void saveT(QXmlStreamWriter *stream)=0;
 };
 
 class TUnitaire : public Tache{
@@ -55,12 +50,13 @@ class TUnitaire : public Tache{
         bool preemptive;
         Duree duree;
     public:
-        TUnitaire(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, bool premp, const Duree& dur) : Tache(id,t,disponible,ech),preemptive(premp),duree(dur){};
+        TUnitaire(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, bool premp, const Duree& dur) :
+            Tache(id,t,disponible,ech),preemptive(premp),duree(dur){};
         TUnitaire():Tache(),preemptive(0),duree(0){};
         bool getPreemptive()const{return preemptive;};
         Duree getDuree()const{return duree;};
         void setDuree(const Duree& d){duree=d;}
-        void afficher(){cout<<1;}
+        virtual void saveT(QXmlStreamWriter *stream);
 };
 
 class TComposite : public Tache{
@@ -73,7 +69,7 @@ class TComposite : public Tache{
         TComposite():Tache(),sousTaches(0),nb(0),nbMax(0){};
         Tache** getSousTaches()const {return sousTaches;};
         void addSousTache(Tache* t);
-        void afficher(){cout<<2;}
+        virtual void saveT(QXmlStreamWriter *stream);
 };
 
 class TacheFactory {
@@ -88,4 +84,3 @@ public:
 };
 
 #endif // TACHE_H
-

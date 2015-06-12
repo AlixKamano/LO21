@@ -1,3 +1,10 @@
+#include<QApplication>
+#include <QFile>
+#include <QTextCodec>
+#include<QTextStream>
+#include <QtXml>
+#include <QMessageBox>
+
 #include"tache.h"
 #include "evenement.h"
 //Uniquemet pour avoir accès à CalendarException
@@ -52,4 +59,33 @@ void TComposite::addSousTache(Tache* t){
     sousTaches[nb]=t;
     nb++;
 
+}
+
+void TUnitaire::saveT(QXmlStreamWriter *stream){
+    stream->writeStartElement("tache");
+    stream->writeStartElement("unitaire");       //Description
+    stream->writeAttribute("preemptive", (getPreemptive())?"true":"false");
+    stream->writeTextElement("identificateur",getId());
+    stream->writeTextElement("titre",getTitre());
+    stream->writeTextElement("disponibilite",getDispo().toString(Qt::ISODate));
+    stream->writeTextElement("echeance",getEcheance().toString(Qt::ISODate));
+    QString str;
+    str.setNum(getDuree().getDureeEnMinutes());
+    stream->writeTextElement("duree",str);
+    stream->writeEndElement();
+}
+
+void TComposite::saveT(QXmlStreamWriter *stream){
+    stream->writeStartElement("tache");
+    stream->writeStartElement("composite");       //Description
+    stream->writeTextElement("identificateur",getId());
+    stream->writeTextElement("titre",getTitre());
+    stream->writeTextElement("disponibilite",getDispo().toString(Qt::ISODate));
+    stream->writeTextElement("echeance",getEcheance().toString(Qt::ISODate));
+    if(nb!=0){
+        stream->writeStartElement("Sous-taches:");
+        for(int i=0;i<nb;i++)
+            sousTaches[i]->saveT(stream);
+    }
+    stream->writeEndElement();
 }

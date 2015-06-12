@@ -8,17 +8,9 @@
 #include<QTextStream>
 #include "timing.h"
 #include "tache.h"
+#include "exception.h"
 
 using namespace TIME;
-
-class ProjetException{
-public:
-    ProjetException(const QString& message):info(message){}
-    QString getInfo() const { return info; }
-private:
-    QString info;
-};
-
 
 //Statut = 0 => Projet non programmé, à venir
 class Projet {
@@ -41,8 +33,8 @@ class Projet {
         class IteratorSTL{
             private:
                 Tache** currentTache;
-            public:
                 IteratorSTL(Tache** u): currentTache(u){};
+            public:
                 IteratorSTL operator++(){
                     ++currentTache;
                     return *this;
@@ -54,6 +46,13 @@ class Projet {
                 bool operator!=(const IteratorSTL& it) const {return currentTache!= it.currentTache;}
                 const Tache& operator*() const {return **currentTache;}
             };
+        class AProgIterator{
+        private:
+            Tache** currentTache;
+            unsigned int nb;
+        public:
+            AProgIterator(Tache** u):currentTache(u){};
+        };
 
     public:
         Projet(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, int max=10) : statut(0),identificateur(id), titre(t), dispo(disponible), echeance(ech), nbMax(max), nb(0), taches(new Tache*[max]){};
@@ -69,7 +68,6 @@ class Projet {
         void ajouterTache(const QString& desc, const QString& id, const QString& t,const Duree& du, const QDate& dispo, const QDate& deadline,bool preempt );
         IteratorSTL begin();
         IteratorSTL end();
-        void load(const QString& f);
         void save(const QString& f);
 };
 

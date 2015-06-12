@@ -7,7 +7,8 @@ HEADERS += \
     evtmanager.h \
     tache.h \
     projetmanager.h \
-    projet.h
+    projet.h \
+    exception.h
 
 SOURCES += \
     timing.cpp \
