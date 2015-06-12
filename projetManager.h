@@ -11,7 +11,7 @@ private:
     int nb;
     int nbMax;
     void addItem(Projet* p);
-    ProjetManager(): nb(0), nbMax(0), projets(0){};
+    ProjetManager():  projets(0), nb(0), nbMax(0){}
     ProjetManager(const ProjetManager& pm);
     ~ProjetManager(){
         for (int i=0;i<nb;i++) delete projets[i];
@@ -21,10 +21,10 @@ private:
     struct Handler{
         ProjetManager *instance;
         Handler():instance(0){};
-        ~Handler(){if(instance) delete instance;};
+        ~Handler(){if(instance) delete instance;}
     };
     static Handler handler;
-
+public:
     class IteratorSTL{
     private:
         friend class ProjetManager;
@@ -40,10 +40,8 @@ private:
             return *this;
         };
         bool operator!=(const IteratorSTL& it) const {return currentProjet!= it.currentProjet;}
-        const Projet& operator*() const {return **currentProjet;}
+        Projet& operator*() {return **currentProjet;}
     };
-
-public:
     void ajouterProjet(const QString& id, const QString& t, const QDate& dispo, const QDate& deadline, int max);
     Projet& getProjet(const QString& id);
     const Projet& getProjet(const QString& id) const;
