@@ -1,8 +1,14 @@
 #include "evenement.h"
 #include "evtManager.h"
-#include "projet.h"
-#include "projetManager.h"
+#include <QApplication>
+#include "fenetreprincipale.h"
 
-void main(){
-    ProjetManager& PM=ProjetManager::getInstance();
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+
+    FenetrePrincipale fenetre;
+
+    fenetre.show();
+    return app.exec();
 }
