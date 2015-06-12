@@ -8,7 +8,11 @@ HEADERS += \
     tache.h \
     projetmanager.h \
     projet.h \
-    exception.h
+    exception.h \
+    fenetreprincipale.h \
+    projetajout.h \
+    tacheajout.h \
+    treeview.h
 
 SOURCES += \
     timing.cpp \
@@ -17,4 +21,8 @@ SOURCES += \
     tache.cpp \
     projetmanager.cpp \
     projet.cpp \
-    main.cpp
+    main.cpp \
+    fenetreprincipale.cpp \
+    projetajout.cpp \
+    tacheajout.cpp \
+    treeview.cpp
