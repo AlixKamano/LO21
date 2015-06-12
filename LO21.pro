@@ -1,27 +1,20 @@
-QT += widgets
 QT += xml
+QT += widgets
 
 HEADERS += \
-    evenement.h \
-    evtManager.h \
-    fenetreprincipale.h \
-    projet.h \
-    projetManager.h \
-    tache.h \
-    tacheajout.h \
     timing.h \
-    projetajout.h \
-    treeview.h
+    evenement.h \
+    evtmanager.h \
+    tache.h \
+    projetmanager.h \
+    projet.h \
+    exception.h
 
 SOURCES += \
-    evenement.cpp \
-    evtManager.cpp \
-    fenetreprincipale.cpp \
-    main.cpp \
-    projet.cpp \
-    projetManager.cpp \
-    tache.cpp \
-    tacheajout.cpp \
     timing.cpp \
-    projetajout.cpp \
-    treeview.cpp
+    evenement.cpp \
+    evtmanager.cpp \
+    tache.cpp \
+    projetmanager.cpp \
+    projet.cpp \
+    main.cpp

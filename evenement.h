@@ -5,17 +5,10 @@
 #include<typeinfo>
 #include "timing.h"
 #include "tache.h"
+#include "exception.h"
 
 using namespace std;
 using namespace TIME;
-
-class CalendarException{
-public:
-    CalendarException(const QString& message):info(message){}
-    QString getInfo() const { return info; }
-private:
-    QString info;
-};
 
 class Activite {        //Ajout de statut aux activités ?
 private:

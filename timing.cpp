@@ -19,10 +19,10 @@ Periode::Periode(unsigned int j, unsigned int m, unsigned int a):
 }
 
 
-std::ostream& operator<<(std::ostream& f, const Intervalle& x){ x.afficher(f); return f;}
-std::ostream& operator<<(std::ostream& f, const QDate& d){ return f;}
+//std::ostream& operator<<(std::ostream& f, const Intervalle& x){ x.afficher(f); return f;}
 
-Intervalle::Intervalle(const QDate &d, const QDate &f):debut(d),fin(f){
+
+Intervalle::Intervalle(const QDate & d, const QDate & f):debut(d),fin(f){
     if (fin<debut) throw TimeException("Erreur dans la creation d'un intervalle: fin<debut");
 }
 
@@ -43,9 +43,9 @@ Intervalle Intervalle::operator+(const Intervalle & i) const {
     }else throw TimeException("Ne peut pas faire l'union de 2 intervalles (ils ne se touchent pas...)");
 }
 
-void Intervalle::afficher(std::ostream& f) const {
+/*void Intervalle::afficher(std::ostream& f) const {
     f<<"["<<debut<<" ; "<<fin<<"]";
-}
+}*/
 
 std::istream& operator>>(std::istream& flot, QDate& date){
     unsigned int short j,m,a;
