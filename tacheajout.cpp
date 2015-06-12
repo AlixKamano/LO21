@@ -114,18 +114,24 @@ void TacheAjout::activerAjout(){
 
 void TacheAjout::ajoutTache(){
     QString desc;
-    ProjetManager& pm = ProjetManager::getInstance();
-    Projet& p=*pm.trouverProjet(listeProjet->currentText());
     if (unitaire->isChecked())
         desc="unitaire";
     else
         desc="composite";
-    p.ajouterTache(desc,id->text(),titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
-    this->accept();
-    if (listeTacheC->currentText()!="*/Vide/*"){
-        Tache* t=p.getTache(id->text());
+    ProjetManager& pm = ProjetManager::getInstance();
+    Projet& p=*pm.trouverProjet(listeProjet->currentText());
+    if (p.getTache(id->text())){
+        QMessageBox::critical(this,"Erreur","Entrer au moins un nom de classe !");
+        return;
+    }
+    if (listeTacheC->currentText()=="*/Vide/*"){
+        p.ajouterTache(desc,id->text(),titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+        this->accept();
+    }
+    else{
         Tache* tc=p.getTache(listeTacheC->currentText());
-        dynamic_cast<TComposite*>(tc)->addSousTache(t);
+        dynamic_cast<TComposite*>(tc)->ajouterSousTache(desc,id->text(),titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+        this->accept();
     }
 }
 
@@ -140,15 +146,15 @@ void TacheAjout::afficheTacheC(QString s){
         for(Projet::IteratorSTL it=p.begin();it!=p.end();++it)
             if((*it).getType()=="composite"){
                 listeTacheC->addItem((*it).getId());
-                afficheSousTacheC(it);
+                afficheSousTacheC(dynamic_cast<const TComposite&>(*it));
             }
     }
 }
 
-void TacheAjout::afficheSousTacheC(Tache t){
+void TacheAjout::afficheSousTacheC(const TComposite& t){
     for(TComposite::IteratorSTL it=t.begin();it!=t.end();++it)
         if((*it).getType()=="composite"){
             listeTacheC->addItem((*it).getId());
-            afficheSousTacheC(it);
+            afficheSousTacheC(dynamic_cast<const TComposite&>(*it));
         }
     }
