@@ -3,10 +3,10 @@
 #include "activite.h"
 
 class ActiviteManager{
-    Activte** activites;
+    Activite** activites;
     int nb;
     int nbMax;
-    ActiviteManager():nb(O),nbMax(0),activites(0){}
+    ActiviteManager():nb(0),nbMax(0),activites(0){}
     ActiviteManager(const ActiviteManager& am);
     ~ActiviteManager(){
         for(int i=0;i<nb;i++) delete activites[i];

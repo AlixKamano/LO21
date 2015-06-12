@@ -6,6 +6,7 @@
 #include "timing.h"
 #include "tache.h"
 #include "exception.h"
+#include "activite.h"
 
 using namespace std;
 using namespace TIME;

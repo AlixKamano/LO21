@@ -1,5 +1,9 @@
 #ifndef ACTIVITE_H
 #define ACTIVITE_H
+#include <QString>
+#include "timing.h"
+
+using namespace TIME;
 
 class Activite {        //Ajout de statut aux activités ?
     /*! \class Activité
