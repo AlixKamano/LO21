@@ -12,7 +12,9 @@ HEADERS += \
     projetajout.h \
     projetManager.h \
     tacheajout.h \
-    treeview.h
+    treeview.h \
+    actmanager.h \
+    activite.h
 
 
 
@@ -28,6 +30,7 @@ SOURCES += \
     projetManager.cpp \
     tacheajout.cpp \
     treeview.cpp \
+    actmanager.cpp
 
 
 DISTFILES += \
