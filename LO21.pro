@@ -18,10 +18,7 @@ HEADERS += \
     activite.h \
     activiteajout.h
 
-<<<<<<< HEAD
-=======
 
->>>>>>> ffa142bf2f78af9017f0c4473ca86c0ecd6dad71
 SOURCES += \
     timing.cpp \
     evenement.cpp \
@@ -37,10 +34,7 @@ SOURCES += \
     agenda.cpp\
     actmanager.cpp \
     activiteajout.cpp
-<<<<<<< HEAD
 
-=======
->>>>>>> ffa142bf2f78af9017f0c4473ca86c0ecd6dad71
 
 
 DISTFILES += \
