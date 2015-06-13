@@ -12,7 +12,7 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     layoutp->addWidget(table);
     this->setLayout(layoutp);*/
     date=QDate::currentDate();
-    this->setFixedSize(800,700);
+    this->setFixedSize(1000,700);
     QLabel* lundi=new QLabel("Lundi", this);
     QLabel* mardi=new QLabel("Mardi", this);
     QLabel* mercredi=new QLabel("Mercredi", this);
@@ -28,71 +28,114 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     ldate6=new QLabel(this);
     ldate7=new QLabel(this);
     hlayout=new QHBoxLayout;
+    hlayout->setAlignment(Qt::AlignJustify);
 
-    hlayout1=new QHBoxLayout;
-    hlayout2=new QHBoxLayout;
-    hlayout3=new QHBoxLayout;
-
-    hlayout1->addWidget(lundi);
-    hlayout2->addWidget(ldate1);
-
-    hlayout1->addWidget(mardi);
-    hlayout2->addWidget(ldate2);
-
-    hlayout1->addWidget(mercredi);
-    hlayout2->addWidget(ldate3);
-
-    hlayout1->addWidget(jeudi);
-    hlayout2->addWidget(ldate4);
-
-    hlayout1->addWidget(vendredi);
-    hlayout2->addWidget(ldate5);
-
-    hlayout1->addWidget(samedi);
-    hlayout2->addWidget(ldate6);
+    vlayout1=new QVBoxLayout;
+    vlayout2=new QVBoxLayout;
+    vlayout3=new QVBoxLayout;
+    vlayout4=new QVBoxLayout;
+    vlayout5=new QVBoxLayout;
+    vlayout6=new QVBoxLayout;
+    vlayout7=new QVBoxLayout;
 
 
-    hlayout1->addWidget(dimanche);
-    hlayout2->addWidget(ldate7);
+    vlayout1->addWidget(lundi);
+    vlayout1->addWidget(ldate1);
+
+    vlayout2->addWidget(mardi);
+    vlayout2->addWidget(ldate2);
+
+    vlayout3->addWidget(mercredi);
+    vlayout3->addWidget(ldate3);
+
+    vlayout4->addWidget(jeudi);
+    vlayout4->addWidget(ldate4);
+
+    vlayout5->addWidget(vendredi);
+    vlayout5->addWidget(ldate5);
+
+    vlayout6->addWidget(samedi);
+    vlayout6->addWidget(ldate6);
+
+
+    vlayout7->addWidget(dimanche);
+    vlayout7->addWidget(ldate7);
+
+    case1=new QVBoxLayout;
+    case1->setAlignment(Qt::AlignTop);
+    case2=new QVBoxLayout;
+    case2->setAlignment(Qt::AlignTop);
+    case3=new QVBoxLayout;
+    case3->setAlignment(Qt::AlignTop);
+    case4=new QVBoxLayout;
+    case4->setAlignment(Qt::AlignTop);
+    case5=new QVBoxLayout;
+    case5->setAlignment(Qt::AlignTop);
+    case6=new QVBoxLayout;
+    case6->setAlignment(Qt::AlignTop);
+    case7=new QVBoxLayout;
+    case7->setAlignment(Qt::AlignTop);
+
 
     QGroupBox* test1=new QGroupBox;
-    test1->setFixedSize(80,576);
-    hlayout3->addWidget(test1);
+    test1->setFixedSize(120,576);
+    test1->setLayout(case1);
+    vlayout1->addWidget(test1);
 
     QGroupBox* test2=new QGroupBox;
-    test2->setFixedSize(80,576);
-    hlayout3->addWidget(test2);
+    test2->setFixedSize(120,576);
+    test2->setLayout(case2);
+    vlayout2->addWidget(test2);
+
     QGroupBox* test3=new QGroupBox;
-    test3->setFixedSize(80,576);
-    hlayout3->addWidget(test3);
+    test3->setFixedSize(120,576);
+    test3->setLayout(case3);
+    vlayout3->addWidget(test3);
+
     QGroupBox* test4=new QGroupBox;
-    test4->setFixedSize(80,576);
-    hlayout3->addWidget(test4);
+    test4->setFixedSize(120,576);
+    test4->setLayout(case4);
+    vlayout4->addWidget(test4);
+
     QGroupBox* test5=new QGroupBox;
-    test5->setFixedSize(80,576);
-    hlayout3->addWidget(test5);
+    test5->setFixedSize(120,576);
+    test5->setLayout(case5);
+    vlayout5->addWidget(test5);
+
     QGroupBox* test6=new QGroupBox;
-    test6->setFixedSize(80,576);
-    hlayout3->addWidget(test6);
+    test6->setFixedSize(120,576);
+    test6->setLayout(case6);
+    vlayout6->addWidget(test6);
+
     QGroupBox* test7=new QGroupBox;
-    test7->setFixedSize(80,576);
-    hlayout3->addWidget(test7);
+    test7->setFixedSize(120,576);
+    test7->setLayout(case7);
+    vlayout7->addWidget(test7);
 
     prec=new QPushButton("<");
     prec->setFixedSize(50,500);
     suiv=new QPushButton(">");
     suiv->setFixedSize(50,500);
-    vlayout1=new QVBoxLayout;
     AjouterJour(date);
     hlayout->addWidget(prec);
-    vlayout1->addLayout(hlayout1);
-    vlayout1->addLayout(hlayout2);
-    vlayout1->addLayout(hlayout3);
     hlayout->addLayout(vlayout1);
+    hlayout->addLayout(vlayout2);
+    hlayout->addLayout(vlayout3);
+    hlayout->addLayout(vlayout4);
+    hlayout->addLayout(vlayout5);
+    hlayout->addLayout(vlayout6);
+    hlayout->addLayout(vlayout7);
     hlayout->addWidget(suiv);
     this->setLayout(hlayout);
     QObject::connect(prec, SIGNAL(clicked()),this, SLOT(Precedent()));
     QObject::connect(suiv, SIGNAL(clicked()),this, SLOT(Suivant()));
+    ProjetManager &pm=ProjetManager::getInstance();
+    pm.ajouterProjet("P","t",QDate(10,04,2000),QDate(10,04,3000),5);
+    ProjetManager::IteratorSTL it=pm.begin();
+    (*it).ajouterTache("unitaire","Pan",0,"t",Duree(0,0),QDate(),QDate(),false);
+    Tache* t=(*it).getTache("Pan");
+    EvtTache e(QDate(2015,06,13),Horaire(8,20),Horaire(9,30),Duree(10),dynamic_cast<TUnitaire*>(t));
+    AjoutEvenement(e);
 }
 
 void Agenda::AjouterJour(QDate d){
@@ -109,6 +152,13 @@ void Agenda::AjouterJour(QDate d){
 void Agenda::Precedent(){
     date=date.addDays(-7);
     AjouterJour(date);
+    ProjetManager &pm=ProjetManager::getInstance();
+    pm.ajouterProjet("MK","t",QDate(10,04,2000),QDate(10,04,3000),5);
+    ProjetManager::IteratorSTL it=pm.begin();
+    (*it).ajouterTache("unitaire","Ma",0,"O",Duree(0,0),QDate(),QDate(),false);
+    Tache* t=(*it).getTache("Ma");
+    EvtTache e(QDate(2015,06,10),Horaire(8,20),Horaire(9,30),Duree(10),dynamic_cast<TUnitaire*>(t));
+    AjoutEvenement(e);
 }
 
 
@@ -117,6 +167,42 @@ void Agenda::Suivant(){
     AjouterJour(date);
 }
 
-void AjoutEvenement(Evt& e){
+void Agenda::AjoutEvenement(Evt& e){
+    QString type;
+    QString hd_h,hd_m,hf_h,hf_m;
 
+    if (e.getType()=="tache")
+        type=dynamic_cast<EvtTache&>(e).getTache()->getId();
+    if (e.getType()=="activite")
+        type=dynamic_cast<EvtActivite&>(e).getActivite()->getId();
+    hd_h.setNum(e.getHoraireD().getHeure());
+    hd_m.setNum(e.getHoraireD().getMinute());
+    hf_h.setNum(e.getHoraireF().getHeure());
+    hf_m.setNum(e.getHoraireF().getMinute());
+    boutons.push_back(new QPushButton(type+"\n"+hd_h+"h"+hd_m+"-"+hf_h+"h"+hf_m));
+    int j=e.getDate().dayOfWeek();
+    switch(j){
+    case 1:
+        case1->addWidget(boutons[boutons.size()-1]);
+         break;
+    case 2:
+        case2->addWidget(boutons[boutons.size()-1]);
+        break;
+    case 3:
+        case3->addWidget(boutons[boutons.size()-1]);
+        break;
+    case 4:
+        case4->addWidget(boutons[boutons.size()-1]);
+        break;
+    case 5:
+        case5->addWidget(boutons[boutons.size()-1]);
+        break;
+    case 6:
+        case6->addWidget(boutons[boutons.size()-1]);
+        break;
+    case 7:
+        case7->addWidget(boutons[boutons.size()-1]);
+        break;
+
+    }
 }

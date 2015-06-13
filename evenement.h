@@ -45,6 +45,8 @@ public:
     void setDuree(Duree d){duree = d;}
     //! Programmation d'un évènement. Méthode virtuelle pure
     virtual Evt* programmer(const QDate& d, const Horaire&h, const Duree& du)=0;         // Comment récupérer le pointeur vers Tache/Evt ?
+    //! Permet de connaitre le type d'evenment. Méthode virtulle pure
+    virtual QString getType() const=0;
 };
 
 class EvtTache : public Evt{
@@ -57,16 +59,17 @@ public:
     //!Constructeur à partir de QDate, Horaire, Durée, TacheUnitaire*
     //! Fait appel au constructeur de la classe mère
     //! \param t pointeur vers une tâche unitaire par défaut NULL
-    EvtTache(const QDate& da = QDate(0,0,0), const Horaire& hd=Horaire(0,0), const Horaire& hf=Horaire(0,0),const Duree& d=Duree(0), TUnitaire* t=0) : Evt(da,hd,d,hf), tache(t){
+    EvtTache(const QDate& da = QDate(0,0,0), const Horaire& hd=Horaire(0,0), const Horaire& hf=Horaire(0,0),const Duree& d=Duree(0),TUnitaire* t=0) : Evt(da,hd,d,hf), tache(t){
         Duree du;
         if(t->getPreemptive()!=0)
             t->setDuree(Duree(t->getDuree().getDureeEnMinutes()-d.getDureeEnMinutes()));
     }
     EvtTache(TUnitaire* t):Evt(),tache(t){}
     //! Accesseur à la tâche programmée
-    TUnitaire* getTache()const{return tache;};
+    TUnitaire* getTache()const{return tache;}
     //!Programmation de la tâche
     EvtTache* programmer(const QDate& da, const Horaire& h, const Duree& d);
+    QString getType() const{return "tache";}
 };
 
 class EvtActivite :public Evt{
@@ -77,6 +80,7 @@ public:
     EvtActivite(Activite* a):Evt(),activite(a){}
     Activite* getActivite()const{return activite;}
     EvtActivite* programmer(const QDate& da, const Horaire& h, const Duree& d);
+    QString getType() const{return "activite";}
 };
 
 class EvtFactory{
