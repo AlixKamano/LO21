@@ -12,7 +12,8 @@ HEADERS += \
     projetajout.h \
     projetManager.h \
     tacheajout.h \
-    treeview.h
+    treeview.h \
+    agenda.h
 
 
 SOURCES += \
@@ -27,6 +28,7 @@ SOURCES += \
     projetManager.cpp \
     tacheajout.cpp \
     treeview.cpp \
+    agenda.cpp
 
 
 DISTFILES += \

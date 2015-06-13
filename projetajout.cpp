@@ -8,7 +8,6 @@ ProjetAjout::ProjetAjout(QWidget *fenetre): QDialog(fenetre)
     h1Layout=new QHBoxLayout;
     lid=new QLabel("idenetificateur", this);
     id = new QLineEdit(this);
-    id->setFixedSize(300, 20);
     h1Layout->addWidget(lid);
     h1Layout->addWidget(id);
 
@@ -63,6 +62,10 @@ void ProjetAjout::activerAjout(){
 
 void ProjetAjout::ajoutProjet(){
     ProjetManager& pm = ProjetManager::getInstance();
+    if (pm.trouverProjet(id->text())){
+        QMessageBox::critical(this,"Erreur","Ce projet existe déjà  !");
+        return;
+    }
     pm.ajouterProjet(id->text(), titre->toPlainText(), dispo->date(), echeance->date(), 5);
     this->accept();
 }
