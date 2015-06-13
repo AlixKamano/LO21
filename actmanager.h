@@ -3,24 +3,28 @@
 #include "activite.h"
 
 class ActiviteManager{
-    Activite** activites;
-    int nb;
-    int nbMax;
-    ActiviteManager():nb(0),nbMax(0),activites(0){}
-    ActiviteManager(const ActiviteManager& am);
-    ~ActiviteManager(){
+    //! \class ActivitéManager
+    //! \brief Classe permettant de gérer les activités
+    Activite** activites;       //!< Tableau d'activités
+    int nb;     //!< Nombre d'activités dans le tableau
+    int nbMax;  //!< Taille maximale du tableau
+    ActiviteManager():nb(0),nbMax(0),activites(0){} //!< Constructeur sans arguments privé
+    ActiviteManager(const ActiviteManager& am); //!< Constructeur privé de recopie
+    ~ActiviteManager(){         //!< Destructeur de la classe
         for(int i=0;i<nb;i++) delete activites[i];
         delete[] activites;
     }
-    void addItem(Activite* p);
-    ActiviteManager& operator=(const ActiviteManager& am);
+    void addItem(Activite* p);      //!< Méthode permettant l'ajout d'une activité
+    ActiviteManager& operator=(const ActiviteManager& am);      //!< Surcharge de l'opérateur =
 
     struct Handler{
-        ActiviteManager* instance;
-        Handler():instance(0){}
-        ~Handler(){if(instance) delete instance;}
+       //! \class Handler
+       //! \brief Design Pattern Singleton, permet d'assurer de l'unicité de l'ActivitéManager
+        ActiviteManager* instance;      //!< Pointeur vers ActivitéManager
+        Handler():instance(0){}         //!< Constructeur privé
+        ~Handler(){if(instance) delete instance;}   //!< Destructeur
     };
-    static Handler handler;
+    static Handler handler;     //!< Permet l'existence du Handler
 public:
     class IteratorSTL{
     private:
