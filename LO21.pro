@@ -13,10 +13,10 @@ HEADERS += \
     projetManager.h \
     tacheajout.h \
     treeview.h \
+    agenda.h\
     actmanager.h \
     activite.h \
     activiteajout.h
-
 
 
 SOURCES += \
@@ -31,6 +31,7 @@ SOURCES += \
     projetManager.cpp \
     tacheajout.cpp \
     treeview.cpp \
+    agenda.cpp\
     actmanager.cpp \
     activiteajout.cpp
 

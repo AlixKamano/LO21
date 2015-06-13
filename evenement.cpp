@@ -17,13 +17,15 @@ EvtTache* EvtTache::programmer(const QDate& da, const Horaire& h, const Duree& d
         tache->setStatut(1);
     Evt::setDuree(d);
     Evt::setDate(da);
-    Evt::setHoraire(h);
+    Evt::setHoraireD(h);
+    Evt::setHoraireF(h);
     return this;
 }
 
 EvtActivite* EvtActivite::programmer(const QDate& da, const Horaire& h, const Duree& d){
     Evt::setDate(da);
-    Evt::setHoraire(h);
+    Evt::setHoraireD(h);
+    Evt::setHoraireF(h);
     Evt::setDuree(d);
     return this;
 }

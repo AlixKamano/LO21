@@ -1,7 +1,7 @@
 #include "evtManager.h"
 //
 //Méthodes de evtManager
-   void EvtManager::ajouterEvt(const QString& desc, void* ptr, const QDate &da, const Horaire& h, const Duree& d){		//A vérifier
+   void EvtManager::ajouterEvt(const QString& desc, void* ptr, const QDate &da, const Horaire& hd, const Horaire& hf, const Duree& d){		//A vérifier
         if(nb==nbMax){
             nbMax +=10;
             Evt** tmp = new Evt*[nbMax];
@@ -11,7 +11,7 @@
             evt = tmp;
             delete[] old;
         }
-        evt[nb++]=EvtFactory::NewEvt(desc,ptr,da,h,d);
+        evt[nb++]=EvtFactory::NewEvt(desc,ptr,da,hd,hf,d);
    }
     EvtManager::Handler EvtManager::handler = EvtManager::Handler();
 

@@ -6,6 +6,7 @@
 #include"tacheajout.h"
 #include"projetajout.h"
 #include"treeview.h"
+#include"agenda.h"
 #include"activiteajout.h"
 class FenetrePrincipale : public QWidget
 {
@@ -18,6 +19,7 @@ public slots:
     void ouvrirAfficher();
     void ouvrirAjoutP();
     void ouvrirAjoutT();
+    void ouvrirAgenda();
     void ouvrirAjoutA();
 
 private:
@@ -26,6 +28,7 @@ private:
     QPushButton* quitter;
     QPushButton* ajoutA;
     QPushButton* ajoutT;
+    QPushButton* afficherAgenda;
 };
 
 

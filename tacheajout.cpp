@@ -18,7 +18,6 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     h1Layout=new QHBoxLayout;
     lid=new QLabel("idenetificateur", this);
     id = new QLineEdit(this);
-    id->setFixedSize(300, 20);
     h1Layout->addWidget(lid);
     h1Layout->addWidget(id);
 
@@ -127,7 +126,7 @@ void TacheAjout::ajoutTache(){
     ProjetManager& pm = ProjetManager::getInstance();
     Projet& p=*pm.trouverProjet(listeProjet->currentText());
     if (p.getTache(id->text())){
-        QMessageBox::critical(this,"Erreur","Entrer au moins un nom de classe !");
+        QMessageBox::critical(this,"Erreur","La tache existe déjà !");
         return;
     }
     if (listeTacheP->currentText()=="*/Vide/*"){
