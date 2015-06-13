@@ -4,6 +4,7 @@
 #include <iostream>
 #include <QString>
 #include "timing.h"
+#include <QMessageBox>
 
 using namespace std;
 using namespace TIME;
@@ -28,6 +29,9 @@ class Tache {
 
     public:
         Tache(const QString& id=0, const QString& t=0,Tache* prec=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0), identificateur(id), titre(t),dispo(disponible), echeance(ech){
+            nbPrec=0;
+            nbPrecMax=10;
+            precedence=new Tache*[nbPrecMax];
             if(prec!=0)
                 addPrecedence(prec);
         }

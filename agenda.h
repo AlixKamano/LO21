@@ -23,5 +23,5 @@ public slots:
     void Suivant();
 };
 
-void AjouterJour(QDate d);
+//void AjouterJour(QDate d);
 #endif // AGENDA_H

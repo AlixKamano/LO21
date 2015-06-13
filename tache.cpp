@@ -16,10 +16,10 @@ void Tache::addPrecedence(Tache* t){
             throw CalendarException ("La tâche a déjà été ajoutée comme précédente");
     //Ajouter le pointeur
     if(nbPrec==nbPrecMax){
+        nbPrecMax+=10;
         Tache** new_tab = new Tache*[nbPrecMax+10];
         for(int i=0;i<nbPrec;i++)
             new_tab[i]=precedence[i];
-        nbPrecMax+=10;
         Tache** old_tab=precedence;
         precedence=new_tab;
         delete[] old_tab;
