@@ -22,7 +22,7 @@ ActiviteAjout::ActiviteAjout(QWidget *fenetre):QDialog(fenetre){
     heure->setSuffix(" heures(s)");
     minute->setSuffix(" minute(s)");
     heure->setMinimum(0);
-    heure->setMaximum(59);
+    heure->setMaximum(23);
     minute->setMinimum(0);
     minute->setMaximum(59);
     h2Layout->addWidget(lduree);

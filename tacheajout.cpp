@@ -47,7 +47,7 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     heure->setSuffix(" heures(s)");
     minute->setSuffix(" minute(s)");
     heure->setMinimum(0);
-    heure->setMaximum(59);
+    heure->setMaximum(23);
     minute->setMinimum(0);
     minute->setMaximum(59);
     preemptive=new QCheckBox("preemptive",this);
@@ -102,6 +102,8 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     QObject::connect(unitaire, SIGNAL(toggled(bool)),groupe,SLOT(setEnabled(bool)));
     QObject::connect(ajouter, SIGNAL(clicked()),this, SLOT(ajoutTache()));
     QObject::connect(listeProjet, SIGNAL(currentIndexChanged(QString)),this,SLOT(afficheTacheC(QString)));
+    QObject::connect(listeProjet, SIGNAL(currentIndexChanged(QString)),this,SLOT(afficheTacheP(QString)));
+
 }
 
 

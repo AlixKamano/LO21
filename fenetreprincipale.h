@@ -8,6 +8,7 @@
 #include"treeview.h"
 #include"agenda.h"
 #include"activiteajout.h"
+#include"ajoutevenement.h"
 class FenetrePrincipale : public QWidget
 {
     Q_OBJECT
@@ -21,6 +22,7 @@ public slots:
     void ouvrirAjoutT();
     void ouvrirAgenda();
     void ouvrirAjoutA();
+    void ouvrirAjoutEvt();
 
 private:
     QPushButton* afficher;
@@ -28,6 +30,7 @@ private:
     QPushButton* quitter;
     QPushButton* ajoutA;
     QPushButton* ajoutT;
+    QPushButton* ajoutEvt;
     QPushButton* afficherAgenda;
 };
 
