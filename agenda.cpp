@@ -4,8 +4,8 @@
 
 Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
 {
-    date=QDate::currentDate();
-    this->setFixedSize(1000,700);
+    dateref=QDate::currentDate();
+    this->setFixedSize(1000,730);
     QLabel* lundi=new QLabel("Lundi", this);
     QLabel* mardi=new QLabel("Mardi", this);
     QLabel* mercredi=new QLabel("Mercredi", this);
@@ -110,7 +110,7 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     prec->setFixedSize(50,500);
     suiv=new QPushButton(">");
     suiv->setFixedSize(50,500);
-    AjouterJour(date);
+    AjouterJour(dateref);
     hlayout->addWidget(prec);
     hlayout->addLayout(vlayout1);
     hlayout->addLayout(vlayout2);
@@ -121,15 +121,24 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     hlayout->addLayout(vlayout7);
     hlayout->addWidget(suiv);
 
+    boutonLayout = new QHBoxLayout;
     exporter = new QPushButton("Exporter la semaine",this);
     exporter->setFixedWidth(250);
+    fermer = new QPushButton("Fermer",this);
+    fermer->setFixedWidth(250);
+    boutonLayout->addWidget(exporter);
+    boutonLayout->addWidget(fermer);
     vlayout8->addLayout(hlayout);
-    vlayout8->addWidget(exporter,Qt::AlignCenter);
+    vlayout8->addLayout(boutonLayout);
+
 
 
     this->setLayout(vlayout8);
     QObject::connect(prec, SIGNAL(clicked()),this, SLOT(Precedent()));
     QObject::connect(suiv, SIGNAL(clicked()),this, SLOT(Suivant()));
+    QObject::connect(fermer, SIGNAL(clicked()),this, SLOT(accept()));
+    QObject::connect(exporter, SIGNAL(clicked()),this, SLOT(ExportSemaine()));
+    afficherSemaine();
 }
 
 void Agenda::AjouterJour(QDate d){
@@ -144,30 +153,25 @@ void Agenda::AjouterJour(QDate d){
 }
 
 void Agenda::Precedent(){
-    date=date.addDays(-7);
-    AjouterJour(date);
-    /*ProjetManager &pm=ProjetManager::getInstance();
-    pm.ajouterProjet("MK","t",QDate(10,04,2000),QDate(10,04,3000),5);
-    ProjetManager::IteratorSTL it=pm.begin();
-    (*it).ajouterTache("unitaire","Ma",0,"O",Duree(0,0),QDate(),QDate(),false);
-    Tache* t=(*it).getTache("Ma");
-    EvtTache e(QDate(2015,06,10),Horaire(8,20),Horaire(9,30),Duree(10),dynamic_cast<TUnitaire*>(t));
-    AjoutEvenement(e);*/
+    dateref=dateref.addDays(-7);
+    AjouterJour(dateref);
+    afficherSemaine();
 }
 
 
 void Agenda::Suivant(){
-    date=date.addDays(7);
-    AjouterJour(date);
+    dateref=dateref.addDays(7);
+    AjouterJour(dateref);
+    afficherSemaine();
 }
 
-void Agenda::AjoutEvenement(Evt& e){
+void Agenda::AjoutEvenement(const Evt &e){
     QString type;
     QString hd_h,hd_m,hf_h,hf_m;
     if (e.getType()=="tache")
-        type=dynamic_cast<EvtTache&>(e).getTache()->getId();
+        type=dynamic_cast<const EvtTache&>(e).getTache()->getId();
     if (e.getType()=="activite")
-        type=dynamic_cast<EvtActivite&>(e).getActivite()->getId();
+        type=dynamic_cast<const EvtActivite&>(e).getActivite()->getId();
     hd_h.setNum(e.getHoraireD().getHeure());
     hd_m.setNum(e.getHoraireD().getMinute());
     hf_h.setNum(e.getHoraireF().getHeure());
@@ -200,6 +204,18 @@ void Agenda::AjoutEvenement(Evt& e){
     }
 }
 
+void Agenda::afficherSemaine(){
+    for(unsigned int i=0;i<boutons.size();i++){
+        delete boutons[i];
+    }
+    boutons.clear();
+    int j = dateref.dayOfWeek();
+    EvtManager& em=EvtManager::getInstance();
+    for(EvtManager::ItSemaine it = em.getItSemaine(dateref.addDays(1-j),dateref.addDays(7-j)); !(it.isDone());it.next()){
+        AjoutEvenement(*it);
+    }
+}
+
 void Agenda::ExportSemaine(){
     QString filename = QFileDialog::getSaveFileName(this->parentWidget(),
                                                     QString::fromStdString("Exporter la semaine"),
@@ -218,9 +234,8 @@ void Agenda::saveSemaine(QString &f){
     stream.setAutoFormatting(true);
     stream.writeStartDocument();
     stream.writeStartElement("Programmation");
-
-    int j = date.dayOfWeek();
-    for(EvtManager::ItSemaine it = em.getItSemaine(em.getEvt(),em.getNb(),date.addDays(1-j),date.addDays(7-j));!it.isDone();it.next()){
+    int j = dateref.dayOfWeek();
+    for(EvtManager::ItSemaine it = em.getItSemaine(dateref.addDays(1-j),dateref.addDays(7-j));!it.isDone();it.next()){
         stream.writeStartElement("programmation");
         stream.writeTextElement("date",(*it).getDate().toString());
         stream.writeTextElement("horaire",((*it).getHoraireD().toString()));

@@ -44,7 +44,7 @@ public:
     //! Initialisateur de la durée
     void setDuree(Duree d){duree = d;}
     //! Programmation d'un évènement. Méthode virtuelle pure
-    virtual Evt* programmer(const QDate& d, const Horaire&hd, const Horaire&hf, const Duree& du)=0;         // Comment récupérer le pointeur vers Tache/Evt ?
+    //virtual Evt* programmer(const QDate& d, const Horaire&hd, const Horaire&hf, const Duree& du)=0;         // Comment récupérer le pointeur vers Tache/Evt ?
     //! Permet de connaitre le type d'evenment. Méthode virtulle pure
     virtual QString getType() const=0;
 };
@@ -60,7 +60,7 @@ public:
     //! Fait appel au constructeur de la classe mère
     //! \param t pointeur vers une tâche unitaire par défaut NULL
     EvtTache(const QDate& da = QDate(0,0,0), const Horaire& hd=Horaire(0,0), const Horaire& hf=Horaire(0,0),const Duree& d=Duree(0),TUnitaire* t=0) : Evt(da,hd,d,hf), tache(t){
-        if(t->getPreemptive()){
+        if(t->getPreemptive()==true){
             t->setDuree(Duree(t->getDuree().getDureeEnMinutes()-d.getDureeEnMinutes()));
             if (t->getDuree().getDureeEnMinutes()==0)
                 t->setStatut(1);
@@ -74,7 +74,7 @@ public:
     //! Nous vérifions que la tâche est diponible puis nous mettons à jour son statut :
     //! -1 si la date d'échéance est dépassée et 1 si la tâche est programmée
     //! Le statut par défaut est de 0
-    EvtTache* programmer(const QDate& da, const Horaire& hd,const Horaire&hf, const Duree& d);
+    //EvtTache* programmer(const QDate& da, const Horaire& hd,const Horaire&hf, const Duree& d);
     //! Fonction indiquant le type d'évènement
     QString getType() const{return "tache";}
 };
@@ -93,7 +93,7 @@ public:
     Activite* getActivite()const{return activite;}
     //! Programmation d'une activité
     //! Nous nous contentons ici d'initialiser les différents attributs de la classe
-    EvtActivite* programmer(const QDate& da, const Horaire& dh, const Horaire &hf, const Duree& d);
+    //EvtActivite* programmer(const QDate& da, const Horaire& dh, const Horaire &hf, const Duree& d);
     //! Fonction indiquant le type d'évènement
     QString getType() const{return "activite";}
 };

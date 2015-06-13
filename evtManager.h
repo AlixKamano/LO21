@@ -42,11 +42,11 @@ public:
             IteratorSTL operator++(){
                 ++currentEvt;
                 return *this;
-            };
+            }
             IteratorSTL operator--(){
                 --currentEvt;
                 return *this;
-            };
+            }
             bool operator!=(const IteratorSTL& it) const {return currentEvt!=it.currentEvt;}
             const Evt& operator*() const{return **currentEvt;}
     };
@@ -58,21 +58,26 @@ public:
         int nb;
         const QDate debut;
         const QDate fin;
-    public:
         ItSemaine(Evt** e,int n,QDate d,QDate f):currentEvt(e),nb(n),debut(d),fin(f){
-            while(nb>0 && debut>(*currentEvt)->Evt::getDate() && fin<(*currentEvt)->Evt::getDate()){
-                nb--; currentEvt++;}}
-
+            while(nb>0 && (debut>((*currentEvt)->getDate()) || fin<((*currentEvt)->getDate()))){
+                   nb--;
+                   currentEvt++;
+                  }
+        }
+    public:
         ItSemaine():currentEvt(0),nb(0),debut(QDate(0,0,0)),fin(QDate(0,0,0)){}
         bool isDone()const{return nb==0;}
-        void next(){if(isDone()) throw CalendarException("Erreur,pas de prochaine tache");
-            do{currentEvt++;
-                nb--;}while(nb>0 && debut>(*currentEvt)->Evt::getDate() && fin<(*currentEvt)->Evt::getDate());
-            }
+        void next(){
+            do{
+                currentEvt++;
+                nb--;
+            }while(nb>0 && (debut>((*currentEvt)->Evt::getDate()) || fin<((*currentEvt)->Evt::getDate())));
+        }
         bool operator!=(const ItSemaine& it)const {return currentEvt!=it.currentEvt;}
         const Evt& operator*() const{return **currentEvt;}
+        QDate getD(){return debut;}
         };
-    ItSemaine getItSemaine(Evt** e,int n,const QDate d, const QDate f){return ItSemaine(e,n,d,f);}
+    ItSemaine getItSemaine(const QDate d, const QDate f){return ItSemaine(evt,nb,d,f);}
 
     void ajouterEvt(const QString& desc, void* ptr, const QDate& da, const Horaire& hd, const Horaire &hf, const Duree& d);
         //On appelle d'abord EvtFactory avec un signal permettant de choisir Tache/ActivitÃ©

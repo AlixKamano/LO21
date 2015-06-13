@@ -19,7 +19,7 @@ private:
     QComboBox* listeEle,*listePro;
     QSpinBox* hHoraire;
     QSpinBox* mHoraire, *mDuree;
-    QDateEdit* date;
+    QDateEdit* dateevt;
     QPushButton* annuler, *ajouter;
 
 public:
