@@ -1,4 +1,6 @@
 #include "agenda.h"
+#include "evtManager.h"
+#include <QSize>
 
 Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
 {
@@ -37,6 +39,7 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     vlayout5=new QVBoxLayout;
     vlayout6=new QVBoxLayout;
     vlayout7=new QVBoxLayout;
+    vlayout8=new QVBoxLayout;
 
 
     vlayout1->addWidget(lundi);
@@ -126,9 +129,18 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     hlayout->addLayout(vlayout6);
     hlayout->addLayout(vlayout7);
     hlayout->addWidget(suiv);
-    this->setLayout(hlayout);
+
+    exporter = new QPushButton("Exporter la semaine",this);
+    exporter->setFixedWidth(250);
+    vlayout8->addLayout(hlayout);
+    vlayout8->addWidget(exporter,Qt::AlignCenter);
+
+
+    this->setLayout(vlayout8);
     QObject::connect(prec, SIGNAL(clicked()),this, SLOT(Precedent()));
     QObject::connect(suiv, SIGNAL(clicked()),this, SLOT(Suivant()));
+    //QObject::connect(exporter,SIGNAL(clicked()),this,SLOT(ExportSemaine()));
+
     ProjetManager &pm=ProjetManager::getInstance();
     pm.ajouterProjet("P","t",QDate(10,04,2000),QDate(10,04,3000),5);
     ProjetManager::IteratorSTL it=pm.begin();
@@ -170,7 +182,6 @@ void Agenda::Suivant(){
 void Agenda::AjoutEvenement(Evt& e){
     QString type;
     QString hd_h,hd_m,hf_h,hf_m;
-
     if (e.getType()=="tache")
         type=dynamic_cast<EvtTache&>(e).getTache()->getId();
     if (e.getType()=="activite")
@@ -206,3 +217,40 @@ void Agenda::AjoutEvenement(Evt& e){
 
     }
 }
+
+/*Agenda::ExportSemaine(){
+    QString filename = QFileDialog::getSaveFileName(this->parentWidget(),
+                                                    QString::fromStdString("Exporter la semaine"),
+                                                    "export_semaine.xml",
+                                                    "Fichier XML (*.xml)");
+    this->saveSemaine(filename.toStdString());
+    this->accept();
+}
+
+*/
+/*Agenda::saveSemaine(QString &f){
+    EvtManager& em = EvtManager::getInstance();
+    QFile newfile(QString::fromStdString(f));
+    if(!newfile.opent(QIODevice::WriteOnly | QIODevice::Text))
+        throw CalendarException("erreur sauvegarde semaine : ouverture fichier XML");
+    QXmlStreamWriter stream(&newfile);
+    stream.setAutoFormatting(true);
+    stream.writeStartDocument();
+    stream.writeStartElement("Programmation");
+    //Récupérer d & f
+    for(EvtManager::ItSemaine it = em.getItSemaine(d,f);it!=it.isDone();it.next()){
+        stream.writeStartElement("programmation");
+        stream.writeTextElement("date",(*it).getDate());
+        stream.writeTextElement("horaire",QString::fromStdString((*it).getHoraireD()));
+        stream.writeTextElement("titre",(*it).getEvt().getTitre());
+        QString str;
+        str.setNum((*it).getDuree().getDureeEnMinutes());
+        stream.writeTextElement("duree",str);
+        stream.writeEndElement();
+    }
+    stream.writeEndElement();
+    stream.writeEndElement();
+    stream.writeEndDocument();
+    newfile.close();
+}
+*/

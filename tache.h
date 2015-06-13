@@ -47,6 +47,7 @@ class Tache {
         void addPrecedence(Tache* t);
         void rmPrecedence(Tache* t);
         virtual void afficher()=0;
+        virtual bool getPreemptive()const=0;
         virtual QString getType() const=0;
         virtual ~Tache(){}
 };
@@ -58,7 +59,7 @@ class TUnitaire : public Tache{
     public:
         TUnitaire(const QString& id, const QString& t,Tache* prec, const QDate& disponible, const QDate& ech, bool premp, const Duree& dur) : Tache(id,t,prec,disponible,ech),preemptive(premp),duree(dur){}
         TUnitaire():Tache(),preemptive(0),duree(0){}
-        bool getPreemptive()const{return preemptive;}
+        virtual bool getPreemptive()const {return preemptive;}
         Duree getDuree()const{return duree;}
         void setDuree(const Duree& d){duree=d;}
         void afficher(){cout<<1;}
@@ -72,6 +73,7 @@ class TComposite : public Tache{
         int nb;
         int nbMax;
     public :
+        virtual bool getPreemptive()const{return false;}
         class IteratorSTL{
             private:
                 Tache** currentTache;
