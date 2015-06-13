@@ -12,6 +12,7 @@ class ActiviteManager{
         for(int i=0;i<nb;i++) delete activites[i];
         delete[] activites;
     }
+    void addItem(Activite* p);
     ActiviteManager& operator=(const ActiviteManager& am);
 
     struct Handler{
@@ -36,7 +37,8 @@ public:
         }
         const Activite& operator*()const{return **currentAct;}
     };
-    void ajouterAct(const QString& t, const Duree d);
+    void ajouterAct(const QString& id,const QString& t, const Duree d);
+    Activite *trouverActivite(const QString& id) const;
     Activite** getAct(){return activites;}
     static ActiviteManager& getInstance();
     static void freeInstance();
