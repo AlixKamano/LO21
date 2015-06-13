@@ -17,7 +17,9 @@ HEADERS += \
     actmanager.h \
     activite.h \
     activiteajout.h \
+    projetexport.h
     ajoutevenement.h
+
 
 
 SOURCES += \
@@ -35,7 +37,9 @@ SOURCES += \
     agenda.cpp\
     actmanager.cpp \
     activiteajout.cpp \
+    projetexport.cpp
     ajoutevenement.cpp
+
 
 
 

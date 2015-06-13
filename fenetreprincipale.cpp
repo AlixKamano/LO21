@@ -6,20 +6,25 @@ FenetrePrincipale::FenetrePrincipale() : QWidget(){
     ajoutT = new QPushButton("Ajouter une Tache", this);
     afficherAgenda = new QPushButton("Agenda", this);
     ajoutA = new QPushButton("Ajouter une Activité", this);
+    Exporter = new QPushButton("Exporter un projet",this);
     ajoutEvt = new QPushButton("Créer un évenement", this);
     quitter = new QPushButton("Quitter", this);
+
     QObject::connect(quitter, SIGNAL(clicked()),qApp, SLOT(quit()));
     QObject::connect(afficher, SIGNAL(clicked()), this, SLOT(ouvrirAfficher()));
     QObject::connect(ajoutP, SIGNAL(clicked()), this, SLOT(ouvrirAjoutP()));
     QObject::connect(ajoutA,SIGNAL(clicked()),this,SLOT(ouvrirAjoutA()));
     QObject::connect(ajoutT, SIGNAL(clicked()), this, SLOT(ouvrirAjoutT()));
     QObject::connect(afficherAgenda, SIGNAL(clicked()), this, SLOT(ouvrirAgenda()));
+    QObject::connect(Exporter,SIGNAL(clicked()),this,SLOT(Export()));
     QObject::connect(ajoutEvt, SIGNAL(clicked()), this, SLOT(ouvrirAjoutEvt()));
+
     layoutp->addWidget(afficher);
     layoutp->addWidget(ajoutP);
     layoutp->addWidget(ajoutT);
     layoutp->addWidget(afficherAgenda);
     layoutp->addWidget(ajoutA);
+    layoutp->addWidget(Exporter);
     layoutp->addWidget(ajoutEvt);
     layoutp->addWidget(quitter);
     setLayout(layoutp);
@@ -46,6 +51,12 @@ void FenetrePrincipale::ouvrirAjoutA(){
 ActiviteAjout* fenetreAjoutA = new ActiviteAjout(this);
 fenetreAjoutA->exec();}
 
+void FenetrePrincipale::Export(){
+    ProjetExport* fenetrePExport = new ProjetExport(this);
+    fenetrePExport->exec();
+}
+
 void FenetrePrincipale::ouvrirAjoutEvt(){
 ajoutEvenement* fenetreAjoutEvt = new ajoutEvenement(this);
 fenetreAjoutEvt->exec();}
+

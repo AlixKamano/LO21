@@ -58,7 +58,7 @@ Projet::IteratorSTL Projet::end(){
 
 void  Projet::save(const QString& f){
     file=f;
-    QFile newfile( file);
+    QFile newfile(file);
     if (!newfile.open(QIODevice::WriteOnly | QIODevice::Text))
         throw CalendarException(QString("erreur sauvegarde tâches : ouverture fichier xml"));
     QXmlStreamWriter stream(&newfile);
