@@ -32,7 +32,7 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
 
     timelayout=new QHBoxLayout;
     ldate = new QLabel("Date", this);
-    date = new QDateEdit(QDate::currentDate(),this);
+    dateevt = new QDateEdit(QDate::currentDate(),this);
     lhoraire = new QLabel("Horaire de debut", this);
     hHoraire = new QSpinBox(this);
     mHoraire = new QSpinBox(this);
@@ -43,7 +43,7 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
     mHoraire->setMinimum(0);
     mHoraire->setMaximum(59);
     timelayout->addWidget(ldate);
-    timelayout->addWidget(date);
+    timelayout->addWidget(dateevt);
     timelayout->addWidget(lhoraire);
     timelayout->addWidget(hHoraire);
     timelayout->addWidget(mHoraire);
@@ -150,24 +150,24 @@ void ajoutEvenement::contrainteTache(QString s){
            mDuree->setEnabled(false);
        }
         if(QDate::currentDate()<t->getDispo())
-            date->setMinimumDate(t->getDispo());
+            dateevt->setMinimumDate(t->getDispo());
         else
-            date->setMinimumDate(QDate::currentDate());
-        date->setMaximumDate(t->getEcheance());
+            dateevt->setMinimumDate(QDate::currentDate());
+        dateevt->setMaximumDate(t->getEcheance());
    }
 }
 
 void ajoutEvenement::contrainteActivite(){
     mDuree->setEnabled(false);
     listePro->setEnabled(false);
-    date->setMinimumDate(QDate::currentDate());
-    date->clearMaximumDate();
+    dateevt->setMinimumDate(QDate::currentDate());
+    dateevt->clearMaximumDate();
 }
 
 bool ajoutEvenement::verifUnique(QDate d, Horaire h1, Horaire h2){
     EvtManager& em=EvtManager::getInstance();
     for(EvtManager::IteratorSTL it=em.begin();it!=em.end();++it){
-        if(d==(*it).getDate() && (((*it).getHoraireD()<h1 && h1<(*it).getHoraireF()) || ((*it).getHoraireD()<h2 && h2<(*it).getHoraireF()))){
+        if(d==(*it).getDate() && (((*it).getHoraireD()<h1 && h1<(*it).getHoraireF()) || ((*it).getHoraireD()<h2 && h2<(*it).getHoraireF()) || ((*it).getHoraireD()<h2 && h1<(*it).getHoraireD()) || ((*it).getHoraireF()<h2 && h1<(*it).getHoraireF()))){
             return false;
         }
     }
@@ -184,9 +184,9 @@ void ajoutEvenement::ajouterEvenement(){
            int htemp=temp.getheures()-24;
            int mtemp=temp.getminute();
            Duree dureeenplus(htemp,mtemp);
-           if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
-               em.ajouterEvt("activite",a,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(a->getDuree().getDureeEnMinutes()-dureeenplus.getDureeEnMinutes()));
-               em.ajouterEvt("activite",a,date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
+           if(verifUnique(dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(dateevt->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
+               em.ajouterEvt("activite",a,dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(a->getDuree().getDureeEnMinutes()-dureeenplus.getDureeEnMinutes()));
+               em.ajouterEvt("activite",a,dateevt->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
                this->accept();
            }
            else{
@@ -195,8 +195,8 @@ void ajoutEvenement::ajouterEvenement(){
            }
         }
          else{
-            if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
-                em.ajouterEvt("activite",a,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(a->getDuree()));
+            if(verifUnique(dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
+                em.ajouterEvt("activite",a,dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(a->getDuree()));
                 this->accept();
             }
             else{
@@ -215,9 +215,9 @@ void ajoutEvenement::ajouterEvenement(){
                int htemp=temp.getheures()-24;
                int mtemp=temp.getminute();
                Duree dureeenplus(htemp,mtemp);
-               if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
-                   em.ajouterEvt("tache",t,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(mDuree->value()-dureeenplus.getDureeEnMinutes()));
-                   em.ajouterEvt("tache",t,date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
+               if(verifUnique(dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(dateevt->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
+                   em.ajouterEvt("tache",t,dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(mDuree->value()-dureeenplus.getDureeEnMinutes()));
+                   em.ajouterEvt("tache",t,dateevt->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
                    t->setStatut(1);
                    this->accept();
                }
@@ -227,8 +227,8 @@ void ajoutEvenement::ajouterEvenement(){
                }
             }
             else{
-                if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
-                   em.ajouterEvt("tache",t,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(t->getDuree()));
+                if(verifUnique(dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
+                   em.ajouterEvt("tache",t,dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(t->getDuree()));
                    this->accept();
                 }
                 else{
@@ -243,9 +243,9 @@ void ajoutEvenement::ajouterEvenement(){
                int htemp=temp.getheures()-24;
                int mtemp=temp.getminute();
                Duree dureeenplus(htemp,mtemp);
-               if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
-                   em.ajouterEvt("tache",t,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(t->getDuree().getDureeEnMinutes()-dureeenplus.getDureeEnMinutes()));
-                   em.ajouterEvt("tache",t,date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
+               if(verifUnique(dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(dateevt->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
+                   em.ajouterEvt("tache",t,dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(t->getDuree().getDureeEnMinutes()-dureeenplus.getDureeEnMinutes()));
+                   em.ajouterEvt("tache",t,dateevt->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
                    this->accept();
                }
                else{
@@ -254,8 +254,8 @@ void ajoutEvenement::ajouterEvenement(){
                }
             }
             else{
-                if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
-                   em.ajouterEvt("tache",t,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(t->getDuree()));
+                if(verifUnique(dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
+                   em.ajouterEvt("tache",t,dateevt->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(t->getDuree()));
                    t->setStatut(1);
                    this->accept();
                 }
