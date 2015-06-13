@@ -3,20 +3,16 @@
 
 #include <iostream>
 #include <QString>
-#include <QFile>
-#include <QtXml>
-#include<QTextStream>
 #include "timing.h"
-#include "exception.h"
 
 using namespace std;
 using namespace TIME;
+
 
 //Statut = 0 => Tache non programmée, à venir. Date d'échéance non dépassée
 //Statut = -1 => Tache non programmée, date d'échéance dépassée
 //Statut = 1 => Tache programmée/réalisée
 class Tache {
-    friend class TUnitaire;
     private:
         int statut;
         QString identificateur;
@@ -29,20 +25,23 @@ class Tache {
         //Tache(const QString& id, const QString& t, const QDate& disponible, const QDate& ech) : statut(0),identificateur(id), titre(t),dispo(disponible), echeance(ech), precedence(0){};
         //Tache(const Tache& t);
         Tache& operator=(const Tache& t);
+
     public:
-        Tache(const QString& id=0, const QString& t=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0),identificateur(id), titre(t),dispo(disponible), echeance(ech), precedence(0){};
+        Tache(const QString& id=0, const QString& t=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0), identificateur(id), titre(t), precedence(0),dispo(disponible), echeance(ech){}
         Tache(const Tache& t);
-        int getStatut() const{return statut;};
-        QString getId() const {return identificateur;};
-        QString getTitre() const {return titre;};
-        Tache** getPrecedence() const{return precedence;};
+        int getStatut() const{return statut;}
+        QString getId() const {return identificateur;}
+        QString getTitre() const {return titre;}
+        Tache** getPrecedence() const{return precedence;}
         int getStatutPrecedence()const;
-        QDate getDispo()const{return dispo;};
-        QDate getEcheance()const{return echeance;};
-        void setStatut(int s){statut=s;};
+        QDate getDispo()const{return dispo;}
+        QDate getEcheance()const{return echeance;}
+        void setStatut(int s){statut=s;}
         void addPrecedence(Tache* t);
         void rmPrecedence(Tache* t);
-        virtual void saveT(QXmlStreamWriter *stream)=0;
+        virtual void afficher()=0;
+        virtual QString getType() const=0;
+        virtual ~Tache(){}
 };
 
 class TUnitaire : public Tache{
@@ -50,13 +49,14 @@ class TUnitaire : public Tache{
         bool preemptive;
         Duree duree;
     public:
-        TUnitaire(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, bool premp, const Duree& dur) :
-            Tache(id,t,disponible,ech),preemptive(premp),duree(dur){};
-        TUnitaire():Tache(),preemptive(0),duree(0){};
-        bool getPreemptive()const{return preemptive;};
-        Duree getDuree()const{return duree;};
+        TUnitaire(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, bool premp, const Duree& dur) : Tache(id,t,disponible,ech),preemptive(premp),duree(dur){}
+        TUnitaire():Tache(),preemptive(0),duree(0){}
+        bool getPreemptive()const{return preemptive;}
+        Duree getDuree()const{return duree;}
         void setDuree(const Duree& d){duree=d;}
-        virtual void saveT(QXmlStreamWriter *stream);
+        void afficher(){cout<<1;}
+        QString getType() const{return "unitaire";}
+        ~TUnitaire(){}
 };
 
 class TComposite : public Tache{
@@ -65,11 +65,33 @@ class TComposite : public Tache{
         int nb;
         int nbMax;
     public :
-        TComposite(const QString& id, const QString& t, const QDate& disponible, const QDate& ech) : Tache(id,t,disponible,ech),sousTaches(0),nb(0),nbMax(0){};
-        TComposite():Tache(),sousTaches(0),nb(0),nbMax(0){};
-        Tache** getSousTaches()const {return sousTaches;};
+        class IteratorSTL{
+            private:
+                Tache** currentTache;
+            public:
+                IteratorSTL(Tache** u): currentTache(u){}
+                IteratorSTL operator++(){
+                    ++currentTache;
+                    return *this;
+                };
+                IteratorSTL operator--(){
+                    --currentTache;
+                    return *this;
+                };
+                bool operator!=(const IteratorSTL& it) const {return currentTache!= it.currentTache;}
+                const Tache& operator*() const {return **currentTache;}
+            };
+        TComposite(const QString& id, const QString& t, const QDate& disponible, const QDate& ech) : Tache(id,t,disponible,ech),sousTaches(0),nb(0),nbMax(0){}
+        TComposite():Tache(),sousTaches(0),nb(0),nbMax(0){}
+        Tache** getSousTaches()const {return sousTaches;}
+        Tache* getSousTache(const QString& id)const;
+        void ajouterSousTache(const QString& desc, const QString& id, const QString& t,const Duree& du, const QDate& dispo, const QDate& deadline,bool preempt );
         void addSousTache(Tache* t);
-        virtual void saveT(QXmlStreamWriter *stream);
+        void afficher(){cout<<2;}
+        ~TComposite(){delete[] sousTaches;}
+        IteratorSTL begin() const;
+        IteratorSTL end() const;
+        QString getType()const{return "composite";}
 };
 
 class TacheFactory {
@@ -80,7 +102,7 @@ public:
         if(description=="composite")
             return new TComposite(id,t,disponible,ech);
         return NULL;
-};
+    }
 };
 
 #endif // TACHE_H

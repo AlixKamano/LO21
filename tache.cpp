@@ -1,10 +1,3 @@
-#include<QApplication>
-#include <QFile>
-#include <QTextCodec>
-#include<QTextStream>
-#include <QtXml>
-#include <QMessageBox>
-
 #include"tache.h"
 #include "evenement.h"
 //Uniquemet pour avoir accès à CalendarException
@@ -61,31 +54,28 @@ void TComposite::addSousTache(Tache* t){
 
 }
 
-void TUnitaire::saveT(QXmlStreamWriter *stream){
-    stream->writeStartElement("tache");
-    stream->writeStartElement("unitaire");       //Description
-    stream->writeAttribute("preemptive", (getPreemptive())?"true":"false");
-    stream->writeTextElement("identificateur",getId());
-    stream->writeTextElement("titre",getTitre());
-    stream->writeTextElement("disponibilite",getDispo().toString(Qt::ISODate));
-    stream->writeTextElement("echeance",getEcheance().toString(Qt::ISODate));
-    QString str;
-    str.setNum(getDuree().getDureeEnMinutes());
-    stream->writeTextElement("duree",str);
-    stream->writeEndElement();
+TComposite::IteratorSTL TComposite::begin() const{
+    return IteratorSTL(sousTaches);
 }
 
-void TComposite::saveT(QXmlStreamWriter *stream){
-    stream->writeStartElement("tache");
-    stream->writeStartElement("composite");       //Description
-    stream->writeTextElement("identificateur",getId());
-    stream->writeTextElement("titre",getTitre());
-    stream->writeTextElement("disponibilite",getDispo().toString(Qt::ISODate));
-    stream->writeTextElement("echeance",getEcheance().toString(Qt::ISODate));
-    if(nb!=0){
-        stream->writeStartElement("Sous-taches:");
-        for(int i=0;i<nb;i++)
-            sousTaches[i]->saveT(stream);
-    }
-    stream->writeEndElement();
+TComposite::IteratorSTL TComposite::end() const{
+    return IteratorSTL(sousTaches+nb);
+}
+
+Tache* TComposite::getSousTache(const QString& id)const{
+    Tache* t=0;
+    for(int i=0; i<nb;i++){
+            if(id==sousTaches[i]->getId()){
+                return sousTaches[i];
+            }
+            if(sousTaches[i]->getType()=="composite")
+                t=dynamic_cast<TComposite*>(sousTaches[i])->getSousTache(id);
+        }
+        return t;
+}
+
+void TComposite::ajouterSousTache(const QString& desc, const QString& id, const QString& t, const Duree& du, const QDate& dispo, const QDate& deadline, bool preempt){
+    //Appel à TacheFactory
+    Tache* new_tache= TacheFactory::NewTache(desc,id,t,dispo,deadline,du,preempt);
+    TComposite::addSousTache(new_tache);
 }

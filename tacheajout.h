@@ -1,8 +1,9 @@
 #ifndef TACHEAJOUT_H
 #define TACHEAJOUT_H
-#include<QtWidgets>
-#include"projetmanager.h"
-//
+#include <QtWidgets>
+#include "projetmanager.h"
+class TComposite;
+
 class TacheAjout:public QDialog
 {
     Q_OBJECT
@@ -35,6 +36,7 @@ private slots:
 public slots:
     void ajoutTache();
     void afficheTacheC(QString s);
+    void afficheSousTacheC(const TComposite &t);
 
 public:
     TacheAjout(QWidget* fenetre);

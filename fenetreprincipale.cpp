@@ -22,14 +22,17 @@ FenetrePrincipale::FenetrePrincipale() : QWidget(){
     afficher = new QPushButton("Afficher un tree-view", this);
     ajoutP = new QPushButton("Ajouter un Projet", this);
     ajoutT = new QPushButton("Ajouter une Tache", this);
+    ajoutA = new QPushButton("Ajouter une Activité", this);
     quitter = new QPushButton("Quitter", this);
     QObject::connect(quitter, SIGNAL(clicked()),qApp, SLOT(quit()));
     QObject::connect(afficher, SIGNAL(clicked()), this, SLOT(ouvrirAfficher()));
     QObject::connect(ajoutP, SIGNAL(clicked()), this, SLOT(ouvrirAjoutP()));
+    QObject::connect(ajoutA,SIGNAL(clicked()),this,SLOT(ouvrirAjoutA()));
     QObject::connect(ajoutT, SIGNAL(clicked()), this, SLOT(ouvrirAjoutT()));
     layoutp->addWidget(afficher);
     layoutp->addWidget(ajoutP);
     layoutp->addWidget(ajoutT);
+    layoutp->addWidget(ajoutA);
     layoutp->addWidget(quitter);
     setLayout(layoutp);
 }
@@ -45,3 +48,7 @@ fenetreAjoutP->exec();}
 void FenetrePrincipale::ouvrirAjoutT(){
 TacheAjout* fenetreAjoutT = new TacheAjout(this);
 fenetreAjoutT->exec();}
+
+void FenetrePrincipale::ouvrirAjoutA(){
+ActiviteAjout* fenetreAjoutA = new ActiviteAjout(this);
+fenetreAjoutA->exec();}

@@ -1,3 +1,4 @@
+
 #ifndef EVTMANAGER_H
 #define EVTMANAGER_H
 //
@@ -58,4 +59,3 @@ public:
 };
 
 #endif // EVTMANAGER_H
-
