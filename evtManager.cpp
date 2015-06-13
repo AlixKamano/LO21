@@ -13,15 +13,13 @@
             evt = tmp;
             delete[] old;
         }
-<<<<<<< HEAD
         evt[nb++]=EvtFactory::NewEvt(desc,ptr,da,hd,hf,d);
-=======
-        evt[nb++]=EvtFactory::NewEvt(desc,ptr,da,h,d);
->>>>>>> 5433ea3f017db870657c4dfb1270cd47c79acf5e
    }
+
+
     EvtManager::Handler EvtManager::handler = EvtManager::Handler();
 
-   // Evt* EvtManager::trouverEvt();	En a-t-on besoin ?
+
     EvtManager& EvtManager::getInstance(){
         if(handler.instance==0)
             handler.instance = new EvtManager;

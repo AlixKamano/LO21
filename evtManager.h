@@ -55,25 +55,21 @@ public:
             while(nb>0 && debut>(*currentEvt)->Evt::getDate() && fin<(*currentEvt)->Evt::getDate()){
                 nb--; currentEvt++;}}
 
-        ItSemaine():currentEvt(0),nb(0),debut(QDate(0,0,0)),fin(QDate(0,0,0)){};
+        ItSemaine():currentEvt(0),nb(0),debut(QDate(0,0,0)),fin(QDate(0,0,0)){}
         bool isDone()const{return nb==0;}
         void next(){if(isDone()) throw CalendarException("Erreur,pas de prochaine tache");
             do{currentEvt++;
                 nb--;}while(nb>0 && debut>(*currentEvt)->Evt::getDate() && fin<(*currentEvt)->Evt::getDate());
             }
         bool operator!=(const ItSemaine& it)const {return currentEvt!=it.currentEvt;}
+        const Evt& operator*() const{return **currentEvt;}
         };
-    ItSemaine getItSemaine(Evt** e,int n,const QDate d, const QDate f){return ItSemaine(e,n,d,f);};
+    ItSemaine getItSemaine(Evt** e,int n,const QDate d, const QDate f){return ItSemaine(e,n,d,f);}
 
     void ajouterEvt(const QString& desc, void* ptr, const QDate& da, const Horaire& hd, const Horaire &hf, const Duree& d);
         //On appelle d'abord EvtFactory avec un signal permettant de choisir Tache/ActivitÃ©
         //Appel fct virtuelle pure "programmer" de Evt qui appelle "prgrammer" de EvtA ou EvtT
         //On fait ici les vÃ©rif d'evt qui ne se chevauchent pas.
-
-    void ajouterEvt(const QString& desc, void* ptr, const QDate& da, const Horaire& h, const Duree& d);
-        //On appelle d'abord EvtFactory avec un signal permettant de choisir Tache/Activité
-        //Appel fct virtuelle pure "programmer" de Evt qui appelle "prgrammer" de EvtA ou EvtT
-        //On fait ici les vérif d'evt qui ne se chevauchent pas.
 
 
     Evt** getEvt(){return evt;}

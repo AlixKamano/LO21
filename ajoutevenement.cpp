@@ -9,10 +9,12 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
     evtclasse = new QButtonGroup;
     tacheevt = new QRadioButton("Tache");
     activiteevt = new QRadioButton("Activite");
+    tacheevt->setChecked(true);
     evtclasse->addButton(tacheevt);
     evtclasse->addButton(activiteevt);
     classlayout->addWidget(tacheevt);
     classlayout->addWidget(activiteevt);
+
 
     listelayout=new QHBoxLayout;
     listePro = new QComboBox;
@@ -48,17 +50,12 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
 
 
     dureelayout=new QHBoxLayout;
-    lduree = new QLabel("durée", this);
-    hDuree = new QSpinBox(this);
+    lduree = new QLabel("Durée", this);
     mDuree = new QSpinBox(this);
-    hDuree->setSuffix(" heures(s)");
     mDuree->setSuffix(" minute(s)");
-    hDuree->setMinimum(0);
-    hDuree->setMaximum(23);
     mDuree->setMinimum(0);
-    mDuree->setMaximum(59);
+    mDuree->setMaximum(1440);
     dureelayout->addWidget(lduree);
-    dureelayout->addWidget(hDuree);
     dureelayout->addWidget(mDuree);
 
     boutonlayout=new QHBoxLayout;
@@ -74,40 +71,35 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
     vLayout->addLayout(dureelayout);
     vLayout->addLayout(boutonlayout);
     this->setLayout(vLayout);
-    hDuree->setEnabled(false);
-    mDuree->setEnabled(false);
-    listePro->setEnabled(false);
+    QObject::connect(listePro, SIGNAL(currentIndexChanged(int)),this,SLOT(modifierTache(int)));
     QObject::connect(tacheevt, SIGNAL(toggled(bool)),this,SLOT(modifierSelection(bool)));
     QObject::connect(annuler, SIGNAL(clicked()),this, SLOT(accept()));
+    QObject::connect(ajouter, SIGNAL(clicked()),this, SLOT(ajouterEvenement()));
     QObject::connect(listeEle, SIGNAL(currentIndexChanged(QString)),this,SLOT(modifierContrainte(QString)));
-    QObject::connect(listePro, SIGNAL(currentIndexChanged(QString)),this,SLOT(modifierTache(QString)));
+    afficheTacheU();
 }
 
 void ajoutEvenement::afficheActivite(){
-    while(listeEle->count()!=0){
-        listeEle->removeItem(0);
-    }
+    listeEle->clear();
     ActiviteManager& am = ActiviteManager::getInstance();
     for(ActiviteManager::IteratorSTL it=am.begin();it!=am.end();++it)
         listeEle->addItem((*it).getId());
 }
 
-void ajoutEvenement::modifierTache(QString s){
+void ajoutEvenement::modifierTache(int s){
     afficheTacheU();
 }
 
 void ajoutEvenement::afficheTacheU(){
-    while(listeEle->count()!=0){
-        listeEle->removeItem(0);
-    }
-    if(listePro->currentText()!=0){
+    listeEle->clear();
+    if(listePro->currentText()!=""){
     ProjetManager& pm = ProjetManager::getInstance();
     Projet* p =pm.trouverProjet(listePro->currentText());
         for(Projet::IteratorSTL itp=p->begin();itp!=p->end();++itp){
             if((*itp).getType()=="composite"){
                 afficheSousTacheU(dynamic_cast<const TComposite&>(*itp));
             }
-            else{
+            if((*itp).getType()=="unitaire"){
                 if((*itp).getStatut()==0 && (*itp).getStatutPrecedence()==1)
                     listeEle->addItem((*itp).getId());
             }
@@ -134,34 +126,42 @@ void ajoutEvenement::modifierSelection(bool b){
 }
 
 void ajoutEvenement::modifierContrainte(QString s){
+    if (s!=0){
     if (tacheevt->isChecked())
         contrainteTache(s);
-    else
-        contrainteActivite();
+    if (activiteevt->isChecked())
+        contrainteActivite();}
 }
 
 
 void ajoutEvenement::contrainteTache(QString s){
    listePro->setEnabled(true);
-   ProjetManager& pm=ProjetManager::getInstance();
-   Projet* p= pm.trouverProjet(listePro->currentText());
-   Tache* t=p->getTache(s);
-   if(dynamic_cast<TUnitaire*>(t)->getPreemptive()){
-       hDuree->setEnabled(true);
-       mDuree->setEnabled(true);
-       hDuree->setMaximum(dynamic_cast<TUnitaire*>(t)->getDuree().getheures());
-       mDuree->setMaximum(dynamic_cast<TUnitaire*>(t)->getDuree().getminute());
+   if (listePro->currentText()!=""){
+       ProjetManager& pm=ProjetManager::getInstance();
+       Projet* p= pm.trouverProjet(listePro->currentText());
+       Tache* t=p->getTache(s);
+       if(dynamic_cast<TUnitaire*>(t)->getPreemptive()){
+           mDuree->setEnabled(true);
+           mDuree->setMaximum(dynamic_cast<TUnitaire*>(t)->getDuree().getDureeEnMinutes());
+       }
+       else{
+           mDuree->setEnabled(false);
+       }
+        if(QDate::currentDate()<t->getDispo())
+            date->setMinimumDate(t->getDispo());
+        else
+            date->setMinimumDate(QDate::currentDate());
+        date->setMaximumDate(t->getEcheance());
    }
-   else{
-       hDuree->setEnabled(false);
-       mDuree->setEnabled(false);
-   }
-   date->setMinimumDate(t->getDispo());
-   date->setMaximumDate(t->getEcheance());
 }
 
 void ajoutEvenement::contrainteActivite(){
-    hDuree->setEnabled(false);
     mDuree->setEnabled(false);
     listePro->setEnabled(false);
+    date->setMinimumDate(QDate::currentDate());
+    date->clearMaximumDate();
+}
+
+void ajoutEvenement::ajouterEvenement(){
+
 }

@@ -54,6 +54,7 @@ namespace TIME {
         unsigned short int getHeure() const { return heure; } //<!Retourne l'heure de l'horaire
         unsigned short int getMinute() const { return minute; } //<!Retourne les minutes de l'horaire
         bool operator<(const Horaire& h) const; //<! h1<h2 retourne true si h1 est avant h2 dans le temps
+        QString toString(){QString h,m; h.setNum(heure);m.setNum(minute);QString res=h+"h"+m; return res;}
     private:
         unsigned short int  heure;
         unsigned short int  minute;

@@ -4,15 +4,6 @@
 
 Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
 {
-    /*QHBoxLayout* layoutp=new QHBoxLayout;
-    QTableWidget* table = new QTableWidget(12, 5, this);
-    table->setHorizontalHeaderLabels(QStringList(QStringList()<<"Lundi"<<"Mardi"<<"Mercredi"<<"Jeudi"<<"Vendredi"<<"Samedi"<<"Dimanche"));
-    table->setVerticalHeaderLabels(QStringList(QStringList()<<"0h-2h"<<"2h-4h"<<"4h-6h"<<"6h-8h"<<"8h-10h"<<"10h-12h"<<"12h-14h"<<"14h-16h"<<"16h-18h"<<"18h-20h"<<"20h-22h"<<"22h-24h"));
-    QPushButton* m=new QPushButton;
-    QTableWidgetItem *newItem = new QTableWidgetItem(m);
-        table->setItem(2, 3, newItem);
-    layoutp->addWidget(table);
-    this->setLayout(layoutp);*/
     date=QDate::currentDate();
     this->setFixedSize(1000,700);
     QLabel* lundi=new QLabel("Lundi", this);
@@ -139,15 +130,6 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     this->setLayout(vlayout8);
     QObject::connect(prec, SIGNAL(clicked()),this, SLOT(Precedent()));
     QObject::connect(suiv, SIGNAL(clicked()),this, SLOT(Suivant()));
-    //QObject::connect(exporter,SIGNAL(clicked()),this,SLOT(ExportSemaine()));
-
-    ProjetManager &pm=ProjetManager::getInstance();
-    pm.ajouterProjet("P","t",QDate(10,04,2000),QDate(10,04,3000),5);
-    ProjetManager::IteratorSTL it=pm.begin();
-    (*it).ajouterTache("unitaire","Pan",0,"t",Duree(0,0),QDate(),QDate(),false);
-    Tache* t=(*it).getTache("Pan");
-    EvtTache e(QDate(2015,06,13),Horaire(8,20),Horaire(9,30),Duree(10),dynamic_cast<TUnitaire*>(t));
-    AjoutEvenement(e);
 }
 
 void Agenda::AjouterJour(QDate d){
@@ -164,13 +146,13 @@ void Agenda::AjouterJour(QDate d){
 void Agenda::Precedent(){
     date=date.addDays(-7);
     AjouterJour(date);
-    ProjetManager &pm=ProjetManager::getInstance();
+    /*ProjetManager &pm=ProjetManager::getInstance();
     pm.ajouterProjet("MK","t",QDate(10,04,2000),QDate(10,04,3000),5);
     ProjetManager::IteratorSTL it=pm.begin();
     (*it).ajouterTache("unitaire","Ma",0,"O",Duree(0,0),QDate(),QDate(),false);
     Tache* t=(*it).getTache("Ma");
     EvtTache e(QDate(2015,06,10),Horaire(8,20),Horaire(9,30),Duree(10),dynamic_cast<TUnitaire*>(t));
-    AjoutEvenement(e);
+    AjoutEvenement(e);*/
 }
 
 
@@ -238,16 +220,16 @@ void Agenda::saveSemaine(QString &f){
     stream.writeStartElement("Programmation");
 
     int j = date.dayOfWeek();
-    for(EvtManager::ItSemaine& it = em.getItSemaine(em.getEvt(),em.getNb(),date.addDays(1-j),date.addDays(7-j));!it.isDone();it.next()){
+    for(EvtManager::ItSemaine it = em.getItSemaine(em.getEvt(),em.getNb(),date.addDays(1-j),date.addDays(7-j));!it.isDone();it.next()){
         stream.writeStartElement("programmation");
-        stream.writeTextElement("date",(*it).getDate());
-        stream.writeTextElement("horaire",QString::fromStdString((*it).getHoraireD()));
-        if((*it).getType=="tache"){
-            TUnitaire* t = dynamic_cast<EvtTache*>((*it)).getTache();
+        stream.writeTextElement("date",(*it).getDate().toString());
+        stream.writeTextElement("horaire",((*it).getHoraireD().toString()));
+        if((*it).getType()=="tache"){
+            TUnitaire* t = dynamic_cast<const EvtTache&>((*it)).getTache();
         stream.writeTextElement("titre",t->getTitre());
         }
-        if((*it).getType=="activite"){
-            Activite* a = dynamic_cast<AvtActivite*>((*it)).getAvtivite();
+        if((*it).getType()=="activite"){
+            Activite* a = dynamic_cast<const EvtActivite&>((*it)).getActivite();
         stream.writeTextElement("titre",a->getTitre());
         }
         QString str;
