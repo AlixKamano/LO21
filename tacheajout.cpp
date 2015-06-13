@@ -168,6 +168,7 @@ void TacheAjout::afficheTacheC(QString s){
                 afficheSousTacheC(dynamic_cast<const TComposite&>(*it));
             }
     }
+
 }
 
 void TacheAjout::afficheTacheP(QString s){
