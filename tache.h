@@ -43,7 +43,7 @@ class Tache {
         int getStatutPrecedence()const;
         QDate getDispo()const{return dispo;}
         QDate getEcheance()const{return echeance;}
-        void setStatut(int s){statut=s;}
+        void setStatut(int s) {statut=s;}
         void addPrecedence(Tache* t);
         void rmPrecedence(Tache* t);
         virtual void afficher()=0;

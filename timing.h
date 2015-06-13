@@ -115,4 +115,5 @@ istream& operator>>(istream&, QDate&); // lecture format JJ/MM/AAAA
 istream& operator>>(istream&, TIME::Duree&); //lecture format hhHmm
 
 
+
 #endif // TIMING_H
