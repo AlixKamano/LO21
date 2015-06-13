@@ -117,6 +117,6 @@ void Agenda::Suivant(){
     AjouterJour(date);
 }
 
-void AjoutEvenement(Evt e){
+void AjoutEvenement(Evt& e){
 
 }
