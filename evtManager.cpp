@@ -13,9 +13,11 @@
         }
         evt[nb++]=EvtFactory::NewEvt(desc,ptr,da,hd,hf,d);
    }
+
+
     EvtManager::Handler EvtManager::handler = EvtManager::Handler();
 
-   // Evt* EvtManager::trouverEvt();	En a-t-on besoin ?
+
     EvtManager& EvtManager::getInstance(){
         if(handler.instance==0)
             handler.instance = new EvtManager;

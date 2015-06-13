@@ -34,7 +34,7 @@ class TimeException{
 public:
     //! Constructeur à partir d'une string
     TimeException(const QString& m):info(m){}
-    const QString& GetInfo() const { return info; } //<! Retourne l'information stockée dans la classe
+    const QString& getInfo() const { return info; } //<! Retourne l'information stockée dans la classe
 private:
     QString info;
 };

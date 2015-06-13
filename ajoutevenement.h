@@ -15,7 +15,7 @@ private:
     QVBoxLayout *vLayout;
     QLabel *lliste, *lduree, *lhoraire, *ldate, *lpro;
     QComboBox* listeEle,*listePro;
-    QSpinBox* hHoraire, *hDuree;
+    QSpinBox* hHoraire;
     QSpinBox* mHoraire, *mDuree;
     QDateEdit* date;
     QPushButton* annuler, *ajouter;
@@ -34,8 +34,8 @@ public:
 public slots:
     void modifierSelection(bool b);
     void modifierContrainte(QString s);
-    void modifierTache(QString s);
-    /*void ajoutProjet();*/
+    void modifierTache(int s);
+    void ajouterEvenement();
 
 };
 

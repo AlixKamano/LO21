@@ -31,7 +31,9 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     ldispo = new QLabel("disponibilité", this);
     lecheance = new QLabel("échéance", this);
     dispo = new QDateEdit(QDate::currentDate(),this);
-    echeance = new QDateEdit(QDate::currentDate(),this);
+    echeance = new QDateEdit(QDate::currentDate().addDays(1),this);
+    dispo->setMaximumDate(QDate::currentDate());
+    echeance->setMinimumDate(QDate::currentDate().addDays(1));
     dispo->setMaximumDate(echeance->date());
     h3Layout->addWidget(ldispo);
     h3Layout->addWidget(dispo);
@@ -133,23 +135,23 @@ void TacheAjout::ajoutTache(){
     }
     if (listeTacheP->currentText()=="*/Vide/*"){
         if (listeTacheC->currentText()=="*/Vide/*"){
-            p.ajouterTache(desc,id->text(),0,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+            p.ajouterTache(desc,id->text(),0,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isChecked());
             this->accept();
         }
         else{
             Tache* tc=p.getTache(listeTacheC->currentText());
-            dynamic_cast<TComposite*>(tc)->ajouterSousTache(desc,id->text(),0,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+            dynamic_cast<TComposite*>(tc)->ajouterSousTache(desc,id->text(),0,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isChecked());
             this->accept();
         }
     }else{
         Tache* prec = p.getTache(listeTacheP->currentText());
         if (listeTacheC->currentText()=="*/Vide/*"){
-            p.ajouterTache(desc,id->text(),prec,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+            p.ajouterTache(desc,id->text(),prec,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isChecked());
             this->accept();
         }
         else{
             Tache* tc=p.getTache(listeTacheC->currentText());
-            dynamic_cast<TComposite*>(tc)->ajouterSousTache(desc,id->text(),prec,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+            dynamic_cast<TComposite*>(tc)->ajouterSousTache(desc,id->text(),prec,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isChecked());
             this->accept();
         }
     }
@@ -158,9 +160,7 @@ void TacheAjout::ajoutTache(){
 
 void TacheAjout::afficheTacheC(QString s){
     if (s!=0){
-        while(listeTacheC->count()!=0){
-            listeTacheC->removeItem(0);
-        }
+        listeTacheC->clear();
         ProjetManager& pm = ProjetManager::getInstance();
         Projet& p=*pm.trouverProjet(s);
         listeTacheC->addItem("*/Vide/*");

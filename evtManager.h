@@ -48,11 +48,6 @@ public:
         //Appel fct virtuelle pure "programmer" de Evt qui appelle "prgrammer" de EvtA ou EvtT
         //On fait ici les vÃ©rif d'evt qui ne se chevauchent pas.
 
-    void ajouterEvt(const QString& desc, void* ptr, const QDate& da, const Horaire& h, const Duree& d);
-        //On appelle d'abord EvtFactory avec un signal permettant de choisir Tache/Activité
-        //Appel fct virtuelle pure "programmer" de Evt qui appelle "prgrammer" de EvtA ou EvtT
-        //On fait ici les vérif d'evt qui ne se chevauchent pas.
-
 
     Evt** getEvt(){return evt;}
     //const Evt** getEvt()const{return evt;};
