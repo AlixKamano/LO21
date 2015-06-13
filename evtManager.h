@@ -5,27 +5,35 @@
 #include "evenement.h"
 using namespace std;
 class EvtManager {
+    //! \class Evenement Manager
+    //! \brief Classe permettant de gérer les différents évènements. Classe singleton
     //Singleton
 private:
-    Evt** evt;
-    int nb;
-    int nbMax;
-    EvtManager():nb(0), nbMax(0),evt(0){}
-    EvtManager(const EvtManager& pm);
+    Evt** evt;      //!< Tableau de pointeurs d'évènements
+    int nb;         //!< Nombre d'évènements présents dans le tableau
+    int nbMax;      //!< Taille du tableau
+    EvtManager():nb(0), nbMax(10),evt(0){}   //!< Constructeur par défaut privé
+    EvtManager(const EvtManager& pm);       //!< Constructeur de recopie privé
+    //! Destructeur
+    //! Détruit le tableau qui a été alloué dynamiquement
     ~EvtManager(){
         for(int i = 0; i<nb;i++) delete evt[i];
         delete[] evt;
     };
-    EvtManager& operator=(const EvtManager& pm);
+    EvtManager& operator=(const EvtManager& pm);    //!< Surcharge de l'opérateur =
 
     struct Handler{
+        //! \struct Handler
+        //! \brief Cette structure permet d'assurer l'unicité de l'EvenementManager
         EvtManager* instance;
-        Handler():instance(0){};
-        ~Handler(){if(instance) delete instance;}
+        Handler():instance(0){};    //! Constructeur
+        ~Handler(){if(instance) delete instance;}   //! Destructeur
     };
-    static Handler handler;
+    static Handler handler; //!< Permet d'assurer l'existence du Handler même en absence d'objets EvtManager
 public:
     class IteratorSTL{
+        //! \class IteratorSTL
+        //! \brief Classe permettant de parcourir les différents évènements du tableau
         private:
             friend class EvtManager;
             Evt** currentEvt;
