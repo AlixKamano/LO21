@@ -10,7 +10,6 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
     tacheevt = new QRadioButton("Tache");
     activiteevt = new QRadioButton("Activite");
     evtclasse->addButton(tacheevt);
-    tacheevt->setChecked(true);
     evtclasse->addButton(activiteevt);
     classlayout->addWidget(tacheevt);
     classlayout->addWidget(activiteevt);
@@ -27,7 +26,7 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
     listelayout->addWidget(listePro);
     listelayout->addWidget(lliste);
     listelayout->addWidget(listeEle);
-    afficheTacheU();
+
 
     timelayout=new QHBoxLayout;
     ldate = new QLabel("Date", this);
@@ -75,6 +74,9 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
     vLayout->addLayout(dureelayout);
     vLayout->addLayout(boutonlayout);
     this->setLayout(vLayout);
+    hDuree->setEnabled(false);
+    mDuree->setEnabled(false);
+    listePro->setEnabled(false);
     QObject::connect(tacheevt, SIGNAL(toggled(bool)),this,SLOT(modifierSelection(bool)));
     QObject::connect(annuler, SIGNAL(clicked()),this, SLOT(accept()));
     QObject::connect(listeEle, SIGNAL(currentIndexChanged(QString)),this,SLOT(modifierContrainte(QString)));
