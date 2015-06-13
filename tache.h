@@ -27,7 +27,10 @@ class Tache {
         Tache& operator=(const Tache& t);
 
     public:
-        Tache(const QString& id=0, const QString& t=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0), identificateur(id), titre(t), precedence(0),dispo(disponible), echeance(ech){}
+        Tache(const QString& id=0, const QString& t=0,Tache* prec=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0), identificateur(id), titre(t),dispo(disponible), echeance(ech){
+            if(prec!=0)
+                addPrecedence(prec);
+        }
         Tache(const Tache& t);
         int getStatut() const{return statut;}
         QString getId() const {return identificateur;}
@@ -49,7 +52,7 @@ class TUnitaire : public Tache{
         bool preemptive;
         Duree duree;
     public:
-        TUnitaire(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, bool premp, const Duree& dur) : Tache(id,t,disponible,ech),preemptive(premp),duree(dur){}
+        TUnitaire(const QString& id, const QString& t,Tache* prec, const QDate& disponible, const QDate& ech, bool premp, const Duree& dur) : Tache(id,t,prec,disponible,ech),preemptive(premp),duree(dur){}
         TUnitaire():Tache(),preemptive(0),duree(0){}
         bool getPreemptive()const{return preemptive;}
         Duree getDuree()const{return duree;}
@@ -81,11 +84,11 @@ class TComposite : public Tache{
                 bool operator!=(const IteratorSTL& it) const {return currentTache!= it.currentTache;}
                 const Tache& operator*() const {return **currentTache;}
             };
-        TComposite(const QString& id, const QString& t, const QDate& disponible, const QDate& ech) : Tache(id,t,disponible,ech),sousTaches(0),nb(0),nbMax(0){}
+        TComposite(const QString& id, const QString& t,Tache* prec, const QDate& disponible, const QDate& ech) : Tache(id,t,prec,disponible,ech),sousTaches(0),nb(0),nbMax(0){}
         TComposite():Tache(),sousTaches(0),nb(0),nbMax(0){}
         Tache** getSousTaches()const {return sousTaches;}
         Tache* getSousTache(const QString& id)const;
-        void ajouterSousTache(const QString& desc, const QString& id, const QString& t,const Duree& du, const QDate& dispo, const QDate& deadline,bool preempt );
+        void ajouterSousTache(const QString& desc, const QString& id,Tache* prec, const QString& t,const Duree& du, const QDate& dispo, const QDate& deadline,bool preempt );
         void addSousTache(Tache* t);
         void afficher(){cout<<2;}
         ~TComposite(){delete[] sousTaches;}
@@ -96,11 +99,11 @@ class TComposite : public Tache{
 
 class TacheFactory {
 public:
-    static Tache* NewTache(const QString& description ,const QString& id=0,const QString& t=0,const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0),const Duree& duree=0, bool preemp=0){
+    static Tache* NewTache(const QString& description ,const QString& id=0,Tache* prec=0,const QString& t=0,const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0),const Duree& duree=0, bool preemp=0){
         if(description=="unitaire")
-            return new TUnitaire(id,t,disponible,ech,preemp,duree);
+            return new TUnitaire(id,t,prec,disponible,ech,preemp,duree);
         if(description=="composite")
-            return new TComposite(id,t,disponible,ech);
+            return new TComposite(id,t,prec,disponible,ech);
         return NULL;
     }
 };
