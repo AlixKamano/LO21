@@ -16,7 +16,8 @@ HEADERS += \
     agenda.h\
     actmanager.h \
     activite.h \
-    activiteajout.h
+    activiteajout.h \
+    projetexport.h
 
 
 SOURCES += \
@@ -33,7 +34,8 @@ SOURCES += \
     treeview.cpp \
     agenda.cpp\
     actmanager.cpp \
-    activiteajout.cpp
+    activiteajout.cpp \
+    projetexport.cpp
 
 
 
