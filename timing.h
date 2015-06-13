@@ -1,6 +1,6 @@
 #ifndef TIMING_H
 #define TIMING_H
-
+//
 #include<QString>
 #include<QDate>
 #include<iostream>

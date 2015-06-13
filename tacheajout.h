@@ -1,7 +1,13 @@
 #ifndef TACHEAJOUT_H
 #define TACHEAJOUT_H
+<<<<<<< HEAD
 #include<QtWidgets>
 #include"projetmanager.h"
+=======
+#include <QtWidgets>
+#include "projetmanager.h"
+class TComposite;
+>>>>>>> 5433ea3f017db870657c4dfb1270cd47c79acf5e
 
 class TacheAjout:public QDialog
 {
