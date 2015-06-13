@@ -42,7 +42,7 @@ void Projet::ajouterTache(const QString& desc, const QString& id,Tache* prec, co
     if(getTache(id)){
         throw ProjetException("Error : L'identificateur existe deja");
     }
-    //Appel à TacheFactory
+    //Appel à TacheFactory            
     Tache* new_tache= TacheFactory::NewTache(desc,id,prec,t,dispo,deadline,du,preempt);
     Projet::addItem(new_tache);
 }
