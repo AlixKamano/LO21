@@ -10,9 +10,6 @@
 #include "tache.h"
 
 using namespace TIME;
-
-
-
 //Statut = 0 => Projet non programmé, à venir
 class Projet {
     //friend class ProjetManager;

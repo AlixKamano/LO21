@@ -1,9 +1,8 @@
 #ifndef TREEVIEW_H
 #define TREEVIEW_H
 #include<QtWidgets>
-#include"projetManager.h"
-class Projet;
-class Tache;
+#include"projetmanager.h"
+
 class treeView: public QDialog
 {
     Q_OBJECT

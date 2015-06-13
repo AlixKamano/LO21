@@ -1,7 +1,9 @@
 #include "evtManager.h"
 //
 //Méthodes de evtManager
+
    void EvtManager::ajouterEvt(const QString& desc, void* ptr, const QDate &da, const Horaire& hd, const Horaire& hf, const Duree& d){		//A vérifier
+
         if(nb==nbMax){
             nbMax +=10;
             Evt** tmp = new Evt*[nbMax];

@@ -1,5 +1,4 @@
-
-#include<QApplication>
+#include <QApplication>
 #include <QFile>
 #include <QTextCodec>
 #include <QtXml>
@@ -7,7 +6,7 @@
 
 #include "projet.h"
 #include "tache.h"
-#include"evenement.h"
+#include "evenement.h"
 
 
 void Projet::addItem(Tache* t){
@@ -65,9 +64,9 @@ void  Projet::save(const QString& f){
     stream.setAutoFormatting(true);
     stream.writeStartDocument();
     stream.writeStartElement("taches");
-    for(unsigned int i=0; i<nb; i++){
+    for(int i=0; i<nb; i++){
         stream.writeStartElement("tache");
-        //stream.writeAttribute("preemptive", (taches[i]->getPreemptive())?"true":"false");
+        stream.writeAttribute("preemptive", (taches[i]->getPreemptive())?"true":"false");
         stream.writeTextElement("identificateur",taches[i]->getId());
         stream.writeTextElement("titre",taches[i]->getTitre());
         stream.writeTextElement("disponibilite",taches[i]->getDispo().toString(Qt::ISODate));

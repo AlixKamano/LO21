@@ -1,6 +1,7 @@
 #include "fenetreprincipale.h"
 FenetrePrincipale::FenetrePrincipale() : QWidget(){
     QVBoxLayout *layoutp = new QVBoxLayout;
+
     afficher = new QPushButton("Afficher un tree-view", this);
     ajoutP = new QPushButton("Ajouter un Projet", this);
     ajoutT = new QPushButton("Ajouter une Tache", this);
