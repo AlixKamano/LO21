@@ -10,8 +10,8 @@ class Activite {        //Ajout de statut aux activités ?
      * \brief Classe permettant de stocker des activités traditionnelles
      */
 private:
-    QString id; /*!< Titre de l'activit*/
-    QString titre;  /*!< Titre de l'activit*/
+    QString id; /*!< Titre de l'activité*/
+    QString titre;  /*!< Titre de l'activité*/
     Duree duree;    /*!< Durée de l'activité*/
 public:
     //! Constructeur à partir de string et duree
