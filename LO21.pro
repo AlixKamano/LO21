@@ -13,15 +13,10 @@ HEADERS += \
     projetManager.h \
     tacheajout.h \
     treeview.h \
-<<<<<<< HEAD
-    agenda.h
-=======
+    agenda.h\
     actmanager.h \
     activite.h \
     activiteajout.h
-
->>>>>>> 5c2cc245a30c417039aa7e583883766be910a42f
-
 
 SOURCES += \
     timing.cpp \
@@ -35,12 +30,10 @@ SOURCES += \
     projetManager.cpp \
     tacheajout.cpp \
     treeview.cpp \
-<<<<<<< HEAD
-    agenda.cpp
-=======
+    agenda.cpp\
     actmanager.cpp \
     activiteajout.cpp
->>>>>>> 5c2cc245a30c417039aa7e583883766be910a42f
+
 
 
 DISTFILES += \

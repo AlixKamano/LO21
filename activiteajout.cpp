@@ -6,8 +6,12 @@ ActiviteAjout::ActiviteAjout(QWidget *fenetre):QDialog(fenetre){
     setFixedSize(600,300);
 
     h1Layout=new QHBoxLayout;
+    lid=new QLabel("Identifiant",this);
+    id=new QLineEdit(this);
     ltitre=new QLabel("Titre",this);
     titre=new QLineEdit(this);
+    h1Layout->addWidget(lid);
+    h1Layout->addWidget(id);
     h1Layout->addWidget(ltitre);
     h1Layout->addWidget(titre);
 
@@ -38,6 +42,7 @@ ActiviteAjout::ActiviteAjout(QWidget *fenetre):QDialog(fenetre){
     vLayout1->addLayout(h3Layout);
 
     this->setLayout(vLayout1);
+    QObject::connect(id,SIGNAL(textChanged(QString)),this,SLOT(activerAjout()));
     QObject::connect(titre,SIGNAL(textChanged(QString)),this,SLOT(activerAjout()));
     QObject::connect(heure,SIGNAL(valueChanged(int)),this,SLOT(activerAjout()));
     QObject::connect(minute,SIGNAL(valueChanged(int)),this,SLOT(activerAjout()));
@@ -46,14 +51,14 @@ ActiviteAjout::ActiviteAjout(QWidget *fenetre):QDialog(fenetre){
 }
 
 void ActiviteAjout::activerAjout(){
-    if(titre->text()!=0 && Duree(heure->value(),minute->value()).getDureeEnMinutes()!=0)
+    if(titre->text()!=0 && Duree(heure->value(),minute->value()).getDureeEnMinutes()!=0 && id->text()!=0)
         ajouter->setEnabled(true);      //Boutton ajouter
-    if(titre->text()==0)
+    if(titre->text()==0 || id->text()==0)
         ajouter->setEnabled(false);
 }
 
 void ActiviteAjout::ajouterActivite(){
     ActiviteManager& am = ActiviteManager::getInstance();
-    am.ajouterAct(titre->text(),Duree(heure->value(),minute->value()));
+    am.ajouterAct(id->text(),titre->text(),Duree(heure->value(),minute->value()));
     this->accept();
 }

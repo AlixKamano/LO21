@@ -8,8 +8,8 @@ class ActiviteAjout : public QDialog{
 private:
     QHBoxLayout* h1Layout, *h2Layout, *h3Layout;
     QVBoxLayout* vLayout1;
-    QLabel* ltitre, *lduree;
-    QLineEdit* titre;
+    QLabel* ltitre, *lduree, *lid;
+    QLineEdit* titre, *id;
     QSpinBox* heure;
     QSpinBox* minute;
     QPushButton* annuler;

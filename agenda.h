@@ -16,7 +16,7 @@ private:
 public:
     Agenda(QWidget *fenetre);
     void AjouterJour(QDate d);
-    void AjoutEvenement(Evt e);
+    void AjoutEvenement(Evt& e);
 
 public slots:
     void Precedent();
