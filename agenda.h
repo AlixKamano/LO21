@@ -25,7 +25,7 @@ public:
 public slots:
     void Precedent();
     void Suivant();
-    //void ExportSemaine();
+    void ExportSemaine();
 };
 
 #endif // AGENDA_H

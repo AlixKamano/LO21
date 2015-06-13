@@ -218,31 +218,38 @@ void Agenda::AjoutEvenement(Evt& e){
     }
 }
 
-/*Agenda::ExportSemaine(){
+void Agenda::ExportSemaine(){
     QString filename = QFileDialog::getSaveFileName(this->parentWidget(),
                                                     QString::fromStdString("Exporter la semaine"),
                                                     "export_semaine.xml",
                                                     "Fichier XML (*.xml)");
-    this->saveSemaine(filename.toStdString());
+    this->saveSemaine(filename);
     this->accept();
 }
 
-*/
-/*Agenda::saveSemaine(QString &f){
+void Agenda::saveSemaine(QString &f){
     EvtManager& em = EvtManager::getInstance();
-    QFile newfile(QString::fromStdString(f));
-    if(!newfile.opent(QIODevice::WriteOnly | QIODevice::Text))
+    QFile newfile(f);
+    if(!newfile.open(QIODevice::WriteOnly | QIODevice::Text))
         throw CalendarException("erreur sauvegarde semaine : ouverture fichier XML");
     QXmlStreamWriter stream(&newfile);
     stream.setAutoFormatting(true);
     stream.writeStartDocument();
     stream.writeStartElement("Programmation");
-    //Récupérer d & f
-    for(EvtManager::ItSemaine it = em.getItSemaine(d,f);it!=it.isDone();it.next()){
+
+    int j = date.dayOfWeek();
+    for(EvtManager::ItSemaine& it = em.getItSemaine(em.getEvt(),em.getNb(),date.addDays(1-j),date.addDays(7-j));!it.isDone();it.next()){
         stream.writeStartElement("programmation");
         stream.writeTextElement("date",(*it).getDate());
         stream.writeTextElement("horaire",QString::fromStdString((*it).getHoraireD()));
-        stream.writeTextElement("titre",(*it).getEvt().getTitre());
+        if((*it).getType=="tache"){
+            TUnitaire* t = dynamic_cast<EvtTache*>((*it)).getTache();
+        stream.writeTextElement("titre",t->getTitre());
+        }
+        if((*it).getType=="activite"){
+            Activite* a = dynamic_cast<AvtActivite*>((*it)).getAvtivite();
+        stream.writeTextElement("titre",a->getTitre());
+        }
         QString str;
         str.setNum((*it).getDuree().getDureeEnMinutes());
         stream.writeTextElement("duree",str);
@@ -253,4 +260,4 @@ void Agenda::AjoutEvenement(Evt& e){
     stream.writeEndDocument();
     newfile.close();
 }
-*/
+
