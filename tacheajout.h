@@ -10,7 +10,7 @@ class TacheAjout:public QDialog
 private:
     QVBoxLayout* vLayout1, * vLayout2;
     QHBoxLayout* classlayout, *gLayout, *projLayout;
-    QComboBox* listeProjet, *listeTacheC;
+    QComboBox* listeProjet, *listeTacheC,*listeTacheP;
     QHBoxLayout* h1Layout;
     QHBoxLayout* h2Layout;
     QHBoxLayout* h3Layout;
@@ -21,7 +21,7 @@ private:
     QSpinBox* minute;
     QDateEdit* dispo;
     QDateEdit* echeance;
-    QLabel *lid, *ltitre, *ldispo, *lecheance, *lduree, *lprojet, *ltacheC;
+    QLabel *lid, *ltitre, *ldispo, *lecheance, *lduree, *lprojet, *ltacheC, *ltacheP;
     QCheckBox* preemptive;
     QPushButton* annuler;
     QPushButton* ajouter;
@@ -36,6 +36,7 @@ private slots:
 public slots:
     void ajoutTache();
     void afficheTacheC(QString s);
+    void afficheTacheP(QString s);
     void afficheSousTacheC(const TComposite &t);
 
 public:

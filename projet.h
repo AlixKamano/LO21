@@ -59,7 +59,7 @@ class Projet {
         QDate getEcheance()const{return echeance;}
         //A def
         Tache* getTache(const QString& id)const;
-        void ajouterTache(const QString& desc, const QString& id, const QString& t,const Duree& du, const QDate& dispo, const QDate& deadline,bool preempt );
+        void ajouterTache(const QString& desc, const QString& id,Tache* prec, const QString& t,const Duree& du, const QDate& dispo, const QDate& deadline,bool preempt );
         IteratorSTL begin();
         IteratorSTL end();
         void load(const QString& f);

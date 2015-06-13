@@ -81,11 +81,17 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     listeTacheC = new QComboBox;
     ltacheC = new QLabel("Choisir une tache composite",this);
     afficheTacheC(listeProjet->currentText());
+    //Choix des précédences
+    listeTacheP = new QComboBox;
+    ltacheP = new QLabel("Choisir une tâche précédente",this);
+    afficheTacheP(listeProjet->currentText());
     vLayout2 = new QVBoxLayout;
     vLayout2->addWidget(lprojet);
     vLayout2->addWidget(listeProjet);
     vLayout2->addWidget(ltacheC);
     vLayout2->addWidget(listeTacheC);
+    vLayout2->addWidget(ltacheP);
+    vLayout2->addWidget(listeTacheP);
 
     projLayout = new QHBoxLayout;
     projLayout->addLayout(vLayout2);
@@ -124,15 +130,29 @@ void TacheAjout::ajoutTache(){
         QMessageBox::critical(this,"Erreur","Entrer au moins un nom de classe !");
         return;
     }
-    if (listeTacheC->currentText()=="*/Vide/*"){
-        p.ajouterTache(desc,id->text(),titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
-        this->accept();
+    if (listeTacheP->currentText()=="*/Vide/*"){
+        if (listeTacheC->currentText()=="*/Vide/*"){
+            p.ajouterTache(desc,id->text(),0,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+            this->accept();
+        }
+        else{
+            Tache* tc=p.getTache(listeTacheC->currentText());
+            dynamic_cast<TComposite*>(tc)->ajouterSousTache(desc,id->text(),0,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+            this->accept();
+        }
+    }else{
+        Tache* prec = p.getTache(listeTacheP->currentText());
+        if (listeTacheC->currentText()=="*/Vide/*"){
+            p.ajouterTache(desc,id->text(),prec,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+            this->accept();
+        }
+        else{
+            Tache* tc=p.getTache(listeTacheC->currentText());
+            dynamic_cast<TComposite*>(tc)->ajouterSousTache(desc,id->text(),prec,titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
+            this->accept();
+        }
     }
-    else{
-        Tache* tc=p.getTache(listeTacheC->currentText());
-        dynamic_cast<TComposite*>(tc)->ajouterSousTache(desc,id->text(),titre->toPlainText(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isEnabled());
-        this->accept();
-    }
+
 }
 
 void TacheAjout::afficheTacheC(QString s){
@@ -148,6 +168,19 @@ void TacheAjout::afficheTacheC(QString s){
                 listeTacheC->addItem((*it).getId());
                 afficheSousTacheC(dynamic_cast<const TComposite&>(*it));
             }
+    }
+}
+
+void TacheAjout::afficheTacheP(QString s){
+    if (s!=0){
+        while(listeTacheP->count()!=0){
+            listeTacheP->removeItem(0);
+        }
+        ProjetManager& pm = ProjetManager::getInstance();
+        Projet& p=*pm.trouverProjet(s);
+        listeTacheP->addItem("*/Vide/*");
+        for(Projet::IteratorSTL it=p.begin();it!=p.end();++it)
+            listeTacheP->addItem((*it).getId());
     }
 }
 

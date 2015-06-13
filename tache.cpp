@@ -74,8 +74,8 @@ Tache* TComposite::getSousTache(const QString& id)const{
         return t;
 }
 
-void TComposite::ajouterSousTache(const QString& desc, const QString& id, const QString& t, const Duree& du, const QDate& dispo, const QDate& deadline, bool preempt){
+void TComposite::ajouterSousTache(const QString& desc, const QString& id,Tache* prec, const QString& t, const Duree& du, const QDate& dispo, const QDate& deadline, bool preempt){
     //Appel à TacheFactory
-    Tache* new_tache= TacheFactory::NewTache(desc,id,t,dispo,deadline,du,preempt);
+    Tache* new_tache= TacheFactory::NewTache(desc,id,prec,t,dispo,deadline,du,preempt);
     TComposite::addSousTache(new_tache);
 }
