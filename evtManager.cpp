@@ -35,4 +35,3 @@
     EvtManager::IteratorSTL EvtManager::end()const{
         return IteratorSTL(evt+nb);
     }
-
