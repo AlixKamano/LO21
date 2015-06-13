@@ -1,6 +1,6 @@
 #include "evenement.h"
 //
-EvtTache* EvtTache::programmer(const QDate& da, const Horaire& h, const Duree& d){
+EvtTache* EvtTache::programmer(const QDate& da, const Horaire& hd,const Horaire& hf, const Duree& d){
     //Vérification du respect des contraintes : précédence  + échéance + dispo
     if(da<tache->getDispo())
         throw CalendarException("La tâche n'est pas encore disponible");
@@ -17,15 +17,15 @@ EvtTache* EvtTache::programmer(const QDate& da, const Horaire& h, const Duree& d
         tache->setStatut(1);
     Evt::setDuree(d);
     Evt::setDate(da);
-    Evt::setHoraireD(h);
-    Evt::setHoraireF(h);
+    Evt::setHoraireD(hd);
+    Evt::setHoraireF(hf);
     return this;
 }
 
-EvtActivite* EvtActivite::programmer(const QDate& da, const Horaire& h, const Duree& d){
+EvtActivite* EvtActivite::programmer(const QDate& da, const Horaire& hd,const Horaire& hf, const Duree& d){
     Evt::setDate(da);
-    Evt::setHoraireD(h);
-    Evt::setHoraireF(h);
+    Evt::setHoraireD(hd);
+    Evt::setHoraireF(hf);
     Evt::setDuree(d);
     return this;
 }

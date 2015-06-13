@@ -112,8 +112,10 @@ void ajoutEvenement::afficheSousTacheU(const TComposite& t){
             afficheSousTacheU(dynamic_cast<const TComposite&>(*it));
         }
     else
-        if((*it).getStatut()==0 && (*it).getStatutPrecedence()==1)
-            listeEle->addItem((*it).getId());
+        if((*it).getStatut()==0 && (*it).getStatutPrecedence()==1){
+            if((*it).getEcheance()>QDate::currentDate())
+                listeEle->addItem((*it).getId());
+        }
 }
 
 void ajoutEvenement::modifierSelection(bool b){
@@ -162,6 +164,106 @@ void ajoutEvenement::contrainteActivite(){
     date->clearMaximumDate();
 }
 
-void ajoutEvenement::ajouterEvenement(){
+bool ajoutEvenement::verifUnique(QDate d, Horaire h1, Horaire h2){
+    EvtManager& em=EvtManager::getInstance();
+    for(EvtManager::IteratorSTL it=em.begin();it!=em.end();++it){
+        if(d==(*it).getDate() && (((*it).getHoraireD()<h1 && h1<(*it).getHoraireF()) || ((*it).getHoraireD()<h2 && h2<(*it).getHoraireF()))){
+            return false;
+        }
+    }
+    return true;
+}
 
+void ajoutEvenement::ajouterEvenement(){
+    EvtManager& em=EvtManager::getInstance();
+    if (activiteevt->isChecked()){
+        ActiviteManager& am=ActiviteManager::getInstance();
+        Activite* a=am.trouverActivite(listeEle->currentText());
+        Duree temp((hHoraire->value())*60+mHoraire->value()+a->getDuree().getDureeEnMinutes());
+        if(temp.getheures()>24){
+           int htemp=temp.getheures()-24;
+           int mtemp=temp.getminute();
+           Duree dureeenplus(htemp,mtemp);
+           if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
+               em.ajouterEvt("activite",a,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(a->getDuree().getDureeEnMinutes()-dureeenplus.getDureeEnMinutes()));
+               em.ajouterEvt("activite",a,date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
+               this->accept();
+           }
+           else{
+               QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+               return;
+           }
+        }
+         else{
+            if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
+                em.ajouterEvt("activite",a,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(a->getDuree()));
+                this->accept();
+            }
+            else{
+                QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+                return;
+            }
+        }
+    }
+    if (tacheevt->isChecked()){
+        ProjetManager& pm=ProjetManager::getInstance();
+        Projet* p=pm.trouverProjet(listePro->currentText());
+        TUnitaire* t=dynamic_cast<TUnitaire*>(p->getTache(listeEle->currentText()));
+        if (t->getPreemptive()){
+            Duree temp((hHoraire->value())*60+mHoraire->value()+mDuree->value());
+            if(temp.getheures()>24){
+               int htemp=temp.getheures()-24;
+               int mtemp=temp.getminute();
+               Duree dureeenplus(htemp,mtemp);
+               if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
+                   em.ajouterEvt("tache",t,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(mDuree->value()-dureeenplus.getDureeEnMinutes()));
+                   em.ajouterEvt("tache",t,date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
+                   t->setStatut(1);
+                   this->accept();
+               }
+               else{
+                   QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+                   return;
+               }
+            }
+            else{
+                if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
+                   em.ajouterEvt("tache",t,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(t->getDuree()));
+                   this->accept();
+                }
+                else{
+                    QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+                    return;
+                }
+            }
+        }
+        else{
+            Duree temp((hHoraire->value())*60+mHoraire->value()+t->getDuree().getDureeEnMinutes());
+            if(temp.getheures()>24){
+               int htemp=temp.getheures()-24;
+               int mtemp=temp.getminute();
+               Duree dureeenplus(htemp,mtemp);
+               if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59)) && verifUnique(date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp))){
+                   em.ajouterEvt("tache",t,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(23,59),Duree(t->getDuree().getDureeEnMinutes()-dureeenplus.getDureeEnMinutes()));
+                   em.ajouterEvt("tache",t,date->date().addDays(1),Horaire(0,0),Horaire(htemp,mtemp),dureeenplus);
+                   this->accept();
+               }
+               else{
+                   QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+                   return;
+               }
+            }
+            else{
+                if(verifUnique(date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()))){
+                   em.ajouterEvt("tache",t,date->date(),Horaire(hHoraire->value(),mHoraire->value()),Horaire(temp.getheures(),temp.getminute()),Duree(t->getDuree()));
+                   t->setStatut(1);
+                   this->accept();
+                }
+                else{
+                    QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+                    return;
+                }
+            }
+        }
+    }
 }

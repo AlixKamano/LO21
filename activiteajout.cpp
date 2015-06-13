@@ -31,7 +31,7 @@ ActiviteAjout::ActiviteAjout(QWidget *fenetre):QDialog(fenetre){
 
     h3Layout = new QHBoxLayout;
     annuler=new QPushButton("Annuler", this);
-    ajouter = new QPushButton("Ajouter la tache", this);
+    ajouter = new QPushButton("Ajouter l'a tache'activité", this);
     ajouter->setEnabled(false);
     h3Layout->addWidget(annuler);
     h3Layout->addWidget(ajouter);

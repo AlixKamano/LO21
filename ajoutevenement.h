@@ -27,6 +27,7 @@ public:
     void afficheSousTacheU(const TComposite& t);
     void contrainteTache(QString s);
     void contrainteActivite();
+    bool verifUnique(QDate d, Horaire h1, Horaire h2);
 
 /*private slots:
     void activerAjout();*/
