@@ -4,7 +4,11 @@
 //
 #include "evenement.h"
 using namespace std;
+<<<<<<< HEAD
 // blabla
+=======
+// blabla 
+>>>>>>> 5c2cc245a30c417039aa7e583883766be910a42f
 class EvtManager {
     //Singleton
 private:
@@ -44,10 +48,17 @@ public:
             const Evt& operator*() const{return **currentEvt;};
     };
 
+<<<<<<< HEAD
     void ajouterEvt(const QString& desc, void* ptr, const QDate& da, const Horaire& hd, const Horaire &hf, const Duree& d);
         //On appelle d'abord EvtFactory avec un signal permettant de choisir Tache/ActivitÃ©
         //Appel fct virtuelle pure "programmer" de Evt qui appelle "prgrammer" de EvtA ou EvtT
         //On fait ici les vÃ©rif d'evt qui ne se chevauchent pas.
+=======
+    void ajouterEvt(const QString& desc, void* ptr, const QDate& da, const Horaire& h, const Duree& d);
+        //On appelle d'abord EvtFactory avec un signal permettant de choisir Tache/Activité
+        //Appel fct virtuelle pure "programmer" de Evt qui appelle "prgrammer" de EvtA ou EvtT
+        //On fait ici les vérif d'evt qui ne se chevauchent pas.
+>>>>>>> 5c2cc245a30c417039aa7e583883766be910a42f
 
     Evt** getEvt(){return evt;};
     //const Evt** getEvt()const{return evt;};
@@ -59,4 +70,7 @@ public:
 };
 
 #endif // EVTMANAGER_H
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5c2cc245a30c417039aa7e583883766be910a42f
