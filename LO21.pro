@@ -18,6 +18,8 @@ HEADERS += \
     activite.h \
     activiteajout.h \
     projetexport.h
+    ajoutevenement.h
+
 
 
 SOURCES += \
@@ -36,6 +38,8 @@ SOURCES += \
     actmanager.cpp \
     activiteajout.cpp \
     projetexport.cpp
+    ajoutevenement.cpp
+
 
 
 

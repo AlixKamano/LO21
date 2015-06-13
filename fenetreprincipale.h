@@ -9,6 +9,7 @@
 #include"agenda.h"
 #include"activiteajout.h"
 #include"projetexport.h"
+#include"ajoutevenement.h"
 
 class FenetrePrincipale : public QWidget
 {
@@ -24,6 +25,7 @@ public slots:
     void ouvrirAgenda();
     void ouvrirAjoutA();
     void Export();
+    void ouvrirAjoutEvt();
 
 private:
     QPushButton* afficher;
@@ -31,6 +33,7 @@ private:
     QPushButton* quitter;
     QPushButton* ajoutA;
     QPushButton* ajoutT;
+    QPushButton* ajoutEvt;
     QPushButton* afficherAgenda;
     QPushButton* Exporter;
 };
