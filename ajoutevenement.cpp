@@ -2,14 +2,14 @@
 
 ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
 {
-    setWindowTitle("Ajouter un evenement");
+    setWindowTitle("Ajouter un événement");
     setFixedSize(400,300);
 
     classlayout=new QHBoxLayout;
-    lclasse=new QLabel("Type d'evenement",this);
+    lclasse=new QLabel("Type d'événement",this);
     evtclasse = new QButtonGroup;
-    tacheevt = new QRadioButton("Tache");
-    activiteevt = new QRadioButton("Activite");
+    tacheevt = new QRadioButton("Tâche");
+    activiteevt = new QRadioButton("Activité");
     tacheevt->setChecked(true);
     evtclasse->addButton(tacheevt);
     evtclasse->addButton(activiteevt);
@@ -30,7 +30,7 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
 
     liste2layout=new QHBoxLayout;
     listeEle = new QComboBox;
-    lliste = new QLabel("Choisir une tache unitaire",this);
+    lliste = new QLabel("Choisir une tâche unitaire",this);
     liste2layout->addWidget(lliste);
     liste2layout->addWidget(listeEle);
 
@@ -42,7 +42,7 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
     datelayout->addWidget(dateevt);
 
     horlayout=new QHBoxLayout;
-    lhoraire = new QLabel("Horaire de debut", this);
+    lhoraire = new QLabel("Horaire de début", this);
     hHoraire = new QSpinBox(this);
     mHoraire = new QSpinBox(this);
     hHoraire->setSuffix(" heures(s)");
@@ -66,7 +66,7 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
 
     boutonlayout=new QHBoxLayout;
     annuler= new QPushButton("Annuler");
-    ajouter=new QPushButton("Ajouter evenement");
+    ajouter=new QPushButton("Ajouter événement");
     boutonlayout->addWidget(annuler);
     boutonlayout->addWidget(ajouter);
     ajouter->setEnabled(false);
@@ -81,8 +81,6 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
     vLayout->addLayout(boutonlayout);
     this->setLayout(vLayout);
 
-    QObject::connect(hHoraire, SIGNAL(valueChanged(int)),this, SLOT(activerAjout()));
-    QObject::connect(mHoraire, SIGNAL(valueChanged(int)),this, SLOT(activerAjout()));
     QObject::connect(mDuree, SIGNAL(valueChanged(int)),this, SLOT(activerAjout()));
     QObject::connect(listePro, SIGNAL(currentIndexChanged(int)),this,SLOT(modifierTache()));
     QObject::connect(tacheevt, SIGNAL(toggled(bool)),this,SLOT(modifierSelection(bool)));
@@ -93,7 +91,7 @@ ajoutEvenement::ajoutEvenement(QWidget *fenetre): QDialog(fenetre)
 }
 
 void ajoutEvenement::activerAjout(){
-    if(listeEle->currentText()!=0 && Duree(hHoraire->value(),mHoraire->value()).getDureeEnMinutes()!=0 && mDuree!=0)
+    if(listeEle->currentText()!=0 &&  mDuree!=0)
         if(tacheevt->isChecked())
             if(listePro->currentText()!=0)
                 ajouter->setEnabled(true);
@@ -146,6 +144,7 @@ void ajoutEvenement::afficheSousTacheU(const TComposite& t){
 
 void ajoutEvenement::modifierSelection(bool b){
     if(b==true){
+        listePro->setEnabled(true);
         afficheTacheU();
     }
     else{
@@ -221,7 +220,7 @@ void ajoutEvenement::ajouterEvenement(){
                this->accept();
            }
            else{
-               QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+               QMessageBox::critical(this,"Erreur","Cet horaire est déjà pris !");
                return;
            }
         }
@@ -231,7 +230,7 @@ void ajoutEvenement::ajouterEvenement(){
                 this->accept();
             }
             else{
-                QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+                QMessageBox::critical(this,"Erreur","Cet horaire est déjà pris !");
                 return;
             }
         }
@@ -252,7 +251,7 @@ void ajoutEvenement::ajouterEvenement(){
                 this->accept();
             }
             else{
-                QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+                QMessageBox::critical(this,"Erreur","Cet horaire est déjà pris !");
                 return;
             }
         }
@@ -263,7 +262,7 @@ void ajoutEvenement::ajouterEvenement(){
                 this->accept();
             }
             else{
-                QMessageBox::critical(this,"Erreur","C'est horaire est déjà pris !");
+                QMessageBox::critical(this,"Erreur","Cet horaire est déjà pris !");
                 return;
             }
         }

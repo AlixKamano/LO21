@@ -32,7 +32,7 @@ ProjetAjout::ProjetAjout(QWidget *fenetre): QDialog(fenetre)
 
     boutonLayout = new QHBoxLayout;
     annuler=new QPushButton("Annuler", this);
-    ajouter = new QPushButton("Ajouter", this);
+    ajouter = new QPushButton("Ajouter le projet", this);
     ajouter->setEnabled(false);
     boutonLayout->addWidget(annuler);
     boutonLayout->addWidget(ajouter);

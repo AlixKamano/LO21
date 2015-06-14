@@ -16,7 +16,7 @@ ActiviteAjout::ActiviteAjout(QWidget *fenetre):QDialog(fenetre){
     h1Layout->addWidget(titre);
 
     h2Layout=new QHBoxLayout;
-    lduree=new QLabel("Duree",this);
+    lduree=new QLabel("Durée",this);
     heure =new QSpinBox(this);
     minute =new QSpinBox(this);
     heure->setSuffix(" heures(s)");
@@ -59,6 +59,10 @@ void ActiviteAjout::activerAjout(){
 
 void ActiviteAjout::ajouterActivite(){
     ActiviteManager& am = ActiviteManager::getInstance();
+    if (am.trouverActivite(id->text())){
+        QMessageBox::critical(this,"Erreur","L'activité existe déjà !");
+        return;
+    }
     am.ajouterAct(id->text(),titre->text(),Duree(heure->value(),minute->value()));
     this->accept();
 }

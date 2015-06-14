@@ -125,7 +125,7 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
 
     boutonLayout = new QHBoxLayout;
     boutonLayout->setAlignment(Qt::AlignLeft);
-    ldate = new QLabel("Choississez une date:", this);
+    ldate = new QLabel("Choisir une date:", this);
     findD = new QDateEdit(dateref,this);
     exporter = new QPushButton("Exporter la semaine",this);
     exporter->setFixedWidth(250);
@@ -244,7 +244,7 @@ void Agenda::saveSemaine(QString &f){
     EvtManager& em = EvtManager::getInstance();
     QFile newfile(f);
     if(!newfile.open(QIODevice::WriteOnly | QIODevice::Text))
-        throw CalendarException("erreur sauvegarde semaine : ouverture fichier XML");
+        throw CalendarException("Erreur sauvegarde semaine : ouverture fichier XML");
     QXmlStreamWriter stream(&newfile);
     stream.setAutoFormatting(true);
     stream.writeStartDocument();
