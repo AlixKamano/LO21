@@ -66,6 +66,7 @@ private:
     bool preemptive;    //!< Indicateur de la préemptabilité de la tâche
     Duree duree;        //!< Durée de la tâche
 public:
+
     //! Constructeur de TacheUnitaire
     //! Ce constructeur fait appel au constructeur de Tâche
     TUnitaire(const QString& id, const QString& t,Tache* prec, const QDate& disponible, const QDate& ech, bool premp, const Duree& dur) : Tache(id,t,prec,disponible,ech),preemptive(premp),duree(dur){}

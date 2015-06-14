@@ -9,10 +9,10 @@
 
 using namespace std;
 using namespace TIME;
-
+//! \class Evenement
+//! \brief Classe abstraite permettant de stocker la programmation de tâches et activités
 class Evt {    //Virtuelle pure
-    //! \class Evenement
-    //! \brief Classe abstraite permettant de stocker la programmation de tâches et activités
+
 private:
     QDate date;//!< \param Date de l'évènement
     Horaire horaireDebut;    //!< \param Horaire de fin de l'évènement
@@ -47,10 +47,10 @@ public:
     //! Permet de connaitre le type d'evenment. Méthode virtulle pure
     virtual QString getType() const=0;
 };
-
+//! \class EvenementTache
+//! \brief Classe fille de Evenement. Permet de programmer des tâches
 class EvtTache : public Evt{
-    //! \class EvenementTache
-    //! \brief Classe fille de Evenement. Permet de programmer des tâches
+
 private:
     TUnitaire* tache;       //!< \param Pointeur vers la tâche programmée
 public:

@@ -4,11 +4,11 @@
 #include "timing.h"
 
 using namespace TIME;
-
+/*! \class Activité
+ * \brief Classe permettant de stocker des activités traditionnelles
+ */
 class Activite {        //Ajout de statut aux activités ?
-    /*! \class Activité
-     * \brief Classe permettant de stocker des activités traditionnelles
-     */
+
 private:
     QString id; /*!< Titre de l'activité*/
     QString titre;  /*!< Titre de l'activité*/

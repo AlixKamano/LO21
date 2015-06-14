@@ -4,11 +4,11 @@
 #include"projetmanager.h"
 #include "evtManager.h"
 #include <vector>
-
+//! \class Agenda
+//! \brief Classe permettant d'afficher la fenêtre Agenda
 class Agenda:public QDialog
 {
-    //! \class Agenda
-    //! \brief Classe permettant d'afficher la fenêtre Agenda
+
     Q_OBJECT
 private:
     vector<QPushButton*> boutons;//!< Vector contenant des QPushButton servant à afficher les cases dans l'agenda

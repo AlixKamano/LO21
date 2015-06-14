@@ -4,9 +4,10 @@
 //
 #include "evenement.h"
 using namespace std;
+//! \class Evenement Manager
+//! \brief Classe permettant de gérer les différents évènements. Classe singleton
 class EvtManager {
-    //! \class Evenement Manager
-    //! \brief Classe permettant de gérer les différents évènements. Classe singleton
+
     //Singleton
 private:
     Evt** evt;      //!< Tableau de pointeurs d'évènements
@@ -21,19 +22,20 @@ private:
         delete[] evt;
     };
     EvtManager& operator=(const EvtManager& pm);    //!< Surcharge de l'opérateur =
-
+    //! \struct Handler
+    //! \brief Cette structure permet d'assurer l'unicité de l'EvenementManager
     struct Handler{
-        //! \struct Handler
-        //! \brief Cette structure permet d'assurer l'unicité de l'EvenementManager
+
         EvtManager* instance;
         Handler():instance(0){};    //! Constructeur
         ~Handler(){if(instance) delete instance;}   //! Destructeur
     };
     static Handler handler; //!< Permet d'assurer l'existence du Handler même en absence d'objets EvtManager
 public:
+    //! \class IteratorSTL
+    //! \brief Classe permettant de parcourir les différents évènements du tableau d'EvenementManager
     class IteratorSTL{
-        //! \class IteratorSTL
-        //! \brief Classe permettant de parcourir les différents évènements du tableau d'EvenementManager
+
         private:
             friend class EvtManager;
             Evt** currentEvt;   //!< Pointeur vers l'évènement actuellement pointé
@@ -55,10 +57,10 @@ public:
             //! Cette fonction nous retourne l'évènement pointé par currentEvt et non un pointeur
             const Evt& operator*() const{return **currentEvt;}
     };
-
+    //! \class ItSemaine
+    //! \brief Itérateur permettant d'accéder aux événments programmés durant une certaine semaine
     class ItSemaine{
-        //! \class ItSemaine
-        //! \brief Itérateur permettant d'accéder aux événments programmés durant une certaine semaine
+
     private:
         friend class EvtManager;
         Evt** currentEvt;   //!< Pointeur vers l'évènement actuellement pointé

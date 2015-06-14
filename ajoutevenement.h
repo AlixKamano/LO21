@@ -4,11 +4,11 @@
 #include"evtManager.h"
 #include "projetManager.h"
 #include "actmanager.h"
-
+//! \class AjoutEvenement
+//! \brief Classe permettant d'afficher une fenêtre pour l'ajout d'un évènement : la programmation d'une activité ou d'une tâche
 class ajoutEvenement:public QDialog
 {
-    //! \class AjoutEvenement
-    //! \brief Classe permettant d'afficher une fenêtre pour l'ajout d'un évènement : la programmation d'une activité ou d'une tâche
+
     Q_OBJECT
 private:
     QHBoxLayout* classlayout, *liste1layout,*liste2layout,*datelayout, *horlayout,*dureelayout,*boutonlayout;

@@ -2,10 +2,10 @@
 #define ACTIVITEAJOUT_H
 #include <QtWidgets>
 #include "actmanager.h"
-
+//! \class ActivitéAjout
+//! \brief class permettant de gérer la fenêtre d'ajout des activités
 class ActiviteAjout : public QDialog{
-    //! \class ActivitéAjout
-    //! \brief class permettant de gérer la fenêtre d'ajout des activités
+
     Q_OBJECT
 private:
     QHBoxLayout* h1Layout, *h2Layout, *h3Layout;    //!< Layout horizontaux

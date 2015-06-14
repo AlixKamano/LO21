@@ -1,11 +1,11 @@
 #ifndef ACTMANAGER_H
 #define ACTMANAGER_H
 #include "activite.h"
-
+//! \class ActivitéManager
+//! \brief Classe permettant de gérer les activités
+Activite** activites;       //!< Tableau d'activités
 class ActiviteManager{
-    //! \class ActivitéManager
-    //! \brief Classe permettant de gérer les activités
-    Activite** activites;       //!< Tableau d'activités
+
     int nb;     //!< Nombre d'activités dans le tableau
     int nbMax;  //!< Taille maximale du tableau
     ActiviteManager():nb(0),nbMax(0),activites(0){} //!< Constructeur sans arguments privé
@@ -16,19 +16,20 @@ class ActiviteManager{
     }
     void addItem(Activite* p);      //!< Méthode privée permettant l'ajout d'une activité
     ActiviteManager& operator=(const ActiviteManager& am);      //!< Surcharge de l'opérateur =
-
+    //! \struct Handler
+    //! \brief Design Pattern Singleton, permet d'assurer de l'unicité de l'ActivitéManager
     struct Handler{
-       //! \struct Handler
-       //! \brief Design Pattern Singleton, permet d'assurer de l'unicité de l'ActivitéManager
+
         ActiviteManager* instance;      //!< Pointeur vers ActivitéManager
         Handler():instance(0){}         //!< Constructeur privé
         ~Handler(){if(instance) delete instance;}   //!< Destructeur
     };
     static Handler handler;     //!< Permet l'existence du Handler même lorsqu'aucun objet ActivitéManager n'existe
 public:
+    //! \class IteratorSTL
+    //! \brief Permet de parcourir les activités référencées dans ActivitéManager (Design Pattern Iterator)
     class IteratorSTL{
-        //! \class IteratorSTL
-        //! \brief Permet de parcourir les activités référencées dans ActivitéManager (Design Pattern Iterator)
+
     private:
         friend class ActiviteManager;
         Activite** currentAct;      //!< Pointeur vers l'activité actuellement pointée
