@@ -88,41 +88,66 @@ public:
 class TComposite : public Tache{
 private:
     Tache** sousTaches;     //!< Tableau de pointeurs sur des sous-tâches
-    int nb;
-    int nbMax;
+    int nb;     //!< Nombre de sous-tâches
+    int nbMax;  //!< Taille du tableau
 public :
+    //! Accesseur permettant de retourner que la tâche n'est pas préemptive
     virtual bool getPreemptive()const{return false;}
+    //! \class IteratorSTL
+    //! \brief Classe permettant de parcourir les sous-tâches du tableau
     class IteratorSTL{
     private:
-        Tache** currentTache;
+        Tache** currentTache;       //!< Pointeur vers la tâche actuellement pointée
     public:
+        //! Constructeur de l'itérateur
         IteratorSTL(Tache** u): currentTache(u){}
+        //! Surcharge de l'opérateur ++
         IteratorSTL operator++(){
             ++currentTache;
             return *this;
         };
+        //! Surcharge de l'opérateur--
         IteratorSTL operator--(){
             --currentTache;
             return *this;
         };
+        //! Surcharge de l'opérateur !=
         bool operator!=(const IteratorSTL& it) const {return currentTache!= it.currentTache;}
+        //! Surcharge de l'opérateur *
         const Tache& operator*() const {return **currentTache;}
     };
+    //! Constructeur de TacheComposite
+    //! Ce constructeur fait appel au constructeur de Tache
     TComposite(const QString& id, const QString& t,Tache* prec, const QDate& disponible, const QDate& ech) : Tache(id,t,prec,disponible,ech),sousTaches(0),nb(0),nbMax(0){}
+    //! Constructeur par défaut  de TacheComposite
     TComposite():Tache(),sousTaches(0),nb(0),nbMax(0){}
+    //! Accesseur retournant le tableau de sous-tâches
     Tache** getSousTaches()const {return sousTaches;}
+    //! Accesseur permettant de retourner la sous-tâche ayant un id égal à celui passé en argument
     Tache* getSousTache(const QString& id)const;
+    //! Fonction permettant d'ajouter une sous-tâche au tableau.
+    //! Cette fonction fait appel au constructeur de tâche
     void ajouterSousTache(const QString& desc, const QString& id,Tache* prec, const QString& t,const Duree& du, const QDate& dispo, const QDate& deadline,bool preempt );
+    //! Fonction permettant d'ajouter une sous-tâche au tableau
+    //! Cette fonction prend en argument un pointeur de Tache* qui est ensuite inséré dans le tableau
     void addSousTache(Tache* t);
-    void afficher(){cout<<2;}
+    //! Destructeur de TacheComposite détruisant le tableau de sous-tâches
     ~TComposite(){delete[] sousTaches;}
+    //! Fonction retournant un itérateur sur le début du tableau de sous-tâches
     IteratorSTL begin() const;
+    //! Fonction retournant un itérateur sur la fin du tableau de sous-tâches
     IteratorSTL end() const;
+    //! Accesseur retournant le type de la tâche (composite)
     QString getType()const{return "composite";}
 };
 
+//! \class TacheFactory
+//! \brief Classe permettant de créer une TacheUnitaire ou une TacheComposite
+//! Design Pattern Abstract Factory
 class TacheFactory {
 public:
+    //! Fonction permettant de créer une TUnitaire ou une TComposite en fonction de la description passée en paramètre.
+    //! La fonction retourne ensuite un pointeur vers la tâche créée
     static Tache* NewTache(const QString& description ,const QString& id=0,Tache* prec=0,const QString& t=0,const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0),const Duree& duree=0, bool preemp=0){
         if(description=="unitaire")
             return new TUnitaire(id,t,prec,disponible,ech,preemp,duree);
