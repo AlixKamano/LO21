@@ -18,7 +18,7 @@ class ActiviteManager{
     ActiviteManager& operator=(const ActiviteManager& am);      //!< Surcharge de l'opérateur =
 
     struct Handler{
-       //! \class Handler
+       //! \struct Handler
        //! \brief Design Pattern Singleton, permet d'assurer de l'unicité de l'ActivitéManager
         ActiviteManager* instance;      //!< Pointeur vers ActivitéManager
         Handler():instance(0){}         //!< Constructeur privé
