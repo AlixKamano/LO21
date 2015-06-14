@@ -18,9 +18,9 @@ using namespace TIME;
 class Tache {
 private:
     int statut;     //!< Statut de la tâche. 0: Têche non programmée, échéance non dépassée. 1 : Tache programmée. -1 : Tache non programmée, échéance dépassée
-    QString identificateur;     //!< Identificateur unique de la tâche
+    QString identifiant;     //!< Identificateur unique de la tâche
     QString titre;      //!< Titre de la tâche
-    Tache** precedence;     //!< Tableau de tâches précédentes
+    Tache* precedence;     //!< Pointeur vers la tâche précédente
     int nbPrec;     //!< Nombre de tâches précédenteq
     int nbPrecMax;  //!< Taille du tableau
     QDate dispo;    //!< Date de disponibilité
@@ -30,23 +30,17 @@ private:
 public:
     //! Constructeur de tâche
     //! Cette fonction appelle la fonction addPrécédence pour ajouter une précédence de tâche
-    Tache(const QString& id=0, const QString& t=0,Tache* prec=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0), identificateur(id), titre(t),dispo(disponible), echeance(ech){
-        nbPrec=0;
-        nbPrecMax=10;
-        precedence=new Tache*[nbPrecMax];
-        if(prec!=0)
-            addPrecedence(prec);
-    }
+    Tache(const QString& id=0, const QString& t=0,Tache* prec=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0), identifiant(id),precedence(prec), titre(t),dispo(disponible), echeance(ech){}
     //! Constructeur de recopie
     Tache(const Tache& t);
     //! Accesseur au statut de la tâche
     int getStatut() const{return statut;}
     //! Accesseur à l'identifiant  de la tâche
-    QString getId() const {return identificateur;}
+    QString getId() const {return identifiant;}
     //! Accesseur au titre de la tâche
     QString getTitre() const {return titre;}
     //! Accesseur à la tâche précédente
-    Tache** getPrecedence() const{return precedence;}
+    Tache* getPrecedence() const{return precedence;}
     //! Fonction retournant le statut de la tâche précédente
     int getStatutPrecedence()const;
     //! Accesseur à la date de disponibilité de la  tâche

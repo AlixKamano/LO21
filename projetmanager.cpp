@@ -3,7 +3,7 @@
 //methodes de la classe projet manager 
 void ProjetManager::ajouterProjet(const QString& id, const QString& t, const QDate &dispo, const QDate &deadline, int max){
     if(trouverProjet(id)){
-        throw ProjetException("Error : L'identificateur existe deja");
+        throw ProjetException("Error : L'identifiant existe deja");
     }
     Projet *new_projet = new Projet(id,t,dispo,deadline,max);
     addItem(new_projet);
