@@ -28,7 +28,7 @@ public slots:
     void ouvrirAjoutEvt();
 
 private:
-    QPushButton* afficher;
+    QPushButton* afficherTree;
     QPushButton* ajoutP;
     QPushButton* quitter;
     QPushButton* ajoutA;
@@ -36,6 +36,9 @@ private:
     QPushButton* ajoutEvt;
     QPushButton* afficherAgenda;
     QPushButton* Exporter;
+    QHBoxLayout* pLayout;
+    QVBoxLayout* vLayout1, *vLayout2, *vLayout3;
+    QGroupBox* ajoutBox, *afficheBox;
 };
 
 

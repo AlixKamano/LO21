@@ -60,7 +60,7 @@ public:
     //! Fait appel au constructeur de la classe mère
     //! \param t pointeur vers une tâche unitaire par défaut NULL
     EvtTache(const QDate& da = QDate(0,0,0), const Horaire& hd=Horaire(0,0), const Horaire& hf=Horaire(0,0),const Duree& d=Duree(0),TUnitaire* t=0) : Evt(da,hd,d,hf), tache(t){
-        if(t->getPreemptive()==true){
+        if(t->getPreemptive()){
             t->setDuree(Duree(t->getDuree().getDureeEnMinutes()-d.getDureeEnMinutes()));
             if (t->getDuree().getDureeEnMinutes()==0)
                 t->setStatut(1);

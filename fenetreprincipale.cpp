@@ -1,34 +1,50 @@
 #include "fenetreprincipale.h"
 FenetrePrincipale::FenetrePrincipale() : QWidget(){
-    QVBoxLayout *layoutp = new QVBoxLayout;
+    setWindowTitle("CGestionnaire de tache");
+    setFixedSize(400,220);
 
-    afficher = new QPushButton("Afficher un tree-view", this);
+
     ajoutP = new QPushButton("Ajouter un Projet", this);
     ajoutT = new QPushButton("Ajouter une Tache", this);
-    afficherAgenda = new QPushButton("Agenda", this);
     ajoutA = new QPushButton("Ajouter une Activité", this);
+    ajoutEvt = new QPushButton("Ajouter un évenement", this);
+    vLayout1 = new QVBoxLayout;
+    vLayout1->addWidget(ajoutP);
+    vLayout1->addWidget(ajoutT);
+    vLayout1->addWidget(ajoutA);
+    vLayout1->addWidget(ajoutEvt);
+    ajoutBox = new QGroupBox("Ajout",this);
+    ajoutBox->setLayout(vLayout1);
+
+
+    afficherTree = new QPushButton("Tree-view", this);
+    afficherAgenda = new QPushButton("Agenda", this);
+    vLayout2 = new QVBoxLayout;
+    vLayout2->addWidget(afficherTree);
+    vLayout2->addWidget(afficherAgenda);
+    afficheBox = new QGroupBox("Affichage",this);
+    afficheBox->setLayout(vLayout2);
+
     Exporter = new QPushButton("Exporter un projet",this);
-    ajoutEvt = new QPushButton("Créer un évenement", this);
     quitter = new QPushButton("Quitter", this);
+    vLayout3 = new QVBoxLayout;
+    vLayout3->addWidget(afficheBox);
+    vLayout3->addWidget(Exporter);
+    vLayout3->addWidget(quitter);
+
+    pLayout = new QHBoxLayout;
+    pLayout->addWidget(ajoutBox);
+    pLayout->addLayout(vLayout3);
+    this->setLayout(pLayout);
 
     QObject::connect(quitter, SIGNAL(clicked()),qApp, SLOT(quit()));
-    QObject::connect(afficher, SIGNAL(clicked()), this, SLOT(ouvrirAfficher()));
+    QObject::connect(afficherTree, SIGNAL(clicked()), this, SLOT(ouvrirAfficher()));
     QObject::connect(ajoutP, SIGNAL(clicked()), this, SLOT(ouvrirAjoutP()));
     QObject::connect(ajoutA,SIGNAL(clicked()),this,SLOT(ouvrirAjoutA()));
     QObject::connect(ajoutT, SIGNAL(clicked()), this, SLOT(ouvrirAjoutT()));
     QObject::connect(afficherAgenda, SIGNAL(clicked()), this, SLOT(ouvrirAgenda()));
     QObject::connect(Exporter,SIGNAL(clicked()),this,SLOT(Export()));
     QObject::connect(ajoutEvt, SIGNAL(clicked()), this, SLOT(ouvrirAjoutEvt()));
-
-    layoutp->addWidget(afficher);
-    layoutp->addWidget(ajoutP);
-    layoutp->addWidget(ajoutT);
-    layoutp->addWidget(afficherAgenda);
-    layoutp->addWidget(ajoutA);
-    layoutp->addWidget(Exporter);
-    layoutp->addWidget(ajoutEvt);
-    layoutp->addWidget(quitter);
-    setLayout(layoutp);
 }
 
 void FenetrePrincipale::ouvrirAfficher(){

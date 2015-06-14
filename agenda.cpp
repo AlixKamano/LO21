@@ -5,7 +5,8 @@
 Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
 {
     dateref=QDate::currentDate();
-    this->setFixedSize(1000,730);
+    setWindowTitle("Agenda");
+    this->setFixedSize(1050,730);
     QLabel* lundi=new QLabel("Lundi", this);
     QLabel* mardi=new QLabel("Mardi", this);
     QLabel* mercredi=new QLabel("Mercredi", this);
@@ -55,56 +56,56 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     vlayout7->addWidget(dimanche);
     vlayout7->addWidget(ldate7);
 
-    case1=new QVBoxLayout;
-    case1->setAlignment(Qt::AlignTop);
-    case2=new QVBoxLayout;
-    case2->setAlignment(Qt::AlignTop);
-    case3=new QVBoxLayout;
-    case3->setAlignment(Qt::AlignTop);
-    case4=new QVBoxLayout;
-    case4->setAlignment(Qt::AlignTop);
-    case5=new QVBoxLayout;
-    case5->setAlignment(Qt::AlignTop);
-    case6=new QVBoxLayout;
-    case6->setAlignment(Qt::AlignTop);
-    case7=new QVBoxLayout;
-    case7->setAlignment(Qt::AlignTop);
+    layoutCase1=new QVBoxLayout;
+    layoutCase1->setAlignment(Qt::AlignTop);
+    layoutCase2=new QVBoxLayout;
+    layoutCase2->setAlignment(Qt::AlignTop);
+    layoutCase3=new QVBoxLayout;
+    layoutCase3->setAlignment(Qt::AlignTop);
+    layoutCase4=new QVBoxLayout;
+    layoutCase4->setAlignment(Qt::AlignTop);
+    layoutCase5=new QVBoxLayout;
+    layoutCase5->setAlignment(Qt::AlignTop);
+    layoutCase6=new QVBoxLayout;
+    layoutCase6->setAlignment(Qt::AlignTop);
+    layoutCase7=new QVBoxLayout;
+    layoutCase7->setAlignment(Qt::AlignTop);
 
 
-    QGroupBox* test1=new QGroupBox;
-    test1->setFixedSize(120,576);
-    test1->setLayout(case1);
-    vlayout1->addWidget(test1);
+     case1=new QGroupBox;
+    case1->setFixedSize(120,576);
+    case1->setLayout(layoutCase1);
+    vlayout1->addWidget(case1);
 
-    QGroupBox* test2=new QGroupBox;
-    test2->setFixedSize(120,576);
-    test2->setLayout(case2);
-    vlayout2->addWidget(test2);
+    case2=new QGroupBox;
+    case2->setFixedSize(120,576);
+    case2->setLayout(layoutCase2);
+    vlayout2->addWidget(case2);
 
-    QGroupBox* test3=new QGroupBox;
-    test3->setFixedSize(120,576);
-    test3->setLayout(case3);
-    vlayout3->addWidget(test3);
+    case3=new QGroupBox;
+    case3->setFixedSize(120,576);
+    case3->setLayout(layoutCase3);
+    vlayout3->addWidget(case3);
 
-    QGroupBox* test4=new QGroupBox;
-    test4->setFixedSize(120,576);
-    test4->setLayout(case4);
-    vlayout4->addWidget(test4);
+    case4=new QGroupBox;
+    case4->setFixedSize(120,576);
+    case4->setLayout(layoutCase4);
+    vlayout4->addWidget(case4);
 
-    QGroupBox* test5=new QGroupBox;
-    test5->setFixedSize(120,576);
-    test5->setLayout(case5);
-    vlayout5->addWidget(test5);
+    case5=new QGroupBox;
+    case5->setFixedSize(120,576);
+    case5->setLayout(layoutCase5);
+    vlayout5->addWidget(case5);
 
-    QGroupBox* test6=new QGroupBox;
-    test6->setFixedSize(120,576);
-    test6->setLayout(case6);
-    vlayout6->addWidget(test6);
+    case6=new QGroupBox;
+    case6->setFixedSize(120,576);
+    case6->setLayout(layoutCase6);
+    vlayout6->addWidget(case6);
 
-    QGroupBox* test7=new QGroupBox;
-    test7->setFixedSize(120,576);
-    test7->setLayout(case7);
-    vlayout7->addWidget(test7);
+    case7=new QGroupBox;
+    case7->setFixedSize(120,576);
+    case7->setLayout(layoutCase7);
+    vlayout7->addWidget(case7);
 
     prec=new QPushButton("<");
     prec->setFixedSize(50,500);
@@ -120,12 +121,18 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
     hlayout->addLayout(vlayout6);
     hlayout->addLayout(vlayout7);
     hlayout->addWidget(suiv);
+    hlayout->setAlignment(Qt::AlignHCenter);
 
     boutonLayout = new QHBoxLayout;
+    boutonLayout->setAlignment(Qt::AlignLeft);
+    ldate = new QLabel("Choississez une date:", this);
+    findD = new QDateEdit(dateref,this);
     exporter = new QPushButton("Exporter la semaine",this);
     exporter->setFixedWidth(250);
     fermer = new QPushButton("Fermer",this);
     fermer->setFixedWidth(250);
+    boutonLayout->addWidget(ldate);
+    boutonLayout->addWidget(findD);
     boutonLayout->addWidget(exporter);
     boutonLayout->addWidget(fermer);
     vlayout8->addLayout(hlayout);
@@ -134,6 +141,7 @@ Agenda::Agenda(QWidget *fenetre) : QDialog(fenetre)
 
 
     this->setLayout(vlayout8);
+    QObject::connect(findD, SIGNAL(dateChanged(QDate)),this, SLOT(changePage(QDate)));
     QObject::connect(prec, SIGNAL(clicked()),this, SLOT(Precedent()));
     QObject::connect(suiv, SIGNAL(clicked()),this, SLOT(Suivant()));
     QObject::connect(fermer, SIGNAL(clicked()),this, SLOT(accept()));
@@ -165,6 +173,12 @@ void Agenda::Suivant(){
     afficherSemaine();
 }
 
+void Agenda::changePage(QDate d){
+    dateref=d;
+    AjouterJour(dateref);
+    afficherSemaine();
+}
+
 void Agenda::AjoutEvenement(const Evt &e){
     QString type;
     QString hd_h,hd_m,hf_h,hf_m;
@@ -180,29 +194,30 @@ void Agenda::AjoutEvenement(const Evt &e){
     int j=e.getDate().dayOfWeek();
     switch(j){
     case 1:
-        case1->addWidget(boutons[boutons.size()-1]);
+        layoutCase1->addWidget(boutons[boutons.size()-1]);
          break;
     case 2:
-        case2->addWidget(boutons[boutons.size()-1]);
+        layoutCase2->addWidget(boutons[boutons.size()-1]);
         break;
     case 3:
-        case3->addWidget(boutons[boutons.size()-1]);
+        layoutCase3->addWidget(boutons[boutons.size()-1]);
         break;
     case 4:
-        case4->addWidget(boutons[boutons.size()-1]);
+        layoutCase4->addWidget(boutons[boutons.size()-1]);
         break;
     case 5:
-        case5->addWidget(boutons[boutons.size()-1]);
+        layoutCase5->addWidget(boutons[boutons.size()-1]);
         break;
     case 6:
-        case6->addWidget(boutons[boutons.size()-1]);
+        layoutCase6->addWidget(boutons[boutons.size()-1]);
         break;
     case 7:
-        case7->addWidget(boutons[boutons.size()-1]);
+        layoutCase7->addWidget(boutons[boutons.size()-1]);
         break;
 
     }
 }
+
 
 void Agenda::afficherSemaine(){
     for(unsigned int i=0;i<boutons.size();i++){

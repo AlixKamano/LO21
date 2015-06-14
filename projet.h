@@ -46,7 +46,7 @@ class Projet {
             };
 
 
-        Projet(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, int max=10) : statut(0),identificateur(id), titre(t), dispo(disponible), echeance(ech), nbMax(max), nb(0), taches(new Tache*[max]){}
+        Projet(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, int max=10) : taches(new Tache*[max]),  identificateur(id), titre(t), dispo(disponible), echeance(ech),   statut(0), nb(0), nbMax(max){}
         ~Projet(){
             for(int i=0;i<nb;i++) delete taches[i];
             delete[] taches;}

@@ -2,8 +2,8 @@
 #include "actmanager.h"
 
 ActiviteAjout::ActiviteAjout(QWidget *fenetre):QDialog(fenetre){
-    setWindowTitle("Ajout Activité");
-    setFixedSize(600,300);
+    setWindowTitle("Ajouter une activité");
+    setFixedSize(400,150);
 
     h1Layout=new QHBoxLayout;
     lid=new QLabel("Identifiant",this);
@@ -53,7 +53,7 @@ ActiviteAjout::ActiviteAjout(QWidget *fenetre):QDialog(fenetre){
 void ActiviteAjout::activerAjout(){
     if(titre->text()!=0 && Duree(heure->value(),minute->value()).getDureeEnMinutes()!=0 && id->text()!=0)
         ajouter->setEnabled(true);      //Boutton ajouter
-    if(titre->text()==0 || id->text()==0)
+    else
         ajouter->setEnabled(false);
 }
 

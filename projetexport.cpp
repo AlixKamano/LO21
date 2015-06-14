@@ -2,7 +2,7 @@
 
 ProjetExport::ProjetExport(QWidget* fenetre) :  QDialog(fenetre){
     setWindowTitle("Export de projet");
-    setFixedSize(600,300);
+    setFixedSize(400,150);
 
     h1Layout = new QHBoxLayout;
     listeProjet = new QComboBox;

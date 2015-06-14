@@ -3,46 +3,54 @@
 
 ProjetAjout::ProjetAjout(QWidget *fenetre): QDialog(fenetre)
 {
-    setWindowTitle("Ajout Tache");
-    setFixedSize(600,300);
+    setWindowTitle("Ajouter un projet");
+    setFixedSize(300,300);
 
-    h1Layout=new QHBoxLayout;
-    lid=new QLabel("idenetificateur", this);
+    idLayout=new QHBoxLayout;
+    lid=new QLabel("Idenetificateur", this);
     id = new QLineEdit(this);
-    h1Layout->addWidget(lid);
-    h1Layout->addWidget(id);
+    idLayout->addWidget(lid);
+    idLayout->addWidget(id);
 
-    h2Layout=new QHBoxLayout;
+    titreLayout=new QHBoxLayout;
     ltitre=new QLabel("Titre", this);
-    titre=new QTextEdit("Titre exemple",this);
-    h2Layout->addWidget(ltitre);
-    h2Layout->addWidget(titre);
+    titre=new QLineEdit;
+    titreLayout->addWidget(ltitre);
+    titreLayout->addWidget(titre);
 
-    h3Layout=new QHBoxLayout;
+    dispoLayout=new QHBoxLayout;
     ldispo = new QLabel("Disponibilité", this);
-    lecheance = new QLabel("Echéance", this);
     dispo = new QDateEdit(QDate::currentDate(),this);
-    echeance = new QDateEdit(QDate::currentDate(),this);
-    dispo->setMaximumDate(echeance->date());
-    h3Layout->addWidget(ldispo);
-    h3Layout->addWidget(dispo);
-    h3Layout->addWidget(lecheance);
-    h3Layout->addWidget(echeance);
+    dispoLayout->addWidget(ldispo);
+    dispoLayout->addWidget(dispo);
 
-    h4Layout = new QHBoxLayout;
+    echeLayout=new QHBoxLayout;
+    lecheance = new QLabel("Echéance", this);
+    echeance = new QDateEdit(QDate::currentDate().addDays(1),this);
+    echeLayout->addWidget(lecheance);
+    echeLayout->addWidget(echeance);
+
+    boutonLayout = new QHBoxLayout;
     annuler=new QPushButton("Annuler", this);
     ajouter = new QPushButton("Ajouter", this);
     ajouter->setEnabled(false);
-    h4Layout->addWidget(annuler);
-    h4Layout->addWidget(ajouter);
+    boutonLayout->addWidget(annuler);
+    boutonLayout->addWidget(ajouter);
 
     vLayout = new QVBoxLayout;
-    vLayout->addLayout(h1Layout);
-    vLayout->addLayout(h2Layout);
-    vLayout->addLayout(h3Layout);
-    vLayout->addLayout(h4Layout);
+    vLayout->addLayout(idLayout);
+    vLayout->addLayout(titreLayout);
+    vLayout->addLayout(dispoLayout);
+    vLayout->addLayout(echeLayout);
+    vLayout->addLayout(boutonLayout);
     this->setLayout(vLayout);
+
+    dispo->setMinimumDate(QDate::currentDate());
+    dispo->setMaximumDate(echeance->date().addDays(-1));
+    echeance->setMinimumDate(QDate::currentDate().addDays(1));
+
     QObject::connect(id, SIGNAL(textChanged(QString)),this, SLOT(activerAjout()));
+    QObject::connect(titre, SIGNAL(textChanged(QString)),this, SLOT(activerAjout()));
     QObject::connect(echeance, SIGNAL(dateChanged(QDate)),this,SLOT(modifierDate(QDate)));
     QObject::connect(annuler, SIGNAL(clicked()),this, SLOT(accept()));
     QObject::connect(ajouter, SIGNAL(clicked()),this, SLOT(ajoutProjet()));
@@ -51,13 +59,14 @@ ProjetAjout::ProjetAjout(QWidget *fenetre): QDialog(fenetre)
 
 
 void ProjetAjout::modifierDate(QDate mdate){
-    dispo->setMaximumDate(mdate);
+    dispo->setMaximumDate(mdate.addDays(-1));
 }
 
+
 void ProjetAjout::activerAjout(){
-    if (id->text()!=0)
-        ajouter->setEnabled(true);
-    if(id->text()==0)
+    if(titre->text()!=0  && id->text()!=0)
+        ajouter->setEnabled(true);      //Boutton ajouter
+    else
         ajouter->setEnabled(false);
 }
 
@@ -67,6 +76,6 @@ void ProjetAjout::ajoutProjet(){
         QMessageBox::critical(this,"Erreur","Ce projet existe déjà  !");
         return;
     }
-    pm.ajouterProjet(id->text(), titre->toPlainText(), dispo->date(), echeance->date(), 5);
+    pm.ajouterProjet(id->text(), titre->text(), dispo->date(), echeance->date(), 5);
     this->accept();
 }

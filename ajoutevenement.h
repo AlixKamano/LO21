@@ -9,11 +9,11 @@ class ajoutEvenement:public QDialog
 {
     Q_OBJECT
 private:
-    QHBoxLayout* classlayout, *listelayout,*timelayout,*dureelayout,*boutonlayout;
+    QHBoxLayout* classlayout, *liste1layout,*liste2layout,*datelayout, *horlayout,*dureelayout,*boutonlayout;
     QButtonGroup* evtclasse;
     QRadioButton *tacheevt, *activiteevt;
     QVBoxLayout *vLayout;
-    QLabel *lliste, *lduree, *lhoraire, *ldate, *lpro;
+    QLabel *lliste, *lduree, *lhoraire, *ldate, *lpro, *lclasse;
     QComboBox* listeEle,*listePro;
     QSpinBox* hHoraire;
     QSpinBox* mHoraire, *mDuree;
@@ -26,7 +26,7 @@ public:
     void afficheActivite();
     void afficheSousTacheU(const TComposite& t);
     void contrainteTache(QString s);
-    void contrainteActivite();
+    void contrainteActivite(QString s);
     bool verifUnique(QDate d, Horaire h1, Horaire h2);
 
 /*private slots:
@@ -35,8 +35,9 @@ public:
 public slots:
     void modifierSelection(bool b);
     void modifierContrainte(QString s);
-    void modifierTache(int s);
+    void modifierTache();
     void ajouterEvenement();
+    void activerAjout();
 
 };
 
