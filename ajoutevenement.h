@@ -11,11 +11,11 @@ class ajoutEvenement:public QDialog
     //! \brief Classe permettant d'afficher une fenêtre pour l'ajout d'un évènement : la programmation d'une activité ou d'une tâche
     Q_OBJECT
 private:
-    QHBoxLayout* classlayout, *listelayout,*timelayout,*dureelayout,*boutonlayout;
+    QHBoxLayout* classlayout, *liste1layout,*liste2layout,*datelayout, *horlayout,*dureelayout,*boutonlayout;
     QButtonGroup* evtclasse;
     QRadioButton *tacheevt, *activiteevt;
     QVBoxLayout *vLayout;
-    QLabel *lliste, *lduree, *lhoraire, *ldate, *lpro;
+    QLabel *lliste, *lduree, *lhoraire, *ldate, *lpro, *lclasse;
     QComboBox* listeEle,*listePro;
     QSpinBox* hHoraire;
     QSpinBox* mHoraire, *mDuree;
@@ -48,10 +48,11 @@ public:
     void contrainteTache(QString s);
     //! Fonction permettant de contraindre l'ajout d'activité
     //! Nous vérifions le respect de la date de disponibilité de l'activité
-    void contrainteActivite();
+    void contrainteActivite(QString s);
     //! Fonction permettant de vérifier l'unicité d'un évènement
     //! \param QDate d : Date de l'évènement \param Horaire h1 : Horaire de début \param Horaire h2 : Horaire de fin
     //! Cette fonction appelle l'itérateur de la classe EvenementManager et vérifie qu'aucun évènement ne se chevauche
+
     bool verifUnique(QDate d, Horaire h1, Horaire h2);
 
 /*private slots:
@@ -60,8 +61,9 @@ public:
 public slots:
     void modifierSelection(bool b);
     void modifierContrainte(QString s);
-    void modifierTache(int s);
+    void modifierTache();
     void ajouterEvenement();
+    void activerAjout();
 
 };
 

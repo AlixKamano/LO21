@@ -2,6 +2,8 @@
 //
 treeView::treeView(QWidget *fenetre): QDialog(fenetre)
 {
+    setWindowTitle("Tree-View");
+    setFixedSize(300,400);
     QVBoxLayout *layoutp = new QVBoxLayout;
     tree = new QTreeWidget();
     retour = new QPushButton("Retour");

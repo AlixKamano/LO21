@@ -8,12 +8,13 @@ class ProjetAjout: public QDialog
     Q_OBJECT
 private:
     QVBoxLayout* vLayout;
-    QHBoxLayout* h1Layout;
-    QHBoxLayout* h2Layout;
-    QHBoxLayout* h3Layout;
-    QHBoxLayout* h4Layout;
+    QHBoxLayout* idLayout;
+    QHBoxLayout* titreLayout;
+    QHBoxLayout* dispoLayout;
+    QHBoxLayout* echeLayout;
+    QHBoxLayout* boutonLayout;
     QLineEdit* id;
-    QTextEdit* titre;
+    QLineEdit* titre;
     QDateEdit* dispo;
     QDateEdit* echeance;
     QLabel *lid, *ltitre, *ldispo, *lecheance;

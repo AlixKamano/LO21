@@ -16,8 +16,10 @@ private:
     QPushButton* prec,* suiv,*exporter,*fermer;
     QHBoxLayout* hlayout,*boutonLayout;
     QVBoxLayout* vlayout1,*vlayout2,*vlayout3,*vlayout4,*vlayout5,*vlayout6,*vlayout7,*vlayout8;
-    QVBoxLayout *case1,*case2,*case3,*case4,*case5,*case6,*case7;
-    QLabel* ldate1, *ldate2,*ldate3,*ldate4,*ldate5,*ldate6,*ldate7;
+    QVBoxLayout *layoutCase1,*layoutCase2,*layoutCase3,*layoutCase4,*layoutCase5,*layoutCase6,*layoutCase7;
+    QGroupBox *case1,*case2,*case3,*case4,*case5,*case6,*case7;
+    QLabel* ldate1, *ldate2,*ldate3,*ldate4,*ldate5,*ldate6,*ldate7,*ldate;
+    QDateEdit* findD;
 public:
     //! Constructeur permettant d'afficher les évènements en fonction d'une semaine
     Agenda(QWidget *fenetre);
@@ -27,18 +29,17 @@ public:
     //! Puis pour chaque jour de la semaine (lundi, mardi,...) nous calculons la date que nous stockons sous forme de texte
     void AjouterJour(QDate d);
     //! Fonction permettant d'ajouter un évènement à l'agenda
-    //! \param Evt& e : référence de l'évènement à ajouter
+    //! \param const Evt& e : référence de l'évènement à ajouter
     //! La fonction récupère d'abord le type d'évènement associé (tache ou activité)
     //! Nous récupérons ensuite un horaire de début et de fin pour cet évènement
     //! et l'affichons dans le layout correspondant au jour auquel il est programmé
-    void AjoutEvenement(Evt& e);
+    void AjoutEvenement(const Evt &e);
     //! Fonction permettant de faire l'export dans un fichier XML d'une semaine de l'agenda
     //! \param QString& f : nom du fichier dans lequel sera exporté la semaine
     //! La fonction accède à ProjetManager::ItSemaine qui retourne les évènements programmés dans une certaine semaine
     //! Puis pour chaque évènement, nous écrivons chaque caractéristique dans le fichier
     void saveSemaine(QString& f);
     void afficherSemaine();
-    void setDateref(int i){dateref=dateref.addDays(i);}
 
 public slots:
     //! Slot permettant d'afficher la semaine précédente dans la fenêtre Agenda
@@ -51,6 +52,7 @@ public slots:
     //! Le nom de fichier ainsi que son emplacement sont choisis ici
     //! Puis le nom du fichier est transmis lors de l'appel de la fonction saveSemaine()
     void ExportSemaine();
+    void changePage(QDate d);
 };
 
 #endif // AGENDA_H
