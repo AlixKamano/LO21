@@ -1,13 +1,13 @@
 #include "fenetreprincipale.h"
 FenetrePrincipale::FenetrePrincipale() : QWidget(){
-    setWindowTitle("CGestionnaire de tache");
+    setWindowTitle("Gestionnaire de tâche");
     setFixedSize(400,220);
 
 
-    ajoutP = new QPushButton("Ajouter un Projet", this);
-    ajoutT = new QPushButton("Ajouter une Tache", this);
-    ajoutA = new QPushButton("Ajouter une Activité", this);
-    ajoutEvt = new QPushButton("Ajouter un évenement", this);
+    ajoutP = new QPushButton("Ajouter un projet", this);
+    ajoutT = new QPushButton("Ajouter une tâche", this);
+    ajoutA = new QPushButton("Ajouter une activité", this);
+    ajoutEvt = new QPushButton("Ajouter un événement", this);
     vLayout1 = new QVBoxLayout;
     vLayout1->addWidget(ajoutP);
     vLayout1->addWidget(ajoutT);

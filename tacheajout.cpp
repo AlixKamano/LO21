@@ -18,7 +18,7 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     classlayout->addWidget(composite);
 
     h1Layout=new QHBoxLayout;
-    lid=new QLabel("identifiant", this);
+    lid=new QLabel("Identifiant", this);
     id = new QLineEdit(this);
     h1Layout->addWidget(lid);
     h1Layout->addWidget(id);
@@ -42,7 +42,7 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     h3Layout->addWidget(lecheance);
     h3Layout->addWidget(echeance);
 
-    groupe = new QGroupBox("Attribut d'une tache unitaire");
+    groupe = new QGroupBox("Attributs d'une tâche unitaire");
     groupe->setEnabled(true);
     gLayout = new QHBoxLayout;
     lduree = new QLabel("Durée", this);
@@ -54,7 +54,7 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     heure->setMaximum(23);
     minute->setMinimum(0);
     minute->setMaximum(59);
-    preemptive=new QCheckBox("Preemptive",this);
+    preemptive=new QCheckBox("Préemptive",this);
     gLayout->addWidget(lduree);
     gLayout->addWidget(heure);
     gLayout->addWidget(minute);
@@ -63,7 +63,7 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
 
     h4Layout = new QHBoxLayout;
     annuler=new QPushButton("Annuler", this);
-    ajouter = new QPushButton("Ajouter la tache", this);
+    ajouter = new QPushButton("Ajouter la tâche", this);
     ajouter->setEnabled(false);
     h4Layout->addWidget(annuler);
     h4Layout->addWidget(ajouter);
@@ -82,7 +82,7 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     for(ProjetManager::IteratorSTL it=pm.begin();it!=pm.end();++it)
         listeProjet->addItem((*it).getId());
     listeTacheC = new QComboBox;
-    ltacheC = new QLabel("Choisir une tache composite",this);
+    ltacheC = new QLabel("Choisir une tâche composite",this);
     afficheTacheC(listeProjet->currentText());
     //Choix des précédences
     listeTacheP = new QComboBox;
@@ -163,11 +163,11 @@ void TacheAjout::ajoutTache(){
     ProjetManager& pm = ProjetManager::getInstance();
     Projet& p=*pm.trouverProjet(listeProjet->currentText());
     if (p.getTache(id->text())){
-        QMessageBox::critical(this,"Erreur","La tache existe déjà !");
+        QMessageBox::critical(this,"Erreur","La tâche existe déjà !");
         return;
     }
-    if (listeTacheP->currentText()=="*/Vide/*"){
-        if (listeTacheC->currentText()=="*/Vide/*"){
+    if (listeTacheP->currentText()=="--Vide--"){
+        if (listeTacheC->currentText()=="--Vide--"){
             p.ajouterTache(desc,id->text(),0,titre->text(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isChecked());
             this->accept();
         }
@@ -178,7 +178,7 @@ void TacheAjout::ajoutTache(){
         }
     }else{
         Tache* prec = p.getTache(listeTacheP->currentText());
-        if (listeTacheC->currentText()=="*/Vide/*"){
+        if (listeTacheC->currentText()=="--Vide--"){
             p.ajouterTache(desc,id->text(),prec,titre->text(),Duree(heure->value(),minute->value()),dispo->date(), echeance->date(),preemptive->isChecked());
             this->accept();
         }
@@ -196,7 +196,7 @@ void TacheAjout::afficheTacheC(QString s){
         listeTacheC->clear();
         ProjetManager& pm = ProjetManager::getInstance();
         Projet& p=*pm.trouverProjet(s);
-        listeTacheC->addItem("*/Vide/*");
+        listeTacheC->addItem("--Vide--");
         for(Projet::IteratorSTL it=p.begin();it!=p.end();++it)
             if((*it).getType()=="composite"){
                 listeTacheC->addItem((*it).getId());
@@ -213,7 +213,7 @@ void TacheAjout::afficheTacheP(QString s){
         }
         ProjetManager& pm = ProjetManager::getInstance();
         Projet& p=*pm.trouverProjet(s);
-        listeTacheP->addItem("*/Vide/*");
+        listeTacheP->addItem("--Vide--");
         for(Projet::IteratorSTL it=p.begin();it!=p.end();++it)
             listeTacheP->addItem((*it).getId());
     }
