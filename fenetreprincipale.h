@@ -11,20 +11,29 @@
 #include"projetexport.h"
 #include "ajoutevenement.h"
 
+//! \class FenetrePrincipale
+//! \brief Classe permettant d'afficher la fenêtre principale de l'application
 class FenetrePrincipale : public QWidget
 {
     Q_OBJECT
 
 public:
-    FenetrePrincipale();
+    FenetrePrincipale();    //!< Constructeur de la fenêtre
 
 public slots:
+    //! Slot permettant d'ouvrir la fenêtre d'affichage du TreeView
     void ouvrirAfficher();
+    //! Slot permettant d'ouvrir la fenêtre d'ajout de projet
     void ouvrirAjoutP();
+    //! Slot permettant d'ouvrir la fenêtre d'ajout de tâches
     void ouvrirAjoutT();
+    //! Slot permettant d'ouvrir la fenêtre d'affichage de l'agenda
     void ouvrirAgenda();
+    //! Slot permettant d'ouvrir la fenêtre d'ajout d'activités
     void ouvrirAjoutA();
+    //! Slot permettant d'ouvrir la fenêtre d'exportation de projets
     void Export();
+    //! Slot permettant d'ouvrir la fenêtre d'ajout d'évènements
     void ouvrirAjoutEvt();
 
 private:
