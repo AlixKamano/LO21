@@ -11,8 +11,8 @@ class Agenda:public QDialog
     //! \brief Classe permettant d'afficher la fenêtre Agenda
     Q_OBJECT
 private:
-    vector<QPushButton*> boutons;
-    QDate dateref;
+    vector<QPushButton*> boutons;//!< Vector contenant des QPushButton servant à afficher les cases dans l'agenda
+    QDate dateref;//!< Date de référence permettant de connaitre la semaine à afficher
     QPushButton* prec,* suiv,*exporter,*fermer;
     QHBoxLayout* hlayout,*boutonLayout;
     QVBoxLayout* vlayout1,*vlayout2,*vlayout3,*vlayout4,*vlayout5,*vlayout6,*vlayout7,*vlayout8;

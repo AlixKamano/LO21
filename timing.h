@@ -29,10 +29,10 @@ namespace TIME {
             */
         Duree(unsigned int m=0):nb_minutes(m) {}
         void setDuree(unsigned int heures, unsigned int minutes) { if (minutes>59) throw TimeException("erreur: initialisation duree invalide"); nb_minutes=heures*60+minutes; }
-        unsigned int getDureeEnMinutes() const { return nb_minutes; } //<!Retourne la duree en minutes
-        int getheures() const { return nb_minutes/60; } //<!Retourne la duree en heures
-        int getminute() const {return nb_minutes%60;}
-        void afficher(std::ostream& f=std::cout) const { f<<std::setfill('0')<<std::setw(2)<<nb_minutes/60<<"H"<<std::setw(2)<<nb_minutes%60<<std::setfill(' '); } //<!Affiche la duree sous le format hhHmm
+        unsigned int getDureeEnMinutes() const { return nb_minutes; } //!<Retourne la duree en minutes
+        int getheures() const { return nb_minutes/60; } //!<Retourne le nombre d'heures contenus dans la durée pour former un horaire
+        int getminute() const {return nb_minutes%60;} //!< Retourne le nombre de minutes pour former un horaire
+        void afficher(std::ostream& f=std::cout) const { f<<std::setfill('0')<<std::setw(2)<<nb_minutes/60<<"H"<<std::setw(2)<<nb_minutes%60<<std::setfill(' '); } //!<Affiche la duree sous le format hhHmm
     private:
         unsigned int nb_minutes;
     };
@@ -50,11 +50,11 @@ namespace TIME {
             */
         Horaire(unsigned short int  h, unsigned short int  m):heure(h),minute(m) {if (h>23||m>59) throw TimeException("erreur: initialisation horaire invalide");}
         void setHoraire(unsigned short int h, unsigned short int m) { if (h>23||m>59) throw TimeException("erreur: initialisation horaire invalide"); heure=h; minute=m; }
-        void afficher(std::ostream& f=std::cout) const { f<<std::setfill('0')<<std::setw(2)<<heure<<"H"<<std::setfill('0')<<std::setw(2)<<minute<<std::setfill(' '); } //<!Affiche l'horaire sous le format hhHmm
-        unsigned short int getHeure() const { return heure; } //<!Retourne l'heure de l'horaire
-        unsigned short int getMinute() const { return minute; } //<!Retourne les minutes de l'horaire
-        bool operator<(const Horaire& h) const; //<! h1<h2 retourne true si h1 est avant h2 dans le temps
-        QString toString(){QString h,m; h.setNum(heure);m.setNum(minute);QString res=h+"h"+m; return res;}
+        void afficher(std::ostream& f=std::cout) const { f<<std::setfill('0')<<std::setw(2)<<heure<<"H"<<std::setfill('0')<<std::setw(2)<<minute<<std::setfill(' '); } //!<Affiche l'horaire sous le format hhHmm
+        unsigned short int getHeure() const { return heure; } //!<Retourne l'heure de l'horaire
+        unsigned short int getMinute() const { return minute; } //!<Retourne les minutes de l'horaire
+        bool operator<(const Horaire& h) const; //!< h1<h2 retourne true si h1 est avant h2 dans le temps
+        QString toString(){QString h,m; h.setNum(heure);m.setNum(minute);QString res=h+"h"+m; return res;}//!< Permet de transformer un horaire en QString sous la forme HhM où H est les heures et M est les minutes
     private:
         unsigned short int  heure;
         unsigned short int  minute;
@@ -92,12 +92,11 @@ namespace TIME {
             \param f date de fin de l'intervalle. On doit avoir d<=f
             */
         Intervalle(const QDate & d,const QDate & f);
-        void afficher(std::ostream& f=std::cout) const; //<! Affiche l'intervalle de dates
-        QDate getDebut() const { return debut; } //<! Retourne la date de début de l'intervalle
-        QDate getFin() const { return fin; } //<! Retourne la date de fin de l'intervalle
-//		int getDuree() const { return fin-debut; } //<! Retourne le nombre de jours s'écoulant entre le début et la fin de l'intervalle
-        bool operator&&(const Intervalle & v) const; //<! I1&&I2 Retourne vrai si il y a intersection entre I1 et I2
-        Intervalle operator + (const Intervalle & i) const; //<! I1+I2 Retourne un intervalle union des 2 intervalles I1 et I2 qui se touchent, ie I2.debut est le jour du lendemain de I1.fin
+        void afficher(std::ostream& f=std::cout) const; //!< Affiche l'intervalle de dates
+        QDate getDebut() const { return debut; } //!< Retourne la date de début de l'intervalle
+        QDate getFin() const { return fin; } //!< Retourne la date de fin de l'intervalle
+        bool operator&&(const Intervalle & v) const; //!< I1&&I2 Retourne vrai si il y a intersection entre I1 et I2
+        Intervalle operator + (const Intervalle & i) const; //!< I1+I2 Retourne un intervalle union des 2 intervalles I1 et I2 qui se touchent, ie I2.debut est le jour du lendemain de I1.fin
     private:
         QDate debut;
         QDate fin;
