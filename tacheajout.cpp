@@ -18,7 +18,7 @@ TacheAjout::TacheAjout(QWidget *fenetre) : QDialog(fenetre)
     classlayout->addWidget(composite);
 
     h1Layout=new QHBoxLayout;
-    lid=new QLabel("Identificateur", this);
+    lid=new QLabel("identifiant", this);
     id = new QLineEdit(this);
     h1Layout->addWidget(lid);
     h1Layout->addWidget(id);

@@ -2,7 +2,7 @@
 
 void ActiviteManager::ajouterAct(const QString &id, const QString& t, const Duree d){
     if(trouverActivite(id)){
-        throw ProjetException("Error : L'identificateur existe deja");
+        throw ProjetException("Error : L'identifiant existe deja");
     }
     Activite *new_act = new Activite(id,t,d);
     addItem(new_act);

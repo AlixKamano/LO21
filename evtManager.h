@@ -12,7 +12,7 @@ private:
     Evt** evt;      //!< Tableau de pointeurs d'évènements
     int nb;         //!< Nombre d'évènements présents dans le tableau
     int nbMax;      //!< Taille du tableau
-    EvtManager():nb(0), nbMax(10),evt(0){}   //!< Constructeur par défaut privé
+    EvtManager():nb(0), nbMax(10){evt=new Evt*[nbMax];}   //!< Constructeur par défaut privé
     EvtManager(const EvtManager& pm);       //!< Constructeur de recopie privé
     //! Destructeur
     //! Détruit le tableau qui a été alloué dynamiquement

@@ -15,7 +15,7 @@ class Projet {
     //friend class ProjetManager;
     private:
         int statut;
-        QString identificateur;
+        QString identifiant;
         QString titre;
         QDate dispo;
         QDate echeance;
@@ -46,11 +46,11 @@ class Projet {
             };
 
 
-        Projet(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, int max=10) : taches(new Tache*[max]),  identificateur(id), titre(t), dispo(disponible), echeance(ech),   statut(0), nb(0), nbMax(max){}
+        Projet(const QString& id, const QString& t, const QDate& disponible, const QDate& ech, int max=10) : taches(new Tache*[max]),  identifiant(id), titre(t), dispo(disponible), echeance(ech),   statut(0), nb(0), nbMax(max){}
         ~Projet(){
             for(int i=0;i<nb;i++) delete taches[i];
             delete[] taches;}
-        QString getId() const {return identificateur;}
+        QString getId() const {return identifiant;}
         QString getTitre() const {return titre;}
         QDate getDispo()const{return dispo;}
         QDate getEcheance()const{return echeance;}

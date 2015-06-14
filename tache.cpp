@@ -3,37 +3,11 @@
 //Uniquemet pour avoir accès à CalendarException
 //
 int Tache::getStatutPrecedence()const{
-    int statut=1;
-    for(int i =0;i<nbPrec;i++)
-        statut*=precedence[i]->getStatut();
-    return statut;
-}
-
-void Tache::addPrecedence(Tache* t){
-    //Vérifier si la tache n'est pas dans le tableau
-    for(int i=0;i<nbPrec;i++)
-        if(precedence[i]->getId()==t->getId())
-            throw CalendarException ("La tâche a déjà été ajoutée comme précédente");
-    //Ajouter le pointeur
-    if(nbPrec==nbPrecMax){
-        nbPrecMax+=10;
-        Tache** new_tab = new Tache*[nbPrecMax+10];
-        for(int i=0;i<nbPrec;i++)
-            new_tab[i]=precedence[i];
-        Tache** old_tab=precedence;
-        precedence=new_tab;
-        delete[] old_tab;
+    int statut = 1;
+    if (precedence!=0){
+        statut=precedence->getStatut();
     }
-    precedence[nbPrec]=t;
-    nbPrec++;
-}
-
-void Tache::rmPrecedence(Tache* t){
-    int i=0;
-    while(i<nbPrec && precedence[i]!=t)
-        i++;
-    for(int j=i;j<nbPrec;j++)
-        precedence[j]=precedence[j+1];
+    return statut;
 }
 
 void TComposite::addSousTache(Tache* t){

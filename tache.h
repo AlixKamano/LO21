@@ -16,36 +16,26 @@ using namespace TIME;
 class Tache {
     private:
         int statut;
-        QString identificateur;
+        QString identifiant;
         QString titre;
-        Tache** precedence;
-        int nbPrec;
-        int nbPrecMax;
+        Tache* precedence;
         QDate dispo;
         QDate echeance;
-        //Tache(const QString& id, const QString& t, const QDate& disponible, const QDate& ech) : statut(0),identificateur(id), titre(t),dispo(disponible), echeance(ech), precedence(0){};
+        //Tache(const QString& id, const QString& t, const QDate& disponible, const QDate& ech) : statut(0),identifiant(id), titre(t),dispo(disponible), echeance(ech), precedence(0){};
         //Tache(const Tache& t);
         Tache& operator=(const Tache& t);
 
     public:
-        Tache(const QString& id=0, const QString& t=0,Tache* prec=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0), identificateur(id), titre(t),dispo(disponible), echeance(ech){
-            nbPrec=0;
-            nbPrecMax=10;
-            precedence=new Tache*[nbPrecMax];
-            if(prec!=0)
-                addPrecedence(prec);
-        }
+        Tache(const QString& id=0, const QString& t=0,Tache* prec=0, const QDate& disponible=QDate(0,0,0), const QDate& ech=QDate(0,0,0)) : statut(0), identifiant(id),precedence(prec), titre(t),dispo(disponible), echeance(ech){}
         Tache(const Tache& t);
         int getStatut() const{return statut;}
-        QString getId() const {return identificateur;}
+        QString getId() const {return identifiant;}
         QString getTitre() const {return titre;}
-        Tache** getPrecedence() const{return precedence;}
+        Tache* getPrecedence() const{return precedence;}
         int getStatutPrecedence()const;
         QDate getDispo()const{return dispo;}
         QDate getEcheance()const{return echeance;}
         void setStatut(int s) {statut=s;}
-        void addPrecedence(Tache* t);
-        void rmPrecedence(Tache* t);
         virtual void afficher()=0;
         virtual bool getPreemptive()const=0;
         virtual QString getType() const=0;

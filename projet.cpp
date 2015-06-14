@@ -39,7 +39,7 @@ Tache* Projet::getTache(const QString &id) const{
 
 void Projet::ajouterTache(const QString& desc, const QString& id,Tache* prec, const QString& t, const Duree& du, const QDate& dispo, const QDate& deadline, bool preempt){
     if(getTache(id)){
-        throw ProjetException("Error : L'identificateur existe deja");
+        throw ProjetException("Error : L'identifiant existe deja");
     }
     //Appel à TacheFactory            
     Tache* new_tache= TacheFactory::NewTache(desc,id,prec,t,dispo,deadline,du,preempt);
@@ -67,7 +67,7 @@ void  Projet::save(const QString& f){
     for(int i=0; i<nb; i++){
         stream.writeStartElement("tache");
         stream.writeAttribute("preemptive", (taches[i]->getPreemptive())?"true":"false");
-        stream.writeTextElement("identificateur",taches[i]->getId());
+        stream.writeTextElement("identifiant",taches[i]->getId());
         stream.writeTextElement("titre",taches[i]->getTitre());
         stream.writeTextElement("disponibilite",taches[i]->getDispo().toString(Qt::ISODate));
         stream.writeTextElement("echeance",taches[i]->getEcheance().toString(Qt::ISODate));

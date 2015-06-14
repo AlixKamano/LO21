@@ -18,7 +18,7 @@ public:
     //! \param s QString&
     //! \param d Duree*/
     Activite(const QString& i,const QString&  s, const Duree d):id(i), titre(s), duree(d){}
-    //! Accesseur à l'identificateur de l'activité
+    //! Accesseur à l'identifiant de l'activité
     QString getId()const{return id;}
     //! Accesseur au titre de l'activité
     QString getTitre()const{return titre;}
