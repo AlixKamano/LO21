@@ -66,22 +66,35 @@ public:
                 t->setStatut(1);
         }
     }
+    //! Constructeur par défaut de TacheUnitaire
     EvtTache(TUnitaire* t):Evt(),tache(t){}
     //! Accesseur à la tâche programmée
     TUnitaire* getTache()const{return tache;}
     //!Programmation de la tâche
+    //! Nous vérifions que la tâche est diponible puis nous mettons à jour son statut :
+    //! -1 si la date d'échéance est dépassée et 1 si la tâche est programmée
+    //! Le statut par défaut est de 0
     //EvtTache* programmer(const QDate& da, const Horaire& hd,const Horaire&hf, const Duree& d);
+    //! Fonction indiquant le type d'évènement
     QString getType() const{return "tache";}
 };
 
 class EvtActivite :public Evt{
+    //! \class EvtActivité
+    //! \brief Classe fille de Evenement. Permet de programmer une activité
 private:
-    Activite* activite;
+    Activite* activite; //!< Pointeur vers l'activité programmée
 public:
+    //! Constructeur avec arguments
     EvtActivite(const QDate& da=QDate(0,0,0), const Horaire& hd=Horaire(0,0), const Horaire& hf=Horaire(0,0),const Duree& d=Duree(0), Activite* a=0) : Evt(da,hd,d,hf), activite(a){}
+    //! Constructeur par défaut
     EvtActivite(Activite* a):Evt(),activite(a){}
+    //! Accesseur à l'activité pointée
     Activite* getActivite()const{return activite;}
+    //! Programmation d'une activité
+    //! Nous nous contentons ici d'initialiser les différents attributs de la classe
     //EvtActivite* programmer(const QDate& da, const Horaire& dh, const Horaire &hf, const Duree& d);
+    //! Fonction indiquant le type d'évènement
     QString getType() const{return "activite";}
 };
 
