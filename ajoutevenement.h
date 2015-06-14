@@ -52,7 +52,6 @@ public:
     //! Fonction permettant de vérifier l'unicité d'un évènement
     //! \param QDate d : Date de l'évènement \param Horaire h1 : Horaire de début \param Horaire h2 : Horaire de fin
     //! Cette fonction appelle l'itérateur de la classe EvenementManager et vérifie qu'aucun évènement ne se chevauche
-
     bool verifUnique(QDate d, Horaire h1, Horaire h2);
 
 /*private slots:
