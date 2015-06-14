@@ -21,8 +21,6 @@ class Tache {
         Tache* precedence;
         QDate dispo;
         QDate echeance;
-        //Tache(const QString& id, const QString& t, const QDate& disponible, const QDate& ech) : statut(0),identifiant(id), titre(t),dispo(disponible), echeance(ech), precedence(0){};
-        //Tache(const Tache& t);
         Tache& operator=(const Tache& t);
 
     public:

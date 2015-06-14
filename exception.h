@@ -2,6 +2,8 @@
 #define EXCEPTION_H
 //Fichier de définition des exception
 
+//! \class TacheException
+//! \brief Classe permettant de gérer les exceptions
 class TacheException{
 public:
     TacheException(const QString& message):info(message){}
@@ -10,6 +12,8 @@ private:
     QString info;
 };
 
+//! \class CalendarException
+//! \brief Classe permettant de gérer les exceptions
 class CalendarException{
 public:
     CalendarException(const QString& message):info(message){}
@@ -18,6 +22,8 @@ private:
     QString info;
 };
 
+//! \class ProjetException
+//! \brief Classe permettant de gérer les exceptions
 class ProjetException{
 public:
     ProjetException(const QString& message):info(message){}
