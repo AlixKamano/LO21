@@ -54,9 +54,6 @@ public:
     //! Cette fonction appelle l'itérateur de la classe EvenementManager et vérifie qu'aucun évènement ne se chevauche
     bool verifUnique(QDate d, Horaire h1, Horaire h2);
 
-/*private slots:
-    void activerAjout();*/
-
 public slots:
     void modifierSelection(bool b);
     void modifierContrainte(QString s);

@@ -3,6 +3,8 @@
 #include <QtWidgets>
 #include "projetmanager.h"
 
+//! \class ProjetExport
+//! \brief Classe permettant d'afficher la fenêtre d'export de projet
 class ProjetExport : public QDialog{
     Q_OBJECT
 private:
@@ -14,9 +16,12 @@ private:
     QPushButton* annuler;
 
 public slots :
+    //! Slot permettant d'appeler la fonction save du projet sélectionné dans la liste déroulante
     void exportProjet();
+    //! Slot permettant d'activer le bouton "Exporter" si un projet est sélectionné dans la liste déroulante
     void activerExport();
 public:
+    //! Constructeur de la fenêtre ProjetExport
     ProjetExport(QWidget* fenetre);
 };
 
